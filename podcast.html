@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Podcast</title>
+<meta name="theme-color" content="#01172b">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Podcast</span></h1>
+    <span class="src">Crew of six</span>
+  </header>
+
+  <div class="card">
+    <p class="q" style="margin-top:0">Episodes that teach the test</p>
+    <p style="color:var(--muted)">Tex, Pualani, Chester, Otto, Andy, and John break down real knowledge-test
+    and checkride questions, with weather, systems, and a little hangar humor between the teaching beats.</p>
+  </div>
+
+  <div id="episodes"></div>
+
+  <footer>New episodes drop here. Audio is added once voices are locked and each episode is produced.</footer>
+</div>
+
+<script>
+  var EPISODES = [
+    {
+      n: 1,
+      title: "Welcome to the Lounge",
+      status: "In production",
+      blurb: "Meet the six captains, then three things every private pilot must own cold: frost, the VASI, and density altitude.",
+      audio: null
+    }
+  ];
+
+  var box = document.getElementById('episodes');
+  EPISODES.forEach(function(ep){
+    var div = document.createElement('div'); div.className = 'card';
+    var html = '<div class="meta"><span>Episode '+ep.n+'</span><span class="acs">'+ep.status+'</span></div>'
+      + '<div class="q" style="font-size:17px">'+ep.title+'</div>'
+      + '<p style="color:var(--muted)">'+ep.blurb+'</p>';
+    if(ep.audio){ html += '<audio controls preload="none" style="width:100%"><source src="'+ep.audio+'" type="audio/mpeg"></audio>'; }
+    else { html += '<p style="font-family:var(--mono); font-size:12px; color:var(--amber)">Audio coming soon</p>'; }
+    div.innerHTML = html; box.appendChild(div);
+  });
+</script>
+</body>
+</html>

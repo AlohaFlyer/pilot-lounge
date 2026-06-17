@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Study Portal</title>
+<meta name="theme-color" content="#01172b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pilot Lounge">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Study Portal</span></h1>
+    <span class="src">FAA ACS</span>
+  </header>
+
+  <div class="card center" id="gate">
+    <p class="q">Crew access</p>
+    <p style="color:var(--muted); margin-top:-8px">Enter the lounge password to continue.</p>
+    <div class="row" style="justify-items:center; gap:12px">
+      <input type="password" id="pw" placeholder="password" autocomplete="off">
+      <button class="primary" onclick="tryUnlock()">Enter the lounge</button>
+      <div class="feed no" id="gatemsg"></div>
+    </div>
+  </div>
+
+  <div class="menu" id="menu" style="display:none">
+    <a href="quiz.html?rating=private"><span><span class="t">Private Pilot Quiz</span>
+      <small>Question, answer, and a Source button for every item</small></span><span class="arrow">&#9654;</span></a>
+    <a href="limit-or-bust.html?rating=private"><span><span class="t">Limit or Bust</span>
+      <small>Beat the clock. Answer fast, keep your streak, chase a high score</small></span><span class="arrow">&#9654;</span></a>
+    <a href="hot-seat.html?rating=private"><span><span class="t">Hot Seat</span>
+      <small>Recall it before the timer, then grade yourself. Honor system</small></span><span class="arrow">&#9654;</span></a>
+    <a href="podcast.html"><span><span class="t">The Pilot Lounge Podcast</span>
+      <small>Episodes that teach the test, with the whole crew</small></span><span class="arrow">&#9654;</span></a>
+  </div>
+
+  <footer>
+    Free study tool for student and new pilots. Facts trace to FAA public-domain sources and the ACS.<br>
+    Verify against current FAA publications before any flight. Aloha and keep the shiny side up.
+  </footer>
+</div>
+
+<script>
+  var PASSWORD = "pilotlounge";
+  function reveal(){ document.getElementById('gate').style.display='none';
+    document.getElementById('menu').style.display='block'; }
+  function tryUnlock(){
+    var v = document.getElementById('pw').value.trim().toLowerCase();
+    if(v === PASSWORD){ try{ localStorage.setItem('pl_unlocked','1'); }catch(e){} reveal(); }
+    else { document.getElementById('gatemsg').textContent = 'Not quite. Try again.'; }
+  }
+  document.getElementById('pw').addEventListener('keydown', function(e){ if(e.key==='Enter') tryUnlock(); });
+  try{ if(localStorage.getItem('pl_unlocked')==='1') reveal(); }catch(e){}
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "The Pilot Lounge Study Portal",
+  "short_name": "Pilot Lounge",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#01172b",
+  "theme_color": "#01172b",
+  "icons": []
+}
