@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pilot Lounge - Limit or Bust</title>
+<meta name="theme-color" content="#01172b">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>Limit or Bust <span class="sub">Private</span></h1>
+    <span class="src" id="best">best 0</span>
+  </header>
+  <div class="tbar"><div class="tfill" id="tf"></div></div>
+  <div id="app"></div>
+  <footer>Answer before the bar runs out. Wrong or out of time costs a life. Three lives, chase the high score.</footer>
+</div>
+
+<script src="data/private.js"></script>
+<script>
+  var Q = window.PILOT_LOUNGE.private.questions.slice();
+  var TMAX = 9000, idx, order, score, streak, lives, timer, locked;
+  var best = +(localStorage.getItem('pl_lob_best') || 0);
+  document.getElementById('best').textContent = 'best ' + best;
+  var app = document.getElementById('app'), tf = document.getElementById('tf');
+
+  function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
+
+  function intro(){
+    clearInterval(timer); tf.style.width='100%'; tf.className='tfill';
+    app.innerHTML = '<div class="card center"><p class="q">Ready?</p>'
+      + '<p style="color:var(--muted)">Tap the correct answer before the timer empties.</p>'
+      + '<button class="primary" onclick="startGame()">Start</button></div>';
+  }
+  function startGame(){ order = shuffle(Q.slice()); idx=0; score=0; streak=0; lives=3; round(); }
+
+  function round(){
+    locked=false;
+    var item = order[idx % order.length];
+    var html = '<div class="meta"><span>score '+score+'</span><span>streak '+streak+'</span>'
+      + '<span>&#9829; '+lives+'</span><span class="acs">'+item.acs+'</span></div>'
+      + '<div class="card"><div class="q">'+item.q+'</div><div class="row choices" id="ch"></div>'
+      + '<div class="feed" id="feed"></div></div>';
+    app.innerHTML = html;
+    var box = document.getElementById('ch');
+    item.choices.forEach(function(c, ci){
+      var b=document.createElement('button'); b.textContent=c; b.onclick=function(){ answer(ci); }; box.appendChild(b);
+    });
+    startTimer();
+  }
+
+  function startTimer(){
+    clearInterval(timer); var t0=Date.now();
+    timer=setInterval(function(){
+      var left=TMAX-(Date.now()-t0); var pct=Math.max(0,left/TMAX*100);
+      tf.style.width=pct+'%';
+      tf.className='tfill'+(pct<50?' warn':'')+(pct<22?' crit':'');
+      if(left<=0){ clearInterval(timer); answer(null); }
+    },60);
+  }
+
+  function answer(choice){
+    if(locked) return; locked=true; clearInterval(timer);
+    var item = order[idx % order.length];
+    var ok = (choice!==null && choice===item.a);
+    var btns = document.querySelectorAll('#ch button');
+    btns.forEach(function(b,bi){ b.disabled=true; if(bi===item.a) b.className='correct'; else if(bi===choice) b.className='wrong'; });
+    var feed=document.getElementById('feed');
+    if(ok){
+      score++; streak++;
+      if(score>best){ best=score; localStorage.setItem('pl_lob_best',best); document.getElementById('best').textContent='best '+best; }
+      feed.className='feed ok'; feed.textContent='Correct.';
+      idx++; setTimeout(round, 650);
+    } else {
+      lives--; streak=0;
+      feed.className='feed no';
+      feed.innerHTML = (choice===null?'Out of time. ':'Not quite. ') + 'Source: ' + item.src.doc + ' (' + item.src.ref + ').';
+      idx++;
+      setTimeout(function(){ lives<=0 ? over() : round(); }, 2200);
+    }
+  }
+
+  function over(){
+    clearInterval(timer); tf.style.width='0%';
+    app.innerHTML = '<div class="card center"><p class="q">Out of lives</p>'
+      + '<div class="big">'+score+'</div><p style="color:var(--muted)">best '+best+'</p>'
+      + '<button class="primary" onclick="startGame()">Play again</button></div>';
+  }
+
+  document.addEventListener('keydown', function(e){
+    var n=parseInt(e.key,10); if(!locked && n>=1 && n<=4) answer(n-1);
+  });
+  intro();
+</script>
+</body>
+</html>

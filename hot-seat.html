@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pilot Lounge - Hot Seat</title>
+<meta name="theme-color" content="#01172b">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>Hot Seat <span class="sub">Private</span></h1>
+    <span class="src" id="best">best 0</span>
+  </header>
+  <div class="tbar"><div class="tfill" id="tf"></div></div>
+  <div id="app"></div>
+  <footer>The examiner asks. Recall the answer out loud before the timer, then reveal and grade yourself. Honor system.</footer>
+</div>
+
+<script src="data/private.js"></script>
+<script>
+  var Q = window.PILOT_LOUNGE.private.questions.slice();
+  var TMAX = 20000, queue, idx, passes, timeBonus, timer, revealed, leftAtReveal;
+  var best = +(localStorage.getItem('pl_hs_best') || 0);
+  document.getElementById('best').textContent = 'best ' + best;
+  var app = document.getElementById('app'), tf = document.getElementById('tf');
+
+  function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
+
+  function intro(){
+    clearInterval(timer); tf.style.width='100%'; tf.className='tfill';
+    app.innerHTML = '<div class="card center"><p class="q">Take the hot seat</p>'
+      + '<p style="color:var(--muted)">'+Q.length+' questions. Answer in your head, then reveal and grade honestly.</p>'
+      + '<button class="primary" onclick="startGame()">Start</button></div>';
+  }
+  function startGame(){ queue = shuffle(Q.slice()); idx=0; passes=0; timeBonus=0; round(); }
+
+  function round(){
+    revealed=false;
+    var item = queue[idx];
+    app.innerHTML = '<div class="meta"><span>'+(idx+1)+' / '+queue.length+'</span>'
+      + '<span>passed '+passes+'</span><span class="acs">'+item.acs+'</span></div>'
+      + '<div class="card"><div class="q">'+item.q+'</div>'
+      + '<div class="feed" id="feed" style="color:var(--muted)">Answer out loud, then reveal.</div>'
+      + '<div class="row" style="margin-top:14px"><button class="primary" onclick="reveal()">Reveal answer</button></div></div>';
+    startTimer();
+  }
+
+  function startTimer(){
+    clearInterval(timer); var t0=Date.now();
+    timer=setInterval(function(){
+      var left=TMAX-(Date.now()-t0); var pct=Math.max(0,left/TMAX*100);
+      tf.style.width=pct+'%';
+      tf.className='tfill'+(pct<50?' warn':'')+(pct<22?' crit':'');
+      if(left<=0){ clearInterval(timer); reveal(); }
+    },80);
+    window._t0 = t0;
+  }
+
+  function reveal(){
+    if(revealed) return; revealed=true; clearInterval(timer);
+    leftAtReveal = Math.max(0, TMAX-(Date.now()-window._t0));
+    var item = queue[idx];
+    app.innerHTML = '<div class="meta"><span>'+(idx+1)+' / '+queue.length+'</span>'
+      + '<span>passed '+passes+'</span><span class="acs">'+item.acs+'</span></div>'
+      + '<div class="card"><div class="q">'+item.q+'</div>'
+      + '<div class="srcpanel show" style="border-left:3px solid var(--green)">'
+      + '<div class="lbl">Answer</div><div class="ref">'+item.choices[item.a]+'</div>'
+      + '<div style="margin-top:8px; color:var(--muted)">'+item.src.doc+' ('+item.src.ref+')</div>'
+      + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a></div>'
+      + '<div class="row" style="grid-template-columns:1fr 1fr; gap:10px; margin-top:14px">'
+      + '<button class="good" onclick="grade(true)">Nailed it</button>'
+      + '<button class="bad" onclick="grade(false)">Missed it</button></div></div>';
+  }
+
+  function grade(ok){
+    if(ok){ passes++; timeBonus += Math.round(leftAtReveal/1000); }
+    idx++;
+    if(idx >= queue.length) over(); else round();
+  }
+
+  function over(){
+    clearInterval(timer); tf.style.width='0%';
+    var sc = passes*10 + timeBonus;
+    var pct = Math.round(passes/queue.length*100);
+    if(sc>best){ best=sc; localStorage.setItem('pl_hs_best',best); }
+    app.innerHTML = '<div class="card center"><p class="q">Checkride complete</p>'
+      + '<div class="big">'+sc+'</div>'
+      + '<p style="color:var(--muted)">passed '+passes+' of '+queue.length+' ('+pct+'%) &middot; best '+best+'</p>'
+      + '<button class="primary" onclick="startGame()">Run it again</button></div>';
+  }
+  intro();
+</script>
+</body>
+</html>

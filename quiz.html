@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pilot Lounge - Quiz</title>
+<meta name="theme-color" content="#01172b">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>Private Pilot <span class="sub">Quiz</span></h1>
+    <span class="src" id="acsdoc">FAA-S-ACS-6C</span>
+  </header>
+
+  <div class="meta">
+    <span id="progress">Q 1</span>
+    <span id="score">Correct 0</span>
+    <span class="acs" id="acs"></span>
+  </div>
+
+  <div class="card">
+    <div class="q" id="q">Loading...</div>
+    <div class="row choices" id="choices"></div>
+    <div class="feed" id="feed"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="srcbtn" id="srcBtn" onclick="toggleSrc()" style="display:none">Source</button>
+      <div class="srcpanel" id="srcPanel"></div>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns:1fr 1fr; gap:10px">
+    <button id="prevBtn" onclick="go(-1)">&#9664; Previous</button>
+    <button class="primary" id="nextBtn" onclick="go(1)">Next &#9654;</button>
+  </div>
+
+  <footer>Pick an answer to reveal the result, then tap Source for the reference. Verify against current FAA publications.</footer>
+</div>
+
+<script src="data/private.js"></script>
+<script>
+  var DATA = window.PILOT_LOUNGE.private;
+  var Q = DATA.questions;
+  var i = 0, correct = 0, answered = {}, srcOpen = false;
+  document.getElementById('acsdoc').textContent = DATA.acsDoc;
+
+  function render(){
+    var item = Q[i]; srcOpen = false;
+    document.getElementById('progress').textContent = 'Q ' + (i+1) + ' / ' + Q.length;
+    document.getElementById('score').textContent = 'Correct ' + correct;
+    document.getElementById('acs').textContent = item.acs;
+    document.getElementById('q').textContent = item.q;
+    var box = document.getElementById('choices'); box.innerHTML = '';
+    var done = answered.hasOwnProperty(item.id);
+    item.choices.forEach(function(c, idx){
+      var b = document.createElement('button');
+      b.textContent = c;
+      if(done){
+        if(idx === item.a) b.className = 'correct';
+        else if(idx === answered[item.id]) b.className = 'wrong';
+        b.disabled = true;
+      } else {
+        b.onclick = function(){ answer(idx); };
+      }
+      box.appendChild(b);
+    });
+    var feed = document.getElementById('feed');
+    if(done){
+      var ok = answered[item.id] === item.a;
+      feed.textContent = ok ? 'Correct.' : 'Not quite. Correct answer highlighted.';
+      feed.className = 'feed ' + (ok ? 'ok' : 'no');
+      document.getElementById('srcBtn').style.display = 'inline-block';
+    } else {
+      feed.textContent = ''; feed.className = 'feed';
+      document.getElementById('srcBtn').style.display = 'none';
+    }
+    buildSrc(item); applySrc();
+    document.getElementById('prevBtn').disabled = (i === 0);
+  }
+
+  function answer(idx){
+    var item = Q[i];
+    if(answered.hasOwnProperty(item.id)) return;
+    answered[item.id] = idx;
+    if(idx === item.a) correct++;
+    render();
+  }
+
+  function buildSrc(item){
+    var p = document.getElementById('srcPanel');
+    p.innerHTML = '<div class="lbl">Source: '+item.src.doc+'</div>'
+      + '<div class="ref">'+item.src.ref+'</div>'
+      + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a>';
+  }
+  function applySrc(){ document.getElementById('srcPanel').className = 'srcpanel' + (srcOpen ? ' show' : ''); }
+  function toggleSrc(){ srcOpen = !srcOpen; applySrc(); }
+
+  function go(d){
+    var n = i + d;
+    if(n < 0 || n >= Q.length){
+      if(n >= Q.length){ alert('That is the last question. Correct ' + correct + ' of ' + Q.length + '.'); return; }
+      return;
+    }
+    i = n; render();
+  }
+  render();
+</script>
+</body>
+</html>
