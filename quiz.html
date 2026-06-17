@@ -92,6 +92,7 @@
     var p = document.getElementById('srcPanel');
     p.innerHTML = '<div class="lbl">Source: '+item.src.doc+'</div>'
       + '<div class="ref">'+item.src.ref+'</div>'
+      + '<div class="quote">&ldquo;'+item.src.quote+'&rdquo;</div>'
       + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a>';
   }
   function applySrc(){ document.getElementById('srcPanel').className = 'srcpanel' + (srcOpen ? ' show' : ''); }
