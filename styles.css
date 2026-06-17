@@ -49,13 +49,19 @@ button:disabled{opacity:.5; cursor:default}
 .tbar{height:6px; background:var(--panel2); border-radius:99px; overflow:hidden; margin:6px 0 14px}
 .tfill{height:100%; width:100%; background:var(--green); transition:width .1s linear}
 .tfill.warn{background:var(--amber)} .tfill.crit{background:var(--red)}
+/* Source panel */
 .srcbtn{background:transparent; border:1px solid var(--atlas); color:var(--breeze); font-size:13px; padding:9px 14px}
 .srcpanel{max-height:0; overflow:hidden; opacity:0; background:#02101f; border-radius:8px;
   transition:max-height .2s, opacity .2s, padding .2s; padding:0 14px}
-.srcpanel.show{max-height:260px; opacity:1; padding:14px}
+.srcpanel.show{max-height:520px; opacity:1; padding:14px}
 .srcpanel .lbl{font-family:var(--mono); font-size:11px; color:var(--green); text-transform:uppercase; letter-spacing:.1em}
 .srcpanel .ref{font-weight:700; margin:4px 0}
+.srcpanel .quote{font-style:italic; color:var(--ink); margin:8px 0 10px; line-height:1.45}
 .srcpanel a{font-family:var(--mono); font-size:13px; word-break:break-all}
+.brand{display:flex; align-items:center; gap:12px; margin-bottom:18px}
+.brand img{height:64px; width:auto; display:block}
+.brand .bt{font-size:17px; font-weight:800; letter-spacing:.04em; line-height:1.15}
+.brand .bt small{display:block; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--breeze)}
 .q{font-size:18px; line-height:1.4; margin:6px 0 16px}
 .feed{margin-top:12px; font-weight:700; min-height:22px}
 .feed.ok{color:var(--green)} .feed.no{color:var(--red)}
