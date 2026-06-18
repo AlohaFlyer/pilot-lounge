@@ -12,6 +12,9 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
+.certbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px;justify-content:center}
+.certbar .chip{font-weight:700;border-color:rgba(255,255,255,.35)}
+.certbar .chip.on{background:var(--green,#3ddc97);color:#01172b;border-color:var(--green,#3ddc97)}
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
@@ -25,25 +28,43 @@
 <a class="back" href="index.html">&#9664; Lounge</a>
 <div class="wrap">
   <header class="app">
-    <h1>Hot Seat <span class="sub">Private</span></h1>
+    <h1>Hot Seat <span class="sub" id="certSub">Private</span></h1>
     <span class="src" id="best">best 0</span>
   </header>
+  <div class="certbar" id="certbar"></div>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
-  <footer>Pick subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself. Review what you missed at the end.</footer>
+  <footer>Pick a certificate and subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself. Review what you missed at the end.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/instrument.js"></script>
+<script src="data/commercial.js"></script>
+<script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
-  var ALL = window.PILOT_LOUNGE.private.questions.slice();
+  var CERT = window.PILOT_LOUNGE.bankKey(new URLSearchParams(location.search).get('cert'));
+  var DATA = window.PILOT_LOUNGE[CERT];
+  var ALL = DATA.questions.slice();
   var subjectOf = window.PILOT_LOUNGE.subjectOf;
-  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
+  var present = window.PILOT_LOUNGE.subjectOrderFor(CERT).filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
   var selected = {}; present.forEach(function(s){ selected[s] = true; });
   var TMAX = 20000, queue, idx, passes, timeBonus, timer, revealed, leftAtReveal, missed = [];
-  var best = +(localStorage.getItem('pl_hs_best') || 0);
+  document.getElementById('certSub').textContent = DATA.title;
+  document.title = 'Pilot Lounge - Hot Seat (' + DATA.title + ')';
+  var BESTKEY = 'pl_hs_best_' + CERT;
+  var best = +(localStorage.getItem(BESTKEY) || 0);
   document.getElementById('best').textContent = 'best ' + best;
   var app = document.getElementById('app'), tf = document.getElementById('tf');
+
+  function certbar(){
+    var bar = document.getElementById('certbar'); bar.innerHTML = '';
+    window.PILOT_LOUNGE.certs.forEach(function(c){
+      var b = document.createElement('button'); b.className = 'chip' + (c.key === CERT ? ' on' : ''); b.textContent = c.label;
+      b.onclick = function(){ if(c.key !== CERT){ location.search = '?cert=' + c.key; } };
+      bar.appendChild(b);
+    });
+  }
 
   function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
 
@@ -150,7 +171,7 @@
     clearInterval(timer); tf.style.width='0%';
     var sc = passes*10 + timeBonus;
     var pct = Math.round(passes/queue.length*100);
-    if(sc>best){ best=sc; localStorage.setItem('pl_hs_best',best); }
+    if(sc>best){ best=sc; localStorage.setItem(BESTKEY,best); }
     app.innerHTML = '<div class="card center"><p class="q">Checkride complete</p>'
       + '<div class="big">'+sc+'</div>'
       + '<p style="color:var(--muted)">passed '+passes+' of '+queue.length+' ('+pct+'%) &middot; best '+best+'</p>'
@@ -162,7 +183,7 @@
     makeReview(document.getElementById('review'), missed);
     window.scrollTo(0, 0);
   }
-  intro();
+  certbar(); intro();
 </script>
 </body>
 </html>

@@ -12,6 +12,9 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
+.certbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px;justify-content:center}
+.certbar .chip{font-weight:700;border-color:rgba(255,255,255,.35)}
+.certbar .chip.on{background:var(--green,#3ddc97);color:#01172b;border-color:var(--green,#3ddc97)}
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
@@ -25,25 +28,43 @@
 <a class="back" href="index.html">&#9664; Lounge</a>
 <div class="wrap">
   <header class="app">
-    <h1>Limit or Bust <span class="sub">Private</span></h1>
+    <h1>Limit or Bust <span class="sub" id="certSub">Private</span></h1>
     <span class="src" id="best">best 0</span>
   </header>
+  <div class="certbar" id="certbar"></div>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
-  <footer>Pick subjects, then answer before the bar runs out. Wrong or out of time costs a life. Tap Source to learn why. Review what you missed at the end.</footer>
+  <footer>Pick a certificate and subjects, then answer before the bar runs out. Wrong or out of time costs a life. Tap Source to learn why. Review what you missed at the end.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/instrument.js"></script>
+<script src="data/commercial.js"></script>
+<script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
-  var ALL = window.PILOT_LOUNGE.private.questions.slice();
+  var CERT = window.PILOT_LOUNGE.bankKey(new URLSearchParams(location.search).get('cert'));
+  var DATA = window.PILOT_LOUNGE[CERT];
+  var ALL = DATA.questions.slice();
   var subjectOf = window.PILOT_LOUNGE.subjectOf;
-  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
+  var present = window.PILOT_LOUNGE.subjectOrderFor(CERT).filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
   var selected = {}; present.forEach(function(s){ selected[s] = true; });
   var TMAX = 9000, idx, order, score, streak, lives, timer, locked, spOpen = false, missed = [];
-  var best = +(localStorage.getItem('pl_lob_best') || 0);
+  document.getElementById('certSub').textContent = DATA.title;
+  document.title = 'Pilot Lounge - Limit or Bust (' + DATA.title + ')';
+  var BESTKEY = 'pl_lob_best_' + CERT;
+  var best = +(localStorage.getItem(BESTKEY) || 0);
   document.getElementById('best').textContent = 'best ' + best;
   var app = document.getElementById('app'), tf = document.getElementById('tf');
+
+  function certbar(){
+    var bar = document.getElementById('certbar'); bar.innerHTML = '';
+    window.PILOT_LOUNGE.certs.forEach(function(c){
+      var b = document.createElement('button'); b.className = 'chip' + (c.key === CERT ? ' on' : ''); b.textContent = c.label;
+      b.onclick = function(){ if(c.key !== CERT){ location.search = '?cert=' + c.key; } };
+      bar.appendChild(b);
+    });
+  }
 
   function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
 
@@ -129,7 +150,7 @@
     var feed=document.getElementById('feed');
     if(ok){
       score++; streak++;
-      if(score>best){ best=score; localStorage.setItem('pl_lob_best',best); document.getElementById('best').textContent='best '+best; }
+      if(score>best){ best=score; localStorage.setItem(BESTKEY,best); document.getElementById('best').textContent='best '+best; }
       feed.className='feed ok'; feed.textContent='Correct.';
     } else {
       lives--; streak=0;
@@ -169,7 +190,7 @@
   document.addEventListener('keydown', function(e){
     var n=parseInt(e.key,10); if(!locked && n>=1 && n<=4) answer(n-1);
   });
-  intro();
+  certbar(); intro();
 </script>
 </body>
 </html>

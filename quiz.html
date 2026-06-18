@@ -12,9 +12,13 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
+.certbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
+.certbar .chip{font-weight:700}
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+.certbar .chip.cert{border-color:rgba(255,255,255,.35)}
+.certbar .chip.cert.on{background:var(--green,#3ddc97);color:#01172b;border-color:var(--green,#3ddc97)}
 .linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
 .linkbtn:hover{background:var(--amber);color:#01172b}
 .revhead{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:20px 0 10px}
@@ -25,9 +29,11 @@
 <a class="back" href="index.html">&#9664; Lounge</a>
 <div class="wrap">
   <header class="app">
-    <h1>Private Pilot <span class="sub">Quiz</span></h1>
+    <h1><span id="certTitle">Private Pilot</span> <span class="sub">Quiz</span></h1>
     <span class="src" id="acsdoc">FAA-S-ACS-6C</span>
   </header>
+
+  <div class="certbar" id="certbar"></div>
 
   <div id="quizView">
     <div class="subjbar" id="subjbar"></div>
@@ -58,16 +64,20 @@
 
   <div id="resultsView" style="display:none"></div>
 
-  <footer>Pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. See results to review what you missed.</footer>
+  <footer>Pick a certificate, then pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. See results to review what you missed.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/instrument.js"></script>
+<script src="data/commercial.js"></script>
+<script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
-  var DATA = window.PILOT_LOUNGE.private;
+  var CERT = window.PILOT_LOUNGE.bankKey(new URLSearchParams(location.search).get('cert'));
+  var DATA = window.PILOT_LOUNGE[CERT];
   var ALL = DATA.questions;
   var subjectOf = window.PILOT_LOUNGE.subjectOf;
-  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){
+  var present = window.PILOT_LOUNGE.subjectOrderFor(CERT).filter(function(s){
     return ALL.some(function(q){ return subjectOf(q.acs) === s; });
   });
   var selected = {}; present.forEach(function(s){ selected[s] = true; });
@@ -80,7 +90,18 @@
   }
   var Q = ALL.slice();
   var i = 0, correct = 0, answered = {}, srcOpen = false, lastMissed = [];
+  document.getElementById('certTitle').textContent = DATA.title;
   document.getElementById('acsdoc').textContent = DATA.acsDoc;
+  document.title = 'Pilot Lounge - ' + DATA.title + ' Quiz';
+
+  function certbar(){
+    var bar = document.getElementById('certbar'); bar.innerHTML = '';
+    window.PILOT_LOUNGE.certs.forEach(function(c){
+      var b = document.createElement('button'); b.className = 'chip cert' + (c.key === CERT ? ' on' : ''); b.textContent = c.label;
+      b.onclick = function(){ if(c.key !== CERT){ location.search = '?cert=' + c.key; } };
+      bar.appendChild(b);
+    });
+  }
 
   function showView(name){
     document.getElementById('quizView').style.display = (name === 'quiz') ? 'block' : 'none';
@@ -220,7 +241,7 @@
   }
   function startOver(){ applyFilter(); window.scrollTo(0, 0); }
 
-  chips(); render();
+  certbar(); chips(); render();
 </script>
 </body>
 </html>
