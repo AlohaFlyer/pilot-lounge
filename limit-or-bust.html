@@ -37,13 +37,14 @@
   <footer>Pick a certificate and subjects, then answer before the bar runs out. Wrong or out of time costs a life. Tap Source to learn why. Review what you missed at the end.</footer>
 </div>
 
+<script src="data/student.js"></script>
 <script src="data/private.js"></script>
 <script src="data/instrument.js"></script>
 <script src="data/commercial.js"></script>
 <script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
-  var CERT = window.PILOT_LOUNGE.bankKey(new URLSearchParams(location.search).get('cert'));
+  var _qp = new URLSearchParams(location.search); var CERT = window.PILOT_LOUNGE.bankKey(_qp.get('cert') || _qp.get('rating'));
   var DATA = window.PILOT_LOUNGE[CERT];
   var ALL = DATA.questions.slice();
   var subjectOf = window.PILOT_LOUNGE.subjectOf;

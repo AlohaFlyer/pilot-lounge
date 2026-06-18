@@ -67,13 +67,14 @@
   <footer>Pick a certificate, then pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. See results to review what you missed.</footer>
 </div>
 
+<script src="data/student.js"></script>
 <script src="data/private.js"></script>
 <script src="data/instrument.js"></script>
 <script src="data/commercial.js"></script>
 <script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
-  var CERT = window.PILOT_LOUNGE.bankKey(new URLSearchParams(location.search).get('cert'));
+  var _qp = new URLSearchParams(location.search); var CERT = window.PILOT_LOUNGE.bankKey(_qp.get('cert') || _qp.get('rating'));
   var DATA = window.PILOT_LOUNGE[CERT];
   var ALL = DATA.questions;
   var subjectOf = window.PILOT_LOUNGE.subjectOf;
