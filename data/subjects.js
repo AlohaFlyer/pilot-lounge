@@ -9,7 +9,15 @@
      news link still resolves. Remove any dead link.
    - Add newer links on the same subject when found.
    - No link older than 10 years in news[] (drop anything past that age).
-   - Keep refs[] to FAA public-domain sources, eCFR, ACS, and AOPA. */
+   - Keep refs[] to FAA public-domain sources, eCFR, ACS, and AOPA.
+
+   POPUP CONTENT RULES:
+   - ref.q = text shown in the reference popup. FAA/eCFR/ACS/AIM are public
+     domain, so verbatim quotes are fine (wrap them in quotation marks).
+     AOPA and any copyrighted source must be paraphrased in our own words,
+     never quoted verbatim.
+   - news[].b = a short Further Reading summary written in OUR OWN WORDS.
+     Never paste the article's text or its hero image (copyright). */
 window.PILOT_LOUNGE = window.PILOT_LOUNGE || {};
 
 window.PILOT_LOUNGE.subjectOf = function(acs){
@@ -45,31 +53,44 @@ var R = {
   aopa:  {t:'AOPA Air Safety Institute', u:'https://www.aopa.org/training-and-safety/air-safety-institute'},
   aopawx:{t:'AOPA Weather', u:'https://www.aopa.org/training-and-safety/active-pilots/safety-and-technique/weather'}
 };
+function ref(base, q){ return {t:base.t, u:base.u, q:q}; }
 
 window.PILOT_LOUNGE.episodes = [
   {n:0, subject:'Start Here', title:'Welcome to the Lounge 🎙️', subjects:[], len:'13:01',
    blurb:'Meet the six captains, then a 13 minute conversation on the most important things a private pilot must own.',
    topics:'Two legal questions, personal minimums, understanding over memorizing, flows before checklists, angle of attack, fuel discipline, always have an out.', audio:'pl_ep00.mp3',
-   refs:[R.phak, R.acs, R.aopa],
+   refs:[
+     ref(R.phak, 'The Pilot\'s Handbook of Aeronautical Knowledge is the FAA\'s primary knowledge reference, covering aerodynamics, systems, weather, airspace, performance, and aeronautical decision making. A solid anchor for the fundamentals this episode opens with.'),
+     ref(R.acs, 'From the ACS: "The ACS integrates the elements of knowledge, risk management, and skill required for each airman certificate or rating." It is the roadmap for both the knowledge test and the checkride.'),
+     ref(R.aopa, 'AOPA\'s Air Safety Institute offers free courses, quizzes, and accident case studies across every subject in this season, a good place to go deeper on any topic.')
+   ],
    news:[
-     {t:'6 Maneuvers You Should Practice On Your Next Flight', s:'Boldmethod', u:'https://www.boldmethod.com/blog/lists/2026/04/six-maneuvers-to-practice-on-your-next-flight/'},
-     {t:'Private Pilot Checkride Maneuvers Checklist', s:'Pilot Institute', u:'https://pilotinstitute.com/private-pilot-checkride/'}
+     {t:'6 Maneuvers You Should Practice On Your Next Flight', s:'Boldmethod', u:'https://www.boldmethod.com/blog/lists/2026/04/six-maneuvers-to-practice-on-your-next-flight/', b:'A reminder that stick-and-rudder skills fade without practice, with a short list of maneuvers worth flying regularly to stay sharp: the go-around, steep turns, the power-off 180, and more.'},
+     {t:'Private Pilot Checkride Maneuvers Checklist', s:'Pilot Institute', u:'https://pilotinstitute.com/private-pilot-checkride/', b:'A walk-through of what the private checkride actually covers and how the ACS ties the oral and flight portions together. Handy for picturing the whole flight before you fly it.'}
    ]},
   {n:1, subject:'Regs & Airworthiness', title:'Are You Legal, Is She Legal 🎙️', subjects:['Regs & Airworthiness'], len:'11:12',
    blurb:'Pilot qualifications, airworthiness, and cross-country planning.',
    topics:'Certificate, medical, flight review, currency, AROW, AV1ATE, A TOMATO FLAMES, the inop-equipment flow, fuel reserves.', audio:'pl_ep01.mp3',
-   refs:[R.cfr61, R.cfr91, R.aopa],
+   refs:[
+     ref(R.cfr61, 'Part 61 sets the certification rules for pilots: who may act as pilot in command, the certificate and medical you must hold, recency of experience, and the flight review. The "are you legal" half of this episode lives here.'),
+     ref(R.cfr91, 'On VFR fuel reserves, 91.151 reads: "No person may begin a flight in an airplane under VFR conditions unless ... there is enough fuel to fly to the first point of intended landing and ... during the day, to fly after that for at least 30 minutes; or at night, 45 minutes."'),
+     ref(R.aopa, 'AOPA explains airworthiness and the inoperative-equipment decision in plain language. The specific articles are linked in Further Reading below.')
+   ],
    news:[
-     {t:'Leaving the Nest: airworthiness for new pilots', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2016/october/flight-training-magazine/leaving-the-nest'},
-     {t:'Checkride: Airworthiness and Systems Operations', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2018/july/flight-training-magazine/checkride-airworthiness'}
+     {t:'Leaving the Nest: airworthiness for new pilots', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2016/october/flight-training-magazine/leaving-the-nest', b:'Aimed at brand-new certificate holders, it breaks down reading maintenance logs and applying the inoperative-equipment flow so you can confidently answer, can we fly today.'},
+     {t:'Checkride: Airworthiness and Systems Operations', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2018/july/flight-training-magazine/checkride-airworthiness', b:'A designated examiner lays out the airworthiness and systems questions to expect on the oral, including required documents, expiration dates, and the minimum-equipment concept.'}
    ]},
   {n:2, subject:'Airspace, Performance, Systems', title:'Airspace, Performance, Systems, and You 🎙️', subjects:['Airspace','Performance & Limits','Systems','Human Factors'], len:'12:54',
    blurb:'The dense second half of preflight preparation.',
    topics:'Airspace classes and VFR minimums, V-speeds, weight and balance, carb ice, pitot-static, the five hazardous attitudes.', audio:'pl_ep02.mp3',
-   refs:[R.phak, R.aim, R.aopa],
+   refs:[
+     ref(R.phak, 'On angle of attack, the PHAK notes: "Any time the control yoke or stick is moved fore or aft, the AOA is changed." It also covers systems, performance, weight and balance, and the aeromedical roots of the five hazardous attitudes.'),
+     ref(R.aim, 'On VFR weather minimums, the AIM states: "No person may operate an aircraft under basic VFR when the flight visibility is less, or at a distance from clouds that is less, than that prescribed for the corresponding altitude and class of airspace."'),
+     ref(R.aopa, 'AOPA\'s airspace and decision-making resources pair well with this episode. The specific articles are linked in Further Reading below.')
+   ],
    news:[
-     {t:'Airspace Classes Explained (A, B, C, D, E, G)', s:'Pilot Institute', u:'https://pilotinstitute.com/airspace-explained/'},
-     {t:'Why Mandatory Cloud Clearance Requirements Exist', s:'Boldmethod', u:'https://www.boldmethod.com/learn-to-fly/regulations/why-vfr-cloud-clearance-requirements-and-regulations-exist-for-flight/'}
+     {t:'Airspace Classes Explained (A, B, C, D, E, G)', s:'Pilot Institute', u:'https://pilotinstitute.com/airspace-explained/', b:'A clear rundown of Class A through G, with the entry requirements, equipment, and the VFR visibility and cloud-clearance minimums for each.'},
+     {t:'Why Mandatory Cloud Clearance Requirements Exist', s:'Boldmethod', u:'https://www.boldmethod.com/learn-to-fly/regulations/why-vfr-cloud-clearance-requirements-and-regulations-exist-for-flight/', b:'Explains the reasoning behind the different VFR weather minimums across airspace classes, not just the numbers to memorize but why they change.'}
    ]},
   {n:3, subject:'Weather', title:'Reading the Sky 🎙️', subjects:['Weather'], len:null,
    blurb:'Chester leads the weather you must own before a VFR cross country.',
