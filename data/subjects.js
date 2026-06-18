@@ -2,6 +2,12 @@
    Single source of truth for grouping the question bank by subject
    (quiz + games) and for listing the podcast episodes by subject.
 
+   Supports four certificate banks: private (PA), instrument (IR),
+   commercial (CA), and atp (ATP). subjectOf() routes on the ACS prefix,
+   and subjectOrders/subjectOrderFor() give the subject list per bank.
+   Podcast episodes currently exist for the Private season only; other
+   banks return null from episodeForSubject and simply hide the Listen link.
+
    NEWSFEED MAINTENANCE RULE (read before editing ep.news):
    - Each episode carries a news[] list of links to publicly available
      articles on that subject from known aviation outlets.
@@ -20,8 +26,25 @@
      Never paste the article's text or its hero image (copyright). */
 window.PILOT_LOUNGE = window.PILOT_LOUNGE || {};
 
+/* Per-certificate area-to-subject maps. Private (PA) splits Area I by task;
+   the other certificates map one subject per Area of Operation. */
+window.PILOT_LOUNGE.subjectMaps = {
+  IR: { 'I':'Preflight Preparation', 'II':'Systems & Instruments', 'III':'ATC Clearances',
+    'IV':'Instrument Flying', 'V':'Navigation', 'VI':'Approaches', 'VII':'Emergencies', 'VIII':'Postflight' },
+  CA: { 'I':'Preflight Preparation', 'II':'Preflight Procedures', 'III':'Airport Operations',
+    'IV':'Takeoffs & Landings', 'V':'Performance & Maneuvers', 'VI':'Navigation', 'VII':'Slow Flight & Stalls',
+    'VIII':'High Altitude Ops', 'IX':'Emergencies', 'X':'Multiengine', 'XI':'Postflight' },
+  ATP: { 'I':'Preflight Preparation', 'II':'Preflight Procedures', 'III':'Takeoffs & Landings',
+    'IV':'In-flight Maneuvers', 'V':'Stall Prevention', 'VI':'Instrument Procedures', 'VII':'Emergencies', 'VIII':'Postflight' }
+};
+
 window.PILOT_LOUNGE.subjectOf = function(acs){
-  var p = String(acs || '').split('.'); var area = p[1] || ''; var task = p[2] || '';
+  var p = String(acs || '').split('.'); var cert = p[0] || ''; var area = p[1] || ''; var task = p[2] || '';
+  if (cert === 'IR' || cert === 'CA' || cert === 'ATP'){
+    var m = window.PILOT_LOUNGE.subjectMaps[cert] || {};
+    return m[area] || 'Other';
+  }
+  /* Private (PA) and default */
   if (area === 'I'){
     if (task === 'C') return 'Weather';
     if (task === 'E') return 'Airspace';
@@ -36,9 +59,37 @@ window.PILOT_LOUNGE.subjectOf = function(acs){
   return map[area] || 'Other';
 };
 
-window.PILOT_LOUNGE.subjectOrder = ['Regs & Airworthiness','Weather','Airspace','Performance & Limits',
-  'Systems','Human Factors','Preflight Procedures','Airport Operations','Takeoffs & Landings',
-  'Ground Reference','Navigation','Stalls & Spins','Basic Instrument','Emergencies','Night','Postflight'];
+window.PILOT_LOUNGE.subjectOrders = {
+  PA: ['Regs & Airworthiness','Weather','Airspace','Performance & Limits',
+    'Systems','Human Factors','Preflight Procedures','Airport Operations','Takeoffs & Landings',
+    'Ground Reference','Navigation','Stalls & Spins','Basic Instrument','Emergencies','Night','Postflight'],
+  IR: ['Preflight Preparation','Systems & Instruments','ATC Clearances','Instrument Flying',
+    'Navigation','Approaches','Emergencies','Postflight'],
+  CA: ['Preflight Preparation','Preflight Procedures','Airport Operations','Takeoffs & Landings',
+    'Performance & Maneuvers','Navigation','Slow Flight & Stalls','High Altitude Ops','Emergencies','Multiengine','Postflight'],
+  ATP: ['Preflight Preparation','Preflight Procedures','Takeoffs & Landings','In-flight Maneuvers',
+    'Stall Prevention','Instrument Procedures','Emergencies','Postflight']
+};
+/* Back-compat: existing Private pages read subjectOrder directly. */
+window.PILOT_LOUNGE.subjectOrder = window.PILOT_LOUNGE.subjectOrders.PA;
+
+/* Certificate bank registry. key matches window.PILOT_LOUNGE[key] and data/<key>.js. */
+window.PILOT_LOUNGE.certs = [
+  {key:'private', label:'Private', prefix:'PA'},
+  {key:'instrument', label:'Instrument', prefix:'IR'},
+  {key:'commercial', label:'Commercial', prefix:'CA'},
+  {key:'atp', label:'ATP', prefix:'ATP'}
+];
+window.PILOT_LOUNGE.bankKey = function(k){
+  return window.PILOT_LOUNGE.certs.some(function(c){ return c.key === k; }) ? k : 'private';
+};
+window.PILOT_LOUNGE.prefixFor = function(k){
+  var c = window.PILOT_LOUNGE.certs.filter(function(x){ return x.key === k; })[0];
+  return c ? c.prefix : 'PA';
+};
+window.PILOT_LOUNGE.subjectOrderFor = function(k){
+  return window.PILOT_LOUNGE.subjectOrders[window.PILOT_LOUNGE.prefixFor(k)] || window.PILOT_LOUNGE.subjectOrders.PA;
+};
 
 /* Canonical reference URLs (FAA public-domain handbooks, eCFR, ACS, plus AOPA). */
 var R = {
