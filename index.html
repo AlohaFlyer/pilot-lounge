@@ -65,8 +65,10 @@
   var PASSWORD = "pilotlounge";
 
   /* Rating tracks. Flip available:true to surface a track once its content exists.
-     'careers' is a non-rating track that links to its own page rather than the quiz. */
+     'careers' is a non-rating track that links to its own page rather than the quiz.
+     'student' sits ahead of 'private'; hidden until the Student Pilot content is ready. */
   var TRACKS = [
+    {key:'student',    label:'Student',            available:false},
     {key:'private',    label:'Private',            available:true},
     {key:'instrument', label:'Instrument',         available:false},
     {key:'commercial', label:'Commercial',         available:false},
