@@ -12,9 +12,15 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
+.brand{gap:18px}
+.brand img{height:84px}
+.brand .bt{font-size:30px; line-height:1.04; font-weight:800}
+.brand .bt small{font-size:12.5px; letter-spacing:.34em; margin-top:6px}
 .tracks{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
 .track{flex:0 0 auto;font-family:var(--mono),monospace;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--amber);background:transparent;color:var(--amber);cursor:pointer;white-space:nowrap}
 .track.on{background:var(--amber);color:#01172b}
+.byline{display:block;margin-top:10px;color:var(--muted);font-size:10px;letter-spacing:.04em;text-decoration:none;opacity:.75}
+.byline:hover{opacity:1}
 </style>
 </head>
 <body>
@@ -51,6 +57,7 @@
   <footer>
     Free study tool for student and new pilots. Facts trace to FAA public-domain sources and the ACS.<br>
     Verify against current FAA publications before any flight. Aloha and keep the shiny side up.
+    <a class="byline" href="mailto:ryanpettit@gmail.com">ryanpettit@gmail.com</a>
   </footer>
 </div>
 
