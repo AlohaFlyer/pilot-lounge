@@ -15,6 +15,8 @@
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
 .chip{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+.linkbtn{display:inline-block;font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
+.linkbtn:hover{background:var(--amber);color:#01172b}
 </style>
 </head>
 <body>
@@ -37,8 +39,9 @@
     <div class="q" id="q">Loading...</div>
     <div class="row choices" id="choices"></div>
     <div class="feed" id="feed"></div>
-    <div class="row" style="margin-top:14px">
+    <div class="row" style="margin-top:14px; gap:10px; align-items:center">
       <button class="srcbtn" id="srcBtn" onclick="toggleSrc()" style="display:none">Source</button>
+      <a class="linkbtn" id="listenBtn" href="#" style="display:none">Listen to the episode</a>
       <div class="srcpanel" id="srcPanel"></div>
     </div>
   </div>
@@ -48,7 +51,7 @@
     <button class="primary" id="nextBtn" onclick="go(1)">Next &#9654;</button>
   </div>
 
-  <footer>Pick subjects to drill, answer to reveal the result, then tap Source for the reference. Verify against current FAA publications.</footer>
+  <footer>Pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode.</footer>
 </div>
 
 <script src="data/private.js"></script>
@@ -61,6 +64,13 @@
     return ALL.some(function(q){ return subjectOf(q.acs) === s; });
   });
   var selected = {}; present.forEach(function(s){ selected[s] = true; });
+  var params = new URLSearchParams(location.search);
+  var pre = params.get('subjects');
+  if(pre){
+    var want = pre.split(',').map(function(s){ return s.trim(); });
+    present.forEach(function(s){ selected[s] = want.indexOf(s) >= 0; });
+    if(present.every(function(s){ return !selected[s]; })){ present.forEach(function(s){ selected[s] = true; }); }
+  }
   var Q = ALL.slice();
   var i = 0, correct = 0, answered = {}, srcOpen = false;
   document.getElementById('acsdoc').textContent = DATA.acsDoc;
@@ -118,6 +128,11 @@
       feed.textContent = ''; feed.className = 'feed';
       document.getElementById('srcBtn').style.display = 'none';
     }
+    var ep = window.PILOT_LOUNGE.episodeForSubject(subjectOf(item.acs));
+    var lb = document.getElementById('listenBtn');
+    if(ep && ep.audio){ lb.style.display = 'inline-block'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Listen: Ep ' + ep.n; }
+    else if(ep){ lb.style.display = 'inline-block'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Episode: Ep ' + ep.n; }
+    else { lb.style.display = 'none'; }
     buildSrc(item); applySrc();
     document.getElementById('prevBtn').disabled = (i === 0);
   }
