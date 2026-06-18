@@ -12,16 +12,22 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
-.linkbtn{display:inline-block;font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
+.linkbtn{display:inline-block;font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
 .linkbtn:hover{background:var(--amber);color:#01172b}
 .reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:14px 0 6px}
 .refrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
 .eplen{font-family:var(--mono),monospace}
 .newslist{list-style:none;padding:0;margin:6px 0 0}
 .newslist li{margin:0 0 8px;font-size:13px;line-height:1.35}
-.newslist a{color:var(--amber);text-decoration:none}
-.newslist a:hover{text-decoration:underline}
+.newslink{color:var(--amber);text-decoration:none;background:none;border:none;padding:0;font:inherit;font-size:13px;text-align:left;cursor:pointer}
+.newslink:hover{text-decoration:underline}
 .newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
+.modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:8px;right:12px;background:none;border:none;color:var(--muted);font-size:26px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 28px 2px 0}
+.modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
 </style>
 </head>
 <body>
@@ -44,38 +50,87 @@
   <footer>Audio is rolling out episode by episode with the locked six-host cast. Every fact traces to FAA public-domain sources.</footer>
 </div>
 
+<div class="modal" id="modal" style="display:none">
+  <div class="modalbox">
+    <button class="modalx" id="modalx" aria-label="Close">&times;</button>
+    <div class="modalhead" id="modalTitle"></div>
+    <div class="modalsrc" id="modalSrc"></div>
+    <div class="modalbody" id="modalBody"></div>
+    <a class="linkbtn" id="modalLink" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
 <script src="data/subjects.js"></script>
 <script>
+  var modal = document.getElementById('modal');
+  function openModal(title, src, body, url, linkLabel){
+    document.getElementById('modalTitle').textContent = title;
+    var s = document.getElementById('modalSrc'); s.textContent = src || ''; s.style.display = src ? 'block' : 'none';
+    document.getElementById('modalBody').textContent = body;
+    var link = document.getElementById('modalLink');
+    link.setAttribute('href', url); link.textContent = linkLabel;
+    modal.style.display = 'flex';
+  }
+  function closeModal(){ modal.style.display = 'none'; }
+  document.getElementById('modalx').onclick = closeModal;
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
   var box = document.getElementById('episodes');
   window.PILOT_LOUNGE.episodes.forEach(function(ep){
     if(!ep.audio){ return; }
     var div = document.createElement('div'); div.className = 'card'; div.id = 'ep' + ep.n;
     var label = ep.n === 0 ? 'Intro' : ('Episode ' + ep.n);
-    var len = ep.len ? ep.len : '';
-    var meta = label + (len ? ' &middot; <span class="eplen">' + len + '</span>' : '');
-    var html = '<div class="meta"><span>' + meta + '</span><span class="acs">' + ep.subject + '</span></div>'
+    var meta = label + (ep.len ? ' &middot; <span class="eplen">' + ep.len + '</span>' : '');
+    div.innerHTML = '<div class="meta"><span>' + meta + '</span><span class="acs">' + ep.subject + '</span></div>'
       + '<div class="q" style="font-size:17px">' + ep.title + '</div>'
       + '<p style="color:var(--muted)">' + ep.blurb + '</p>'
-      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>';
-    html += '<audio controls preload="none" style="width:100%"><source src="' + ep.audio + '" type="audio/mpeg"></audio>';
+      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
+      + '<audio controls preload="none" style="width:100%"><source src="' + ep.audio + '" type="audio/mpeg"></audio>';
+
     if(ep.refs && ep.refs.length){
-      html += '<p class="reflabel">Reference and verify</p><div class="refrow">';
+      var rl = document.createElement('p'); rl.className = 'reflabel'; rl.textContent = 'Reference and verify'; div.appendChild(rl);
+      var rrow = document.createElement('div'); rrow.className = 'refrow';
       ep.refs.forEach(function(r){
-        html += '<a class="linkbtn" href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a>';
+        if(r.q){
+          var b = document.createElement('button'); b.className = 'linkbtn'; b.textContent = r.t;
+          b.onclick = function(){ openModal(r.t, 'Reference', r.q, r.u, 'Open ' + r.t + ' \u2192'); };
+          rrow.appendChild(b);
+        } else {
+          var a = document.createElement('a'); a.className = 'linkbtn'; a.textContent = r.t;
+          a.href = r.u; a.target = '_blank'; a.rel = 'noopener'; rrow.appendChild(a);
+        }
       });
-      html += '</div>';
+      div.appendChild(rrow);
     }
+
     if(ep.news && ep.news.length){
-      html += '<p class="reflabel">From around the web</p><ul class="newslist">';
+      var nl = document.createElement('p'); nl.className = 'reflabel'; nl.textContent = '\uD83D\uDCF0 Further Reading'; div.appendChild(nl);
+      var ul = document.createElement('ul'); ul.className = 'newslist';
       ep.news.forEach(function(a){
-        html += '<li><a href="' + a.u + '" target="_blank" rel="noopener">' + a.t + '</a> <span class="newssrc">' + a.s + '</span></li>';
+        var li = document.createElement('li');
+        if(a.b){
+          var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = a.t;
+          btn.onclick = function(){ openModal(a.t, a.s, a.b, a.u, 'Read the full article at ' + a.s + ' \u2192'); };
+          li.appendChild(btn);
+        } else {
+          var link = document.createElement('a'); link.className = 'newslink'; link.textContent = a.t;
+          link.href = a.u; link.target = '_blank'; link.rel = 'noopener'; li.appendChild(link);
+        }
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = a.s; li.appendChild(src);
+        ul.appendChild(li);
       });
-      html += '</ul>';
+      div.appendChild(ul);
     }
+
     var qhref = (ep.subjects && ep.subjects.length) ? ('quiz.html?subjects=' + encodeURIComponent(ep.subjects.join(','))) : 'quiz.html';
     var qlabel = (ep.n === 0) ? 'Open the Quiz' : 'Drill this subject in the Quiz';
-    html += '<div class="row" style="margin-top:12px"><a class="linkbtn" href="' + qhref + '">' + qlabel + ' &#9654;</a></div>';
-    div.innerHTML = html; box.appendChild(div);
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="linkbtn" href="' + qhref + '">' + qlabel + ' &#9654;</a>';
+    div.appendChild(qrow);
+
+    box.appendChild(div);
   });
   if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }
 </script>
