@@ -32,7 +32,7 @@ window.PILOT_LOUNGE.episodes = [
    topics:'Certificate, medical, flight review, currency, AROW, AV1ATE, A TOMATO FLAMES, the inop-equipment flow, fuel reserves.', audio:'pl_ep01.mp3'},
   {n:2, subject:'Airspace, Performance, Systems', title:'Airspace, Performance, Systems, and You', subjects:['Airspace','Performance & Limits','Systems','Human Factors'],
    blurb:'The dense second half of preflight preparation.',
-   topics:'Airspace classes and VFR minimums, V-speeds, weight and balance, carb ice, pitot-static, the five hazardous attitudes.', audio:null},
+   topics:'Airspace classes and VFR minimums, V-speeds, weight and balance, carb ice, pitot-static, the five hazardous attitudes.', audio:'pl_ep02.mp3'},
   {n:3, subject:'Weather', title:'Reading the Sky', subjects:['Weather'],
    blurb:'Chester leads the weather you must own before a VFR cross country.',
    topics:'METAR and TAF, true vs magnetic wind, the fog family, fronts, the thunderstorm life cycle, density altitude.', audio:null},
