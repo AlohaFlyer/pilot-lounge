@@ -12,20 +12,22 @@
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
-.linkbtn{display:inline-block;font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
 .linkbtn:hover{background:var(--amber);color:#01172b}
-.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:14px 0 6px}
+.quizcta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 16px;border-radius:10px;border:1px solid var(--amber);background:var(--amber);color:#01172b;text-decoration:none;cursor:pointer}
+.quizcta:hover{background:#f4b573;border-color:#f4b573}
+.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:16px 0 6px}
 .refrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
 .eplen{font-family:var(--mono),monospace}
-.newslist{list-style:none;padding:0;margin:6px 0 0}
-.newslist li{margin:0 0 8px;font-size:13px;line-height:1.35}
-.newslink{color:var(--amber);text-decoration:none;background:none;border:none;padding:0;font:inherit;font-size:13px;text-align:left;cursor:pointer}
+.newslist{list-style:none;padding:0;margin:4px 0 0}
+.newslist li{margin:0 0 2px;line-height:1.3}
+.newslink{display:inline-block;color:var(--amber);text-decoration:none;background:none;border:none;padding:10px 0;font:inherit;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
 .newslink:hover{text-decoration:underline}
 .newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
 .modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
-.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;overflow:auto;padding:22px;position:relative}
-.modalx{position:absolute;top:8px;right:12px;background:none;border:none;color:var(--muted);font-size:26px;line-height:1;cursor:pointer}
-.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 28px 2px 0}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;max-height:82dvh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:4px;right:6px;width:44px;height:44px;background:none;border:none;color:var(--muted);font-size:30px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 40px 2px 0}
 .modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
 .modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
 </style>
@@ -70,8 +72,9 @@
     var link = document.getElementById('modalLink');
     link.setAttribute('href', url); link.textContent = linkLabel;
     modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
-  function closeModal(){ modal.style.display = 'none'; }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
   document.getElementById('modalx').onclick = closeModal;
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
@@ -90,7 +93,7 @@
 
     var qhref = (ep.subjects && ep.subjects.length) ? ('quiz.html?subjects=' + encodeURIComponent(ep.subjects.join(','))) : 'quiz.html';
     var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
-    qrow.innerHTML = '<a class="linkbtn" href="' + qhref + '">Lock it in now with the Quiz &#9654;</a>';
+    qrow.innerHTML = '<a class="quizcta" href="' + qhref + '">Lock it in now with the Quiz &#9654;</a>';
     div.appendChild(qrow);
 
     if(ep.refs && ep.refs.length){

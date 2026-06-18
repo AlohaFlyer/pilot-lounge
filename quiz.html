@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="styles.css">
 <style>
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
-.chip{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer}
+.chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
-.linkbtn{display:inline-block;font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
 .linkbtn:hover{background:var(--amber);color:#01172b}
 </style>
 </head>
@@ -130,8 +130,8 @@
     }
     var ep = window.PILOT_LOUNGE.episodeForSubject(subjectOf(item.acs));
     var lb = document.getElementById('listenBtn');
-    if(ep && ep.audio){ lb.style.display = 'inline-block'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Listen: Ep ' + ep.n; }
-    else if(ep){ lb.style.display = 'inline-block'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Episode: Ep ' + ep.n; }
+    if(ep && ep.audio){ lb.style.display = 'inline-flex'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Listen: Ep ' + ep.n; }
+    else if(ep){ lb.style.display = 'inline-flex'; lb.href = 'podcast.html#ep' + ep.n; lb.textContent = 'Episode: Ep ' + ep.n; }
     else { lb.style.display = 'none'; }
     buildSrc(item); applySrc();
     document.getElementById('prevBtn').disabled = (i === 0);

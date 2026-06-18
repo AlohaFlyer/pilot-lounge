@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 body{
   margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
-  display:flex; flex-direction:column; align-items:center; padding:24px 16px 64px; min-height:100vh;
+  display:flex; flex-direction:column; align-items:center; padding:24px 16px 64px; min-height:100vh; min-height:100dvh;
 }
 .wrap{width:100%; max-width:680px}
 a{color:var(--breeze)}
@@ -21,7 +21,7 @@ header.app h1 .sub{color:var(--breeze)}
 header.app .src{font-family:var(--mono); font-size:11px; color:var(--muted)}
 .back{position:fixed; top:10px; left:10px; z-index:9999; font-family:var(--mono);
   font-size:12px; text-decoration:none; color:var(--ink); background:var(--panel);
-  border:1px solid var(--line); border-radius:999px; padding:6px 12px}
+  border:1px solid var(--line); border-radius:999px; padding:8px 14px}
 .back:hover{border-color:var(--breeze)}
 .card{background:var(--panel); border:1px solid var(--line); border-radius:10px;
   padding:22px; margin-bottom:14px}
@@ -50,7 +50,7 @@ button:disabled{opacity:.5; cursor:default}
 .tfill{height:100%; width:100%; background:var(--green); transition:width .1s linear}
 .tfill.warn{background:var(--amber)} .tfill.crit{background:var(--red)}
 /* Source panel */
-.srcbtn{background:transparent; border:1px solid var(--atlas); color:var(--breeze); font-size:13px; padding:9px 14px}
+.srcbtn{background:transparent; border:1px solid var(--atlas); color:var(--breeze); font-size:13px; padding:11px 16px; min-height:44px}
 .srcpanel{max-height:0; overflow:hidden; opacity:0; background:#02101f; border-radius:8px;
   transition:max-height .2s, opacity .2s, padding .2s; padding:0 14px}
 .srcpanel.show{max-height:520px; opacity:1; padding:14px}
