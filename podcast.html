@@ -88,6 +88,11 @@
       + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
       + '<audio controls preload="none" style="width:100%"><source src="' + ep.audio + '" type="audio/mpeg"></audio>';
 
+    var qhref = (ep.subjects && ep.subjects.length) ? ('quiz.html?subjects=' + encodeURIComponent(ep.subjects.join(','))) : 'quiz.html';
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="linkbtn" href="' + qhref + '">Lock it in now with the Quiz &#9654;</a>';
+    div.appendChild(qrow);
+
     if(ep.refs && ep.refs.length){
       var rl = document.createElement('p'); rl.className = 'reflabel'; rl.textContent = 'Reference and verify'; div.appendChild(rl);
       var rrow = document.createElement('div'); rrow.className = 'refrow';
@@ -123,12 +128,6 @@
       });
       div.appendChild(ul);
     }
-
-    var qhref = (ep.subjects && ep.subjects.length) ? ('quiz.html?subjects=' + encodeURIComponent(ep.subjects.join(','))) : 'quiz.html';
-    var qlabel = (ep.n === 0) ? 'Open the Quiz' : 'Drill this subject in the Quiz';
-    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
-    qrow.innerHTML = '<a class="linkbtn" href="' + qhref + '">' + qlabel + ' &#9654;</a>';
-    div.appendChild(qrow);
 
     box.appendChild(div);
   });
