@@ -26,7 +26,7 @@ window.PILOT_LOUNGE.subjectOrder = ['Regs & Airworthiness','Weather','Airspace',
 window.PILOT_LOUNGE.episodes = [
   {n:0, subject:'Start Here', title:'Welcome to the Lounge',
    blurb:'Meet the six captains, then a 13 minute conversation on the most important things a private pilot must own.',
-   topics:'Two legal questions, personal minimums, understanding over memorizing, flows before checklists, angle of attack, fuel discipline, always have an out.', audio:null},
+   topics:'Two legal questions, personal minimums, understanding over memorizing, flows before checklists, angle of attack, fuel discipline, always have an out.', audio:'pl_ep00.mp3'},
   {n:1, subject:'Regs & Airworthiness', title:'Are You Legal, Is She Legal',
    blurb:'Pilot qualifications, airworthiness, and cross-country planning.',
    topics:'Certificate, medical, flight review, currency, AROW, AV1ATE, A TOMATO FLAMES, the inop-equipment flow, fuel reserves.', audio:null},
