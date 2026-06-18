@@ -132,6 +132,22 @@
       div.appendChild(ul);
     }
 
+    if(ep.videos && ep.videos.length){
+      var vl = document.createElement('p'); vl.className = 'reflabel'; vl.textContent = '\uD83C\uDFAC Watch'; div.appendChild(vl);
+      var vul = document.createElement('ul'); vul.className = 'newslist';
+      ep.videos.forEach(function(v){
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = v.t;
+        var sub = v.s + (v.views ? ' \u00b7 ' + v.views + ' views' : '');
+        btn.onclick = function(){ openModal(v.t, sub, v.b, v.u, 'Watch on YouTube \u2192'); };
+        li.appendChild(btn);
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = v.s + (v.views ? ' \u00b7 ' + v.views : ''); li.appendChild(src);
+        vul.appendChild(li);
+      });
+      div.appendChild(vul);
+    }
+
     box.appendChild(div);
   });
   if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }

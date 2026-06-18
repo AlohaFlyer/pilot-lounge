@@ -23,7 +23,10 @@
      AOPA and any copyrighted source must be paraphrased in our own words,
      never quoted verbatim.
    - news[].b = a short Further Reading summary written in OUR OWN WORDS.
-     Never paste the article's text or its hero image (copyright). */
+     Never paste the article's text or its hero image (copyright).
+   - videos[].b = our own short TLDR of a YouTube video. Never paste the
+     transcript or description text. Re-verify each link still plays on
+     update, and keep at least two per subject ranked by quality/views. */
 window.PILOT_LOUNGE = window.PILOT_LOUNGE || {};
 
 /* Per-certificate area-to-subject maps. Private (PA) splits Area I by task;
@@ -118,6 +121,11 @@ window.PILOT_LOUNGE.episodes = [
    news:[
      {t:'6 Maneuvers You Should Practice On Your Next Flight', s:'Boldmethod', u:'https://www.boldmethod.com/blog/lists/2026/04/six-maneuvers-to-practice-on-your-next-flight/', b:'A reminder that stick-and-rudder skills fade without practice, with a short list of maneuvers worth flying regularly to stay sharp: the go-around, steep turns, the power-off 180, and more.'},
      {t:'Private Pilot Checkride Maneuvers Checklist', s:'Pilot Institute', u:'https://pilotinstitute.com/private-pilot-checkride/', b:'A walk-through of what the private checkride actually covers and how the ACS ties the oral and flight portions together. Handy for picturing the whole flight before you fly it.'}
+   ],
+   videos:[
+     {t:'First Flight Lesson for Student Pilot', s:'Angle of Attack', u:'https://www.youtube.com/watch?v=eDZg7cyAaXI', views:'1.2M', b:'A real first flight lesson where a CFI walks a brand-new student through preflight, taxi, takeoff, and the basic control inputs that make an airplane climb, turn, and descend. A great primer on what flying actually feels like.'},
+     {t:'Three Basics to Instantly Impress Your Flight Instructor', s:'The Finer Points', u:'https://www.youtube.com/watch?v=W7DN_HkyOMk', views:'768K', b:'A respected CFI distills three core stick-and-rudder habits every new pilot should build: relax your grip, hold altitude after leveling off, and counter the left-turning tendencies on takeoff. Short and high value.'},
+     {t:'Private Pilot Checkride Mock Oral', s:'PilotEssentials', u:'https://www.youtube.com/watch?v=chkjX8_UhnQ', views:'321K', b:'A full mock oral exam covering the breadth of what a private pilot must know, from regulations to systems to weather. Hearing the questions and answers laid out is one of the best ways to gauge the knowledge scope before a checkride.'}
    ]},
   {n:1, subject:'Regs & Airworthiness', title:'Are You Legal, Is She Legal 🎙️', subjects:['Regs & Airworthiness'], len:'11:12',
    blurb:'Pilot qualifications, airworthiness, and cross-country planning.',
@@ -130,6 +138,11 @@ window.PILOT_LOUNGE.episodes = [
    news:[
      {t:'Leaving the Nest: airworthiness for new pilots', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2016/october/flight-training-magazine/leaving-the-nest', b:'Aimed at brand-new certificate holders, it breaks down reading maintenance logs and applying the inoperative-equipment flow so you can confidently answer, can we fly today.'},
      {t:'Checkride: Airworthiness and Systems Operations', s:'AOPA Flight Training', u:'https://www.aopa.org/news-and-media/all-news/2018/july/flight-training-magazine/checkride-airworthiness', b:'A designated examiner lays out the airworthiness and systems questions to expect on the oral, including required documents, expiration dates, and the minimum-equipment concept.'}
+   ],
+   videos:[
+     {t:'Aircraft ARROW Documents (Private Pilot Lesson 1i)', s:'Cyndy Hollman', u:'https://www.youtube.com/watch?v=OmPG_sl9t08', views:'31K', b:'A concise explainer of the ARROW documents an aircraft must carry to be legal to fly, with a note that registration rules changed in 2023. It locks in one of the most frequently tested airworthiness fundamentals quickly.'},
+     {t:'Is Your Plane Airworthy? Inoperative Equipment Explained', s:'FlightInsight', u:'https://www.youtube.com/watch?v=VS2Da_n58QI', views:'21K', b:'A clear decision-tree walkthrough of how to determine whether an aircraft is legal to fly with inoperative equipment, covering minimum equipment lists, type certificate data sheets, required-equipment lists, STCs, and airworthiness directives. It turns a confusing regulatory tangle into a usable preflight process.'},
+     {t:'Mock Checkride: Airworthiness Requirements', s:'Pilot Certified', u:'https://www.youtube.com/watch?v=lM975iZuk6A', views:'18K', b:'An examiner-style oral segment drilling the airworthiness portion of the private pilot ACS, including required inspections, documents, and airworthiness directives. Great for hearing exactly how legality questions get asked and answered on a checkride.'}
    ]},
   {n:2, subject:'Airspace, Performance, Systems', title:'Airspace, Performance, Systems, and You 🎙️', subjects:['Airspace','Performance & Limits','Systems','Human Factors'], len:'12:54',
    blurb:'The dense second half of preflight preparation.',
@@ -142,6 +155,11 @@ window.PILOT_LOUNGE.episodes = [
    news:[
      {t:'Airspace Classes Explained (A, B, C, D, E, G)', s:'Pilot Institute', u:'https://pilotinstitute.com/airspace-explained/', b:'A clear rundown of Class A through G, with the entry requirements, equipment, and the VFR visibility and cloud-clearance minimums for each.'},
      {t:'Why Mandatory Cloud Clearance Requirements Exist', s:'Boldmethod', u:'https://www.boldmethod.com/learn-to-fly/regulations/why-vfr-cloud-clearance-requirements-and-regulations-exist-for-flight/', b:'Explains the reasoning behind the different VFR weather minimums across airspace classes, not just the numbers to memorize but why they change.'}
+   ],
+   videos:[
+     {t:'FAA Airspace for VFR Flight', s:'Loves2Fly', u:'https://www.youtube.com/watch?v=wYKI-4XKp1c', views:'740K', b:'A CFI-taught rundown of the airspace system that covers both the classes and the VFR visibility and cloud-clearance requirements, with memory tricks to recall them. It hits both halves of the airspace topic in one place.'},
+     {t:'Airspace Classes Made Easy in 8 Minutes', s:'Pilot Institute Airplanes', u:'https://www.youtube.com/watch?v=K7Klkxny_FQ', views:'340K', b:'A fast, well-produced tour of US airspace classes A through G, explaining what each one is, where it sits, and its basic entry rules. A clean overview, ideal as the first airspace video a student watches.'},
+     {t:'How to Remember Airspace VFR Weather Minimums', s:'Part Time Pilot', u:'https://www.youtube.com/watch?v=uwyh2F81-GM', views:'73K', b:'A whiteboard lesson that builds a simple triangle memory aid for recalling VFR visibility and cloud-clearance minimums by airspace class, day and night. The best dedicated deep-dive on the minimums specifically, complementing the broader overviews.'}
    ]},
   {n:3, subject:'Weather', title:'Reading the Sky 🎙️', subjects:['Weather'], len:null,
    blurb:'Chester leads the weather you must own before a VFR cross country.',
