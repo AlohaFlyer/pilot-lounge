@@ -11,6 +11,11 @@
 <link rel="apple-touch-icon" href="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
+<style>
+.subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
+.chip{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+</style>
 </head>
 <body>
 <a class="back" href="index.html">&#9664; Lounge</a>
@@ -21,34 +26,57 @@
   </header>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
-  <footer>Answer before the bar runs out. Wrong or out of time costs a life. Three lives, chase the high score.</footer>
+  <footer>Pick subjects, then answer before the bar runs out. Wrong or out of time costs a life. Tap Source to learn why.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/subjects.js"></script>
 <script>
-  var Q = window.PILOT_LOUNGE.private.questions.slice();
-  var TMAX = 9000, idx, order, score, streak, lives, timer, locked;
+  var ALL = window.PILOT_LOUNGE.private.questions.slice();
+  var subjectOf = window.PILOT_LOUNGE.subjectOf;
+  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
+  var selected = {}; present.forEach(function(s){ selected[s] = true; });
+  var TMAX = 9000, idx, order, score, streak, lives, timer, locked, spOpen = false;
   var best = +(localStorage.getItem('pl_lob_best') || 0);
   document.getElementById('best').textContent = 'best ' + best;
   var app = document.getElementById('app'), tf = document.getElementById('tf');
 
   function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
 
+  function chips(host){
+    host.innerHTML = '';
+    var allOn = present.every(function(s){ return selected[s]; });
+    var a = document.createElement('button'); a.className = 'chip' + (allOn ? ' on' : ''); a.textContent = 'All';
+    a.onclick = function(){ var v = !allOn; present.forEach(function(s){ selected[s] = v; }); chips(host); };
+    host.appendChild(a);
+    present.forEach(function(s){
+      var b = document.createElement('button'); b.className = 'chip' + (selected[s] ? ' on' : ''); b.textContent = s;
+      b.onclick = function(){ selected[s] = !selected[s]; if(present.every(function(x){ return !selected[x]; })){ selected[s] = true; } chips(host); };
+      host.appendChild(b);
+    });
+  }
+
   function intro(){
     clearInterval(timer); tf.style.width='100%'; tf.className='tfill';
     app.innerHTML = '<div class="card center"><p class="q">Ready?</p>'
-      + '<p style="color:var(--muted)">Tap the correct answer before the timer empties.</p>'
+      + '<p style="color:var(--muted)">Pick your subjects, then tap the correct answer before the timer empties.</p>'
+      + '<div class="subjbar" id="pick"></div>'
       + '<button class="primary" onclick="startGame()">Start</button></div>';
+    chips(document.getElementById('pick'));
   }
-  function startGame(){ order = shuffle(Q.slice()); idx=0; score=0; streak=0; lives=3; round(); }
+  function startGame(){
+    var pool = ALL.filter(function(q){ return selected[subjectOf(q.acs)]; });
+    if(pool.length === 0) pool = ALL.slice();
+    order = shuffle(pool.slice()); idx=0; score=0; streak=0; lives=3; round();
+  }
 
   function round(){
-    locked=false;
+    locked=false; spOpen=false;
     var item = order[idx % order.length];
     var html = '<div class="meta"><span>score '+score+'</span><span>streak '+streak+'</span>'
       + '<span>&#9829; '+lives+'</span><span class="acs">'+item.acs+'</span></div>'
       + '<div class="card"><div class="q">'+item.q+'</div><div class="row choices" id="ch"></div>'
-      + '<div class="feed" id="feed"></div></div>';
+      + '<div class="feed" id="feed"></div><div id="hold"></div></div>';
     app.innerHTML = html;
     var box = document.getElementById('ch');
     item.choices.forEach(function(c, ci){
@@ -78,21 +106,27 @@
       score++; streak++;
       if(score>best){ best=score; localStorage.setItem('pl_lob_best',best); document.getElementById('best').textContent='best '+best; }
       feed.className='feed ok'; feed.textContent='Correct.';
-      idx++; setTimeout(round, 650);
     } else {
       lives--; streak=0;
-      feed.className='feed no';
-      feed.innerHTML = (choice===null?'Out of time. ':'Not quite. ') + 'Source: ' + item.src.doc + ' (' + item.src.ref + ').';
-      idx++;
-      setTimeout(function(){ lives<=0 ? over() : round(); }, 2200);
+      feed.className='feed no'; feed.textContent=(choice===null?'Out of time. ':'Not quite. ')+'Correct answer highlighted.';
     }
+    var hold=document.getElementById('hold');
+    hold.innerHTML = '<div class="row" style="margin-top:14px"><button class="srcbtn" onclick="toggleSrc()">Source</button>'
+      + '<div class="srcpanel" id="sp"></div></div>'
+      + '<button class="primary" style="margin-top:12px" onclick="cont()">'+(lives<=0?'See score':'Continue')+' &#9654;</button>';
+    document.getElementById('sp').innerHTML = '<div class="lbl">Source: '+item.src.doc+'</div>'
+      + '<div class="ref">'+item.src.ref+'</div>'
+      + '<div class="quote">&ldquo;'+item.src.quote+'&rdquo;</div>'
+      + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a>';
   }
+  function toggleSrc(){ spOpen=!spOpen; var sp=document.getElementById('sp'); if(sp) sp.className='srcpanel'+(spOpen?' show':''); }
+  function cont(){ spOpen=false; idx++; if(lives<=0) over(); else round(); }
 
   function over(){
     clearInterval(timer); tf.style.width='0%';
     app.innerHTML = '<div class="card center"><p class="q">Out of lives</p>'
       + '<div class="big">'+score+'</div><p style="color:var(--muted)">best '+best+'</p>'
-      + '<button class="primary" onclick="startGame()">Play again</button></div>';
+      + '<button class="primary" onclick="intro()">Play again</button></div>';
   }
 
   document.addEventListener('keydown', function(e){

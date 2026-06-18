@@ -11,6 +11,11 @@
 <link rel="apple-touch-icon" href="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
+<style>
+.subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
+.chip{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+</style>
 </head>
 <body>
 <a class="back" href="index.html">&#9664; Lounge</a>
@@ -21,12 +26,16 @@
   </header>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
-  <footer>The examiner asks. Recall the answer out loud before the timer, then reveal and grade yourself. Honor system.</footer>
+  <footer>Pick subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/subjects.js"></script>
 <script>
-  var Q = window.PILOT_LOUNGE.private.questions.slice();
+  var ALL = window.PILOT_LOUNGE.private.questions.slice();
+  var subjectOf = window.PILOT_LOUNGE.subjectOf;
+  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
+  var selected = {}; present.forEach(function(s){ selected[s] = true; });
   var TMAX = 20000, queue, idx, passes, timeBonus, timer, revealed, leftAtReveal;
   var best = +(localStorage.getItem('pl_hs_best') || 0);
   document.getElementById('best').textContent = 'best ' + best;
@@ -34,13 +43,32 @@
 
   function shuffle(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
 
+  function chips(host){
+    host.innerHTML = '';
+    var allOn = present.every(function(s){ return selected[s]; });
+    var a = document.createElement('button'); a.className = 'chip' + (allOn ? ' on' : ''); a.textContent = 'All';
+    a.onclick = function(){ var v = !allOn; present.forEach(function(s){ selected[s] = v; }); chips(host); };
+    host.appendChild(a);
+    present.forEach(function(s){
+      var b = document.createElement('button'); b.className = 'chip' + (selected[s] ? ' on' : ''); b.textContent = s;
+      b.onclick = function(){ selected[s] = !selected[s]; if(present.every(function(x){ return !selected[x]; })){ selected[s] = true; } chips(host); };
+      host.appendChild(b);
+    });
+  }
+
   function intro(){
     clearInterval(timer); tf.style.width='100%'; tf.className='tfill';
     app.innerHTML = '<div class="card center"><p class="q">Take the hot seat</p>'
-      + '<p style="color:var(--muted)">'+Q.length+' questions. Answer in your head, then reveal and grade honestly.</p>'
+      + '<p style="color:var(--muted)">Pick your subjects, answer in your head, then reveal and grade honestly.</p>'
+      + '<div class="subjbar" id="pick"></div>'
       + '<button class="primary" onclick="startGame()">Start</button></div>';
+    chips(document.getElementById('pick'));
   }
-  function startGame(){ queue = shuffle(Q.slice()); idx=0; passes=0; timeBonus=0; round(); }
+  function startGame(){
+    var pool = ALL.filter(function(q){ return selected[subjectOf(q.acs)]; });
+    if(pool.length === 0) pool = ALL.slice();
+    queue = shuffle(pool.slice()); idx=0; passes=0; timeBonus=0; round();
+  }
 
   function round(){
     revealed=false;
@@ -73,7 +101,7 @@
       + '<div class="card"><div class="q">'+item.q+'</div>'
       + '<div class="srcpanel show" style="border-left:3px solid var(--green)">'
       + '<div class="lbl">Answer</div><div class="ref">'+item.choices[item.a]+'</div>'
-      + '<div style="margin-top:8px; color:var(--muted)">'+item.src.doc+' ('+item.src.ref+')</div>'
+      + '<div style="margin-top:8px; color:var(--muted)">Source: '+item.src.doc+' ('+item.src.ref+')</div>'
       + '<div class="quote" style="font-style:italic; margin:6px 0 8px">&ldquo;'+item.src.quote+'&rdquo;</div>'
       + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a></div>'
       + '<div class="row" style="grid-template-columns:1fr 1fr; gap:10px; margin-top:14px">'
@@ -95,7 +123,7 @@
     app.innerHTML = '<div class="card center"><p class="q">Checkride complete</p>'
       + '<div class="big">'+sc+'</div>'
       + '<p style="color:var(--muted)">passed '+passes+' of '+queue.length+' ('+pct+'%) &middot; best '+best+'</p>'
-      + '<button class="primary" onclick="startGame()">Run it again</button></div>';
+      + '<button class="primary" onclick="intro()">Run it again</button></div>';
   }
   intro();
 </script>
