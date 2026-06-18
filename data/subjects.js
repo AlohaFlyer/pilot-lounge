@@ -32,6 +32,7 @@ window.PILOT_LOUNGE = window.PILOT_LOUNGE || {};
 /* Per-certificate area-to-subject maps. Private (PA) splits Area I by task;
    the other certificates map one subject per Area of Operation. */
 window.PILOT_LOUNGE.subjectMaps = {
+  SP: { 'I':'Getting Started', 'II':'Regs & Endorsements', 'III':'Airport & Radio', 'IV':'Aerodynamics', 'V':'Weather Basics', 'VI':'Maneuvers to Solo', 'VII':'Safety & ADM', 'VIII':'History & Tradition', 'IX':'Careers & Pathways', 'X':'Study & Mindset' },
   IR: { 'I':'Preflight Preparation', 'II':'Systems & Instruments', 'III':'ATC Clearances',
     'IV':'Instrument Flying', 'V':'Navigation', 'VI':'Approaches', 'VII':'Emergencies', 'VIII':'Postflight' },
   CA: { 'I':'Preflight Preparation', 'II':'Preflight Procedures', 'III':'Airport Operations',
@@ -43,7 +44,7 @@ window.PILOT_LOUNGE.subjectMaps = {
 
 window.PILOT_LOUNGE.subjectOf = function(acs){
   var p = String(acs || '').split('.'); var cert = p[0] || ''; var area = p[1] || ''; var task = p[2] || '';
-  if (cert === 'IR' || cert === 'CA' || cert === 'ATP'){
+  if (cert === 'SP' || cert === 'IR' || cert === 'CA' || cert === 'ATP'){
     var m = window.PILOT_LOUNGE.subjectMaps[cert] || {};
     return m[area] || 'Other';
   }
@@ -63,6 +64,7 @@ window.PILOT_LOUNGE.subjectOf = function(acs){
 };
 
 window.PILOT_LOUNGE.subjectOrders = {
+  SP: ['Getting Started','Regs & Endorsements','Airport & Radio','Aerodynamics','Weather Basics','Maneuvers to Solo','Safety & ADM','History & Tradition','Careers & Pathways','Study & Mindset'],
   PA: ['Regs & Airworthiness','Weather','Airspace','Performance & Limits',
     'Systems','Human Factors','Preflight Procedures','Airport Operations','Takeoffs & Landings',
     'Ground Reference','Navigation','Stalls & Spins','Basic Instrument','Emergencies','Night','Postflight'],
@@ -78,6 +80,7 @@ window.PILOT_LOUNGE.subjectOrder = window.PILOT_LOUNGE.subjectOrders.PA;
 
 /* Certificate bank registry. key matches window.PILOT_LOUNGE[key] and data/<key>.js. */
 window.PILOT_LOUNGE.certs = [
+  {key:'student', label:'Student', prefix:'SP'},
   {key:'private', label:'Private', prefix:'PA'},
   {key:'instrument', label:'Instrument', prefix:'IR'},
   {key:'commercial', label:'Commercial', prefix:'CA'},
