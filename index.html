@@ -11,6 +11,11 @@
 <link rel="apple-touch-icon" href="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
+<style>
+.tracks{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.track{flex:0 0 auto;font-family:var(--mono),monospace;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--amber);background:transparent;color:var(--amber);cursor:pointer;white-space:nowrap}
+.track.on{background:var(--amber);color:#01172b}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -29,15 +34,18 @@
     </div>
   </div>
 
-  <div class="menu" id="menu" style="display:none">
-    <a href="podcast.html"><span><span class="t">The Pilot Lounge - Podcast 🎙️</span>
-      <small>Episodes that teach the test, with the whole crew</small></span><span class="arrow">&#9654;</span></a>
-    <a href="quiz.html?rating=private"><span><span class="t">Private Pilot Quiz</span>
-      <small>Question, answer, and a Source button for every item</small></span><span class="arrow">&#9654;</span></a>
-    <a href="limit-or-bust.html?rating=private"><span><span class="t">Limit or Bust</span>
-      <small>Beat the clock. Answer fast, keep your streak, chase a high score</small></span><span class="arrow">&#9654;</span></a>
-    <a href="hot-seat.html?rating=private"><span><span class="t">Hot Seat</span>
-      <small>Recall it before the timer, then grade yourself. Honor system</small></span><span class="arrow">&#9654;</span></a>
+  <div id="menu" style="display:none">
+    <div class="tracks" id="tracks"></div>
+    <div class="menu">
+      <a href="podcast.html"><span><span class="t">The Pilot Lounge - Podcast 🎙️</span>
+        <small>Episodes that teach the test, with the whole crew</small></span><span class="arrow">&#9654;</span></a>
+      <a href="quiz.html?rating=private" data-rated data-base="quiz.html"><span><span class="t">Private Pilot Quiz</span>
+        <small>Question, answer, and a Source button for every item</small></span><span class="arrow">&#9654;</span></a>
+      <a href="limit-or-bust.html?rating=private" data-rated data-base="limit-or-bust.html"><span><span class="t">Limit or Bust</span>
+        <small>Beat the clock. Answer fast, keep your streak, chase a high score</small></span><span class="arrow">&#9654;</span></a>
+      <a href="hot-seat.html?rating=private" data-rated data-base="hot-seat.html"><span><span class="t">Hot Seat</span>
+        <small>Recall it before the timer, then grade yourself. Honor system</small></span><span class="arrow">&#9654;</span></a>
+    </div>
   </div>
 
   <footer>
@@ -48,8 +56,45 @@
 
 <script>
   var PASSWORD = "pilotlounge";
+
+  /* Rating tracks. Flip available:true to surface a track once its content exists.
+     'careers' is a non-rating track that links to its own page rather than the quiz. */
+  var TRACKS = [
+    {key:'private',    label:'Private',            available:true},
+    {key:'instrument', label:'Instrument',         available:false},
+    {key:'commercial', label:'Commercial',         available:false},
+    {key:'multi',      label:'Multi-Engine',       available:false},
+    {key:'cfi',        label:'CFI',                available:false},
+    {key:'cfii',       label:'CFII',               available:false},
+    {key:'mei',        label:'MEI',                available:false},
+    {key:'atp',        label:'ATP',                available:false},
+    {key:'careers',    label:'Job Seeking & Careers', available:false, href:'careers.html'}
+  ];
+  var activeTrack = 'private';
+
+  function renderTracks(){
+    var box = document.getElementById('tracks');
+    box.innerHTML = '';
+    TRACKS.filter(function(t){ return t.available; }).forEach(function(t){
+      var b = document.createElement('button');
+      b.className = 'track' + (t.key === activeTrack ? ' on' : '');
+      b.textContent = t.label;
+      b.onclick = function(){ setTrack(t); };
+      box.appendChild(b);
+    });
+  }
+  function setTrack(t){
+    if(t.href){ window.location.href = t.href; return; }
+    activeTrack = t.key;
+    var links = document.querySelectorAll('.menu a[data-rated]');
+    for(var i=0;i<links.length;i++){
+      links[i].setAttribute('href', links[i].getAttribute('data-base') + '?rating=' + activeTrack);
+    }
+    renderTracks();
+  }
+
   function reveal(){ document.getElementById('gate').style.display='none';
-    document.getElementById('menu').style.display='block'; }
+    document.getElementById('menu').style.display='block'; renderTracks(); }
   function tryUnlock(){
     var v = document.getElementById('pw').value.trim().toLowerCase();
     if(v === PASSWORD){ try{ localStorage.setItem('pl_unlocked','1'); }catch(e){} reveal(); }
