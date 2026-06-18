@@ -17,6 +17,8 @@
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
 .linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
 .linkbtn:hover{background:var(--amber);color:#01172b}
+.revhead{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:20px 0 10px}
+.revbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 </style>
 </head>
 <body>
@@ -27,31 +29,36 @@
     <span class="src" id="acsdoc">FAA-S-ACS-6C</span>
   </header>
 
-  <div class="subjbar" id="subjbar"></div>
+  <div id="quizView">
+    <div class="subjbar" id="subjbar"></div>
 
-  <div class="meta">
-    <span id="progress">Q 1</span>
-    <span id="score">Correct 0</span>
-    <span class="acs" id="acs"></span>
-  </div>
-
-  <div class="card">
-    <div class="q" id="q">Loading...</div>
-    <div class="row choices" id="choices"></div>
-    <div class="feed" id="feed"></div>
-    <div class="row" style="margin-top:14px; gap:10px; align-items:center">
-      <button class="srcbtn" id="srcBtn" onclick="toggleSrc()" style="display:none">Source</button>
-      <a class="linkbtn" id="listenBtn" href="#" style="display:none">Listen to the episode</a>
-      <div class="srcpanel" id="srcPanel"></div>
+    <div class="meta">
+      <span id="progress">Q 1</span>
+      <span id="score">Correct 0</span>
+      <span class="acs" id="acs"></span>
     </div>
+
+    <div class="card">
+      <div class="q" id="q">Loading...</div>
+      <div class="row choices" id="choices"></div>
+      <div class="feed" id="feed"></div>
+      <div class="row" style="margin-top:14px; gap:10px; align-items:center">
+        <button class="srcbtn" id="srcBtn" onclick="toggleSrc()" style="display:none">Source</button>
+        <a class="linkbtn" id="listenBtn" href="#" style="display:none">Listen to the episode</a>
+        <div class="srcpanel" id="srcPanel"></div>
+      </div>
+    </div>
+
+    <div class="row" style="grid-template-columns:1fr 1fr; gap:10px">
+      <button id="prevBtn" onclick="go(-1)">&#9664; Previous</button>
+      <button class="primary" id="nextBtn" onclick="go(1)">Next &#9654;</button>
+    </div>
+    <button id="resultsBtn" onclick="showResults()" style="width:100%; margin-top:10px">See results &#9654;</button>
   </div>
 
-  <div class="row" style="grid-template-columns:1fr 1fr; gap:10px">
-    <button id="prevBtn" onclick="go(-1)">&#9664; Previous</button>
-    <button class="primary" id="nextBtn" onclick="go(1)">Next &#9654;</button>
-  </div>
+  <div id="resultsView" style="display:none"></div>
 
-  <footer>Pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode.</footer>
+  <footer>Pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. See results to review what you missed.</footer>
 </div>
 
 <script src="data/private.js"></script>
@@ -72,8 +79,13 @@
     if(present.every(function(s){ return !selected[s]; })){ present.forEach(function(s){ selected[s] = true; }); }
   }
   var Q = ALL.slice();
-  var i = 0, correct = 0, answered = {}, srcOpen = false;
+  var i = 0, correct = 0, answered = {}, srcOpen = false, lastMissed = [];
   document.getElementById('acsdoc').textContent = DATA.acsDoc;
+
+  function showView(name){
+    document.getElementById('quizView').style.display = (name === 'quiz') ? 'block' : 'none';
+    document.getElementById('resultsView').style.display = (name === 'results') ? 'block' : 'none';
+  }
 
   function chips(){
     var bar = document.getElementById('subjbar'); bar.innerHTML = '';
@@ -95,7 +107,7 @@
   function applyFilter(){
     Q = ALL.filter(function(q){ return selected[subjectOf(q.acs)]; });
     if(Q.length === 0){ Q = ALL.slice(); }
-    i = 0; correct = 0; answered = {}; render();
+    i = 0; correct = 0; answered = {}; showView('quiz'); render();
   }
 
   function render(){
@@ -158,9 +170,56 @@
   function go(d){
     var n = i + d;
     if(n < 0) return;
-    if(n >= Q.length){ alert('That is the last question in this set. Correct ' + correct + ' of ' + Q.length + '.'); return; }
+    if(n >= Q.length){ showResults(); return; }
     i = n; render();
   }
+
+  function makeReview(host, items){
+    host.innerHTML = '';
+    if(!items.length){ host.innerHTML = '<p style="color:var(--muted)">Nothing missed. Clean sweep.</p>'; return; }
+    items.forEach(function(item){
+      var ep = window.PILOT_LOUNGE.episodeForSubject(subjectOf(item.acs));
+      var card = document.createElement('div'); card.className = 'card';
+      card.innerHTML = '<div class="meta"><span class="acs">'+item.acs+'</span></div>'
+        + '<div class="q" style="font-size:16px; margin:0 0 10px">'+item.q+'</div>'
+        + '<div style="color:var(--green); font-weight:700; margin-bottom:4px">Correct: '+item.choices[item.a]+'</div>'
+        + '<div class="revbtns"></div>'
+        + '<div class="srcpanel"></div>';
+      var btns = card.querySelector('.revbtns');
+      var panel = card.querySelector('.srcpanel');
+      var sb = document.createElement('button'); sb.className = 'srcbtn'; sb.textContent = 'Source'; btns.appendChild(sb);
+      if(ep){ var la = document.createElement('a'); la.className = 'linkbtn'; la.href = 'podcast.html#ep' + ep.n; la.textContent = ep.audio ? ('Listen: Ep ' + ep.n) : ('Episode ' + ep.n); btns.appendChild(la); }
+      panel.innerHTML = '<div class="lbl">Source: '+item.src.doc+'</div><div class="ref">'+item.src.ref+'</div>'
+        + '<div class="quote">&ldquo;'+item.src.quote+'&rdquo;</div>'
+        + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a>';
+      var open = false; sb.onclick = function(){ open = !open; panel.className = 'srcpanel' + (open ? ' show' : ''); };
+      host.appendChild(card);
+    });
+  }
+
+  function showResults(){
+    var ans = Q.filter(function(q){ return answered.hasOwnProperty(q.id); });
+    lastMissed = Q.filter(function(q){ return answered.hasOwnProperty(q.id) && answered[q.id] !== q.a; });
+    var rv = document.getElementById('resultsView');
+    rv.innerHTML = '<div class="card center"><p class="q" style="margin-top:0">Quiz results</p>'
+      + '<div class="big">' + correct + ' / ' + ans.length + '</div>'
+      + '<p style="color:var(--muted)">answered ' + ans.length + ' of ' + Q.length + ' &middot; missed ' + lastMissed.length + '</p>'
+      + '<div class="row" style="grid-template-columns:1fr 1fr; gap:10px; margin-top:6px">'
+      + '<button id="retryBtn" onclick="retryMissed()">Retry missed (' + lastMissed.length + ')</button>'
+      + '<button class="primary" onclick="startOver()">Start over</button></div></div>'
+      + '<div class="revhead">Review missed</div><div id="review"></div>';
+    showView('results');
+    if(!lastMissed.length){ document.getElementById('retryBtn').disabled = true; }
+    makeReview(document.getElementById('review'), lastMissed);
+    window.scrollTo(0, 0);
+  }
+
+  function retryMissed(){
+    if(!lastMissed.length) return;
+    Q = lastMissed.slice(); i = 0; correct = 0; answered = {}; showView('quiz'); render(); window.scrollTo(0, 0);
+  }
+  function startOver(){ applyFilter(); window.scrollTo(0, 0); }
+
   chips(); render();
 </script>
 </body>

@@ -15,6 +15,10 @@
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none}
+.linkbtn:hover{background:var(--amber);color:#01172b}
+.revhead{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:20px 0 10px;text-align:left}
+.revbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 </style>
 </head>
 <body>
@@ -26,7 +30,7 @@
   </header>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
-  <footer>Pick subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself.</footer>
+  <footer>Pick subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself. Review what you missed at the end.</footer>
 </div>
 
 <script src="data/private.js"></script>
@@ -36,7 +40,7 @@
   var subjectOf = window.PILOT_LOUNGE.subjectOf;
   var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){ return ALL.some(function(q){ return subjectOf(q.acs) === s; }); });
   var selected = {}; present.forEach(function(s){ selected[s] = true; });
-  var TMAX = 20000, queue, idx, passes, timeBonus, timer, revealed, leftAtReveal;
+  var TMAX = 20000, queue, idx, passes, timeBonus, timer, revealed, leftAtReveal, missed = [];
   var best = +(localStorage.getItem('pl_hs_best') || 0);
   document.getElementById('best').textContent = 'best ' + best;
   var app = document.getElementById('app'), tf = document.getElementById('tf');
@@ -56,6 +60,27 @@
     });
   }
 
+  function makeReview(host, items){
+    host.innerHTML = '';
+    if(!items.length){ host.innerHTML = '<p style="color:var(--muted)">Nothing missed. Clean sweep.</p>'; return; }
+    items.forEach(function(item){
+      var ep = window.PILOT_LOUNGE.episodeForSubject(subjectOf(item.acs));
+      var card = document.createElement('div'); card.className = 'card'; card.style.textAlign = 'left';
+      card.innerHTML = '<div class="meta"><span class="acs">'+item.acs+'</span></div>'
+        + '<div class="q" style="font-size:16px; margin:0 0 10px">'+item.q+'</div>'
+        + '<div style="color:var(--green); font-weight:700; margin-bottom:4px">Answer: '+item.choices[item.a]+'</div>'
+        + '<div class="revbtns"></div><div class="srcpanel"></div>';
+      var btns = card.querySelector('.revbtns'); var panel = card.querySelector('.srcpanel');
+      var sb = document.createElement('button'); sb.className = 'srcbtn'; sb.textContent = 'Source'; btns.appendChild(sb);
+      if(ep){ var la = document.createElement('a'); la.className = 'linkbtn'; la.href = 'podcast.html#ep' + ep.n; la.textContent = ep.audio ? ('Listen: Ep ' + ep.n) : ('Episode ' + ep.n); btns.appendChild(la); }
+      panel.innerHTML = '<div class="lbl">Source: '+item.src.doc+'</div><div class="ref">'+item.src.ref+'</div>'
+        + '<div class="quote">&ldquo;'+item.src.quote+'&rdquo;</div>'
+        + '<a href="'+item.src.url+'" target="_blank" rel="noopener">'+item.src.url+'</a>';
+      var open = false; sb.onclick = function(){ open = !open; panel.className = 'srcpanel' + (open ? ' show' : ''); };
+      host.appendChild(card);
+    });
+  }
+
   function intro(){
     clearInterval(timer); tf.style.width='100%'; tf.className='tfill';
     app.innerHTML = '<div class="card center"><p class="q">Take the hot seat</p>'
@@ -67,7 +92,7 @@
   function startGame(){
     var pool = ALL.filter(function(q){ return selected[subjectOf(q.acs)]; });
     if(pool.length === 0) pool = ALL.slice();
-    queue = shuffle(pool.slice()); idx=0; passes=0; timeBonus=0; round();
+    queue = shuffle(pool.slice()); idx=0; passes=0; timeBonus=0; missed=[]; round();
   }
 
   function round(){
@@ -111,8 +136,14 @@
 
   function grade(ok){
     if(ok){ passes++; timeBonus += Math.round(leftAtReveal/1000); }
+    else { var item = queue[idx]; if(!missed.some(function(m){ return m.id===item.id; })) missed.push(item); }
     idx++;
     if(idx >= queue.length) over(); else round();
+  }
+
+  function retryMissed(){
+    if(!missed.length) return;
+    queue = shuffle(missed.slice()); missed=[]; idx=0; passes=0; timeBonus=0; round();
   }
 
   function over(){
@@ -123,7 +154,13 @@
     app.innerHTML = '<div class="card center"><p class="q">Checkride complete</p>'
       + '<div class="big">'+sc+'</div>'
       + '<p style="color:var(--muted)">passed '+passes+' of '+queue.length+' ('+pct+'%) &middot; best '+best+'</p>'
-      + '<button class="primary" onclick="intro()">Run it again</button></div>';
+      + '<div class="row" style="grid-template-columns:1fr 1fr; gap:10px; margin-top:6px">'
+      + '<button id="retryBtn" onclick="retryMissed()">Retry missed ('+missed.length+')</button>'
+      + '<button class="primary" onclick="intro()">Run it again</button></div></div>'
+      + '<div class="revhead">Review missed</div><div id="review"></div>';
+    if(!missed.length){ document.getElementById('retryBtn').disabled = true; }
+    makeReview(document.getElementById('review'), missed);
+    window.scrollTo(0, 0);
   }
   intro();
 </script>
