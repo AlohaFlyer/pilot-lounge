@@ -11,6 +11,11 @@
 <link rel="apple-touch-icon" href="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="stylesheet" href="styles.css">
+<style>
+.subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.chip{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
+</style>
 </head>
 <body>
 <a class="back" href="index.html">&#9664; Lounge</a>
@@ -19,6 +24,8 @@
     <h1>Private Pilot <span class="sub">Quiz</span></h1>
     <span class="src" id="acsdoc">FAA-S-ACS-6C</span>
   </header>
+
+  <div class="subjbar" id="subjbar"></div>
 
   <div class="meta">
     <span id="progress">Q 1</span>
@@ -41,15 +48,45 @@
     <button class="primary" id="nextBtn" onclick="go(1)">Next &#9654;</button>
   </div>
 
-  <footer>Pick an answer to reveal the result, then tap Source for the reference. Verify against current FAA publications.</footer>
+  <footer>Pick subjects to drill, answer to reveal the result, then tap Source for the reference. Verify against current FAA publications.</footer>
 </div>
 
 <script src="data/private.js"></script>
+<script src="data/subjects.js"></script>
 <script>
   var DATA = window.PILOT_LOUNGE.private;
-  var Q = DATA.questions;
+  var ALL = DATA.questions;
+  var subjectOf = window.PILOT_LOUNGE.subjectOf;
+  var present = window.PILOT_LOUNGE.subjectOrder.filter(function(s){
+    return ALL.some(function(q){ return subjectOf(q.acs) === s; });
+  });
+  var selected = {}; present.forEach(function(s){ selected[s] = true; });
+  var Q = ALL.slice();
   var i = 0, correct = 0, answered = {}, srcOpen = false;
   document.getElementById('acsdoc').textContent = DATA.acsDoc;
+
+  function chips(){
+    var bar = document.getElementById('subjbar'); bar.innerHTML = '';
+    var allOn = present.every(function(s){ return selected[s]; });
+    var a = document.createElement('button'); a.className = 'chip' + (allOn ? ' on' : ''); a.textContent = 'All';
+    a.onclick = function(){ var v = !allOn; present.forEach(function(s){ selected[s] = v; }); chips(); applyFilter(); };
+    bar.appendChild(a);
+    present.forEach(function(s){
+      var b = document.createElement('button'); b.className = 'chip' + (selected[s] ? ' on' : ''); b.textContent = s;
+      b.onclick = function(){
+        selected[s] = !selected[s];
+        if(present.every(function(x){ return !selected[x]; })){ selected[s] = true; }
+        chips(); applyFilter();
+      };
+      bar.appendChild(b);
+    });
+  }
+
+  function applyFilter(){
+    Q = ALL.filter(function(q){ return selected[subjectOf(q.acs)]; });
+    if(Q.length === 0){ Q = ALL.slice(); }
+    i = 0; correct = 0; answered = {}; render();
+  }
 
   function render(){
     var item = Q[i]; srcOpen = false;
@@ -105,13 +142,11 @@
 
   function go(d){
     var n = i + d;
-    if(n < 0 || n >= Q.length){
-      if(n >= Q.length){ alert('That is the last question. Correct ' + correct + ' of ' + Q.length + '.'); return; }
-      return;
-    }
+    if(n < 0) return;
+    if(n >= Q.length){ alert('That is the last question in this set. Correct ' + correct + ' of ' + Q.length + '.'); return; }
     i = n; render();
   }
-  render();
+  chips(); render();
 </script>
 </body>
 </html>
