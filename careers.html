@@ -32,7 +32,18 @@
   .roaddesc{background:#02101f; border:1px solid var(--line); border-left:3px solid var(--amber);
     border-radius:8px; padding:14px 16px; font-size:14px; line-height:1.55}
   .roaddesc h4{margin:0 0 6px; font-size:15px; color:var(--ink)}
-  .roaddesc p{margin:0; color:#c9d6e2}
+  .roaddesc p{margin:0 0 10px; color:#c9d6e2}
+  .cadet{margin:0; padding:0; list-style:none}
+  .cadet li{padding:10px 0; border-bottom:1px solid var(--line)}
+  .cadet li:last-child{border-bottom:0}
+  .cadet .nm{font-weight:700; color:var(--ink)}
+  .cadet a.apply{font-family:var(--mono); font-size:12px; color:var(--breeze); text-decoration:none; white-space:nowrap}
+  .cadet a.apply:hover{text-decoration:underline}
+  .cadet .det{display:block; color:#c9d6e2; margin-top:3px; font-size:13.5px}
+  .money{font-family:var(--mono); color:var(--green); font-size:12px}
+  .bp{margin:10px 0 0; padding:12px 14px; background:rgba(192,229,133,.06); border:1px solid rgba(192,229,133,.3); border-radius:8px}
+  .bp h5{margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--green)}
+  .bp ul{margin:0; padding-left:18px} .bp li{margin:5px 0; font-size:13.5px; line-height:1.45}
   .tips{margin:6px 0 0; padding-left:18px}
   .tips li{margin:7px 0; line-height:1.5; font-size:14px}
 </style>
@@ -86,7 +97,7 @@
   <h2 class="sec">How pilots build the time</h2>
   <div class="card">
     <h3>From 250 to 1,500</h3>
-    <p>The gap between your commercial certificate and the airlines is the time-building years. The trick is to get paid, or at least not go broke, while the hours add up. Tap a road to see what that flying is really like:</p>
+    <p>The gap between your commercial certificate and the airlines is the time-building years. The trick is to get paid, or at least not go broke, while the hours add up. Tap a road to see what that path is really like:</p>
     <div class="roads" id="roads"></div>
     <div class="roaddesc" id="roaddesc"></div>
   </div>
@@ -119,6 +130,30 @@
 <script>
   var ROADS = [
     {k:'Flight instructing', t:'Flight instructing (CFI)', d:'The classic path, for a reason. You earn while you learn, you log pilot-in-command time, and teaching the material is the fastest way to truly master it, because you have to explain it out loud. Most of the crew in this lounge built their first thousand hours in the right seat as a CFI.'},
+    {k:'Cadet programs', t:'Airline cadet and pathway programs', html:
+      '<p>Airline-sponsored pipelines that take you from little or no experience toward a regional or mainline first officer seat, with a defined path, mentorship, and often some financial support. They are competitive (top programs accept roughly 1 to 5 percent), so preparation is not optional. The major US programs:</p>'
+      + '<ul class="cadet">'
+      + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/career-opportunities/pilots/pilot-training/" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">Ab-initio to a Horizon Air first officer seat, trained at Hillsboro Aero Academy. <span class="money">Money:</span> you self-fund the PPL; Horizon Air contributes about $27,000 toward the commercial single-engine and Hillsboro funds the CFII, with secured loan options for the rest. First Class Medical required to apply; about a three-year commitment to Horizon.</span></li>'
+      + '<li><span class="nm">United Aviate Academy</span> &nbsp;<a class="apply" href="https://www.aviateacademy.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">United’s own ab-initio academy (Goodyear, AZ) feeding the United pilot pipeline. <span class="money">Money:</span> about $71,250 all-in with financing available; United covers the PPL portion (around $17,750). Must be 18+, a US citizen or legal resident, pass the PPL written at 80%+, and hold a first-class medical. United has signaled a very large hiring wave for 2026.</span></li>'
+      + '<li><span class="nm">American Airlines Cadet Academy</span> &nbsp;<a class="apply" href="https://academy.aa.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">Integrated training (about 9 to 12 months to Commercial + CFI) through partner schools, then a guaranteed-interview flow through Envoy and PSA to American mainline. <span class="money">Money:</span> training is self-funded or financed; the payoff is the structured, guaranteed-interview flow. Needs HS/GED, US work eligibility, first-class medical, passport, and an admissions flight.</span></li>'
+      + '<li><span class="nm">Delta Propel</span> &nbsp;<a class="apply" href="https://www.delta.com/us/en/careers/pilots/propel" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">Delta’s career-path program with a defined route to a Delta interview and a conditional job offer. <span class="money">Money:</span> up to $20,000 in support from Delta, and Delta covers the interest on training loans from select lenders. Delta has also stood up its own Propel Flight Academy.</span></li>'
+      + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/skywest-airline-jobs/career-guides/pilot-pathway-program" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">For students at SkyWest partner schools: enhanced seniority, a guaranteed SkyWest interview, and assigned pilot mentors while you train. <span class="money">Money:</span> no big tuition subsidy, but it secures your place in line at a major regional, which is the scarce thing.</span></li>'
+      + '<li><span class="nm">JetBlue Gateway (Gateway Select)</span> &nbsp;<a class="apply" href="https://www.jetbluegateways.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">A CAE-run ab-initio program to a JetBlue seat. <span class="money">Money:</span> about $122,000 with lender options, roughly 3.5 years. Start at age 20 so you reach the ATP age of 23 right on schedule.</span></li>'
+      + '</ul>'
+      + '<div class="bp"><h5>Best practices to get accepted</h5><ul>'
+      + '<li>Get your FAA First Class Medical first. Several programs will not even accept the application without it, and it confirms you are medically clear before you spend a dollar.</li>'
+      + '<li>Pass the PPL knowledge test early and well (80%+ where required). It proves you can study to a standard.</li>'
+      + '<li>Drill the assessments: aptitude and reaction tests, plus the technical (METARs and TAFs, charts, regs, required equipment, fuel and alternates) and CRM scenarios.</li>'
+      + '<li>Have your motivation and behavioral answers ready: why this airline, decision-making, leadership, teamwork. With 1 to 5 percent acceptance, rehearse them out loud.</li>'
+      + '<li>Show demonstrated commitment: a discovery flight or a few lessons, a clean background and driving record, and real knowledge of the specific program. Network with current pilots.</li>'
+      + '</ul></div>'
+      + '<p style="font-size:12px; color:var(--muted); margin-top:10px; margin-bottom:0">Costs, sizes, and terms change often. Confirm the current details on each program’s official page before applying.</p>'},
     {k:'Banner towing', t:'Banner towing', d:'Low and slow over beaches, stadiums, and events, towing advertising banners. Demanding stick-and-rudder flying with a hook-and-release pickup, usually seasonal and weather-dependent, and a genuinely fun way to log tailwheel and low-level hours.'},
     {k:'Traffic watch', t:'Traffic watch', d:'Flying orbits over a city during rush hour while a reporter calls in the traffic and weather. Steady, repetitive hours, almost always early mornings and late afternoons, with a lot of time maneuvering over congested terrain.'},
     {k:'Aerial survey / pipeline', t:'Aerial survey and pipeline patrol', d:'Long, methodical lines flown for mapping, photography, or pipeline and powerline inspection. Big cross-country and often instrument-building potential, frequently in higher-performance singles, and a lot of solo time to sharpen your airmanship.'},
@@ -137,7 +172,7 @@
       bar.appendChild(b);
     });
     var d = ROADS[active];
-    document.getElementById('roaddesc').innerHTML = '<h4>' + d.t + '</h4><p>' + d.d + '</p>';
+    document.getElementById('roaddesc').innerHTML = '<h4>' + d.t + '</h4>' + (d.html ? d.html : '<p>' + d.d + '</p>');
   }
   renderRoads();
 </script>
