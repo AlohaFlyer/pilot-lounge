@@ -16,9 +16,10 @@
 .brand img{height:84px}
 .brand .bt{font-size:30px; line-height:1.04; font-weight:800}
 .brand .bt small{font-size:12.5px; letter-spacing:.34em; margin-top:6px}
-.tracks{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.tracks{display:flex;gap:8px;overflow-x:auto;margin:0 0 18px;padding-bottom:6px;-webkit-overflow-scrolling:touch}
 .track{flex:0 0 auto;font-family:var(--mono),monospace;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--amber);background:transparent;color:var(--amber);cursor:pointer;white-space:nowrap}
 .track.on{background:var(--amber);color:#01172b}
+.trackhint{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin:0 0 12px;letter-spacing:.04em}
 .byline{display:block;margin-top:10px;color:var(--muted);font-size:10px;letter-spacing:.04em;text-decoration:none;opacity:.75}
 .byline:hover{opacity:1}
 </style>
@@ -42,18 +43,8 @@
 
   <div id="menu" style="display:none">
     <div class="tracks" id="tracks"></div>
-    <div class="menu">
-      <a href="podcast.html"><span><span class="t">The Pilot Lounge - Podcast 🎙️</span>
-        <small>Episodes that teach the test, with the whole crew</small></span><span class="arrow">&#9654;</span></a>
-      <a href="student.html"><span><span class="t">Student Pilot Guide &#9992;</span>
-        <small>Day one to first solo: traditions, study habits, careers, and the road to solo</small></span><span class="arrow">&#9654;</span></a>
-      <a href="quiz.html?rating=private" data-rated data-base="quiz.html"><span><span class="t">Quiz</span>
-        <small>Question, answer, and a Source button for every item</small></span><span class="arrow">&#9654;</span></a>
-      <a href="limit-or-bust.html?rating=private" data-rated data-base="limit-or-bust.html"><span><span class="t">Limit or Bust</span>
-        <small>Beat the clock. Answer fast, keep your streak, chase a high score</small></span><span class="arrow">&#9654;</span></a>
-      <a href="hot-seat.html?rating=private" data-rated data-base="hot-seat.html"><span><span class="t">Hot Seat</span>
-        <small>Recall it before the timer, then grade yourself. Honor system</small></span><span class="arrow">&#9654;</span></a>
-    </div>
+    <p class="trackhint" id="trackhint"></p>
+    <div class="menu" id="menuList"></div>
   </div>
 
   <footer>
@@ -66,22 +57,25 @@
 <script>
   var PASSWORD = "pilotlounge";
 
-  /* Rating tracks. Flip available:true to surface a track once its content exists.
-     'careers' is a non-rating track that links to its own page rather than the quiz.
-     'student' sits ahead of 'private'; hidden until the Student Pilot content is ready. */
+  /* Rating tracks. available:true surfaces a toggle. A toggle filters the menu below to
+     that certificate's content. 'careers' is a non-rating track that navigates to its own
+     page. hasPodcast marks tracks whose podcast episodes are hosted; hasGuide marks tracks
+     with an on-site study guide page. Flip these as content ships. */
   var TRACKS = [
-    {key:'student',    label:'Student',            available:true},
-    {key:'private',    label:'Private',            available:true},
-    {key:'instrument', label:'Instrument',         available:false},
-    {key:'commercial', label:'Commercial',         available:false},
-    {key:'multi',      label:'Multi-Engine',       available:true},
-    {key:'cfi',        label:'CFI',                available:false},
-    {key:'cfii',       label:'CFII',               available:false},
-    {key:'mei',        label:'MEI',                available:false},
-    {key:'atp',        label:'ATP',                available:false},
-    {key:'careers',    label:'Job Seeking & Careers', available:true, href:'careers.html'}
+    {key:'student',    label:'Student',              available:true,  hasGuide:true},
+    {key:'private',    label:'Private',              available:true,  hasPodcast:true},
+    {key:'instrument', label:'Instrument',           available:true},
+    {key:'commercial', label:'Commercial',           available:true},
+    {key:'multi',      label:'Multi-Engine',         available:true},
+    {key:'atp',        label:'ATP',                  available:true},
+    {key:'cfi',        label:'CFI',                  available:false},
+    {key:'cfii',       label:'CFII',                 available:false},
+    {key:'mei',        label:'MEI',                  available:false},
+    {key:'careers',    label:'Job Seeking & Careers',available:true,  href:'careers.html'}
   ];
   var activeTrack = 'private';
+
+  function trackByKey(k){ return TRACKS.filter(function(t){ return t.key === k; })[0]; }
 
   function renderTracks(){
     var box = document.getElementById('tracks');
@@ -94,18 +88,46 @@
       box.appendChild(b);
     });
   }
+
+  function card(href, title, sub){
+    return '<a href="' + href + '"><span><span class="t">' + title + '</span>'
+      + '<small>' + sub + '</small></span><span class="arrow">&#9654;</span></a>';
+  }
+
+  function renderMenu(){
+    var t = trackByKey(activeTrack) || trackByKey('private');
+    var hint = document.getElementById('trackhint');
+    hint.textContent = 'Showing ' + t.label + ' content. Tap another tag above to switch.';
+    var html = '';
+    if(t.hasPodcast){
+      html += card('podcast.html', 'The Pilot Lounge - Podcast 🎙️',
+        'A full ' + t.label + ' season by subject, with the whole crew');
+    }
+    if(t.hasGuide){
+      html += card('student.html', 'Student Pilot Guide ✈',
+        'Day one to first solo: traditions, study habits, careers, and the road to solo');
+    }
+    html += card('quiz.html?cert=' + t.key, 'Quiz',
+      'Question, answer, and a Source button for every item');
+    html += card('limit-or-bust.html?cert=' + t.key, 'Limit or Bust',
+      'Beat the clock. Answer fast, keep your streak, chase a high score');
+    html += card('hot-seat.html?cert=' + t.key, 'Hot Seat',
+      'Recall it before the timer, then grade yourself. Honor system');
+    document.getElementById('menuList').innerHTML = html;
+  }
+
   function setTrack(t){
     if(t.href){ window.location.href = t.href; return; }
     activeTrack = t.key;
-    var links = document.querySelectorAll('.menu a[data-rated]');
-    for(var i=0;i<links.length;i++){
-      links[i].setAttribute('href', links[i].getAttribute('data-base') + '?rating=' + activeTrack);
-    }
     renderTracks();
+    renderMenu();
   }
 
-  function reveal(){ document.getElementById('gate').style.display='none';
-    document.getElementById('menu').style.display='block'; renderTracks(); }
+  function reveal(){
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('menu').style.display = 'block';
+    renderTracks(); renderMenu();
+  }
   function tryUnlock(){
     var v = document.getElementById('pw').value.trim().toLowerCase();
     if(v === PASSWORD){ try{ localStorage.setItem('pl_unlocked','1'); }catch(e){} reveal(); }
