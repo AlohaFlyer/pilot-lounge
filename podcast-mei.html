@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Multi-Engine Instructor Podcast</title>
+<meta name="theme-color" content="#01172b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pilot Lounge">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
+.linkbtn:hover{background:var(--amber);color:#01172b}
+.quizcta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 16px;border-radius:10px;border:1px solid var(--amber);background:var(--amber);color:#01172b;text-decoration:none;cursor:pointer}
+.quizcta:hover{background:#f4b573;border-color:#f4b573}
+.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:16px 0 6px}
+.newslist{list-style:none;padding:0;margin:4px 0 0}
+.newslist li{margin:0 0 2px;line-height:1.3}
+.newslink{display:inline-block;color:var(--amber);text-decoration:none;background:none;border:none;padding:10px 0;font:inherit;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
+.newslink:hover{text-decoration:underline}
+.newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
+.soon{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:9px 12px;margin:12px 0 0;display:inline-block}
+.modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;max-height:82dvh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:4px;right:6px;width:44px;height:44px;background:none;border:none;color:var(--muted);font-size:30px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 40px 2px 0}
+.modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Multi-Engine Instructor Podcast</span></h1>
+    <span class="src">Crew of six</span>
+  </header>
+
+  <div class="card">
+    <p class="q" style="margin-top:0">A full Multi-Engine Instructor season, by subject</p>
+    <p style="color:var(--muted)">The crew teaches the twin for the MEI, the Vmc demo that bites, the critical engine, dead foot dead engine, and the rules that govern the rating. Every fact traces to FAA public-domain sources.</p>
+  </div>
+
+  <div id="episodes"></div>
+
+  <footer>Audio for this season is in production with the locked six-host cast. Every fact traces to FAA public-domain sources.</footer>
+</div>
+
+<div class="modal" id="modal" style="display:none">
+  <div class="modalbox">
+    <button class="modalx" id="modalx" aria-label="Close">&times;</button>
+    <div class="modalhead" id="modalTitle"></div>
+    <div class="modalsrc" id="modalSrc"></div>
+    <div class="modalbody" id="modalBody"></div>
+    <a class="linkbtn" id="modalLink" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
+<script>
+var EPISODES = [{"n": 1, "title": "The Demo That Bites", "subject": "Vmc demo safety", "topics": "The Vmc demonstration and right-seat safety", "news": [{"t": "Technique: Directional Control and the Vmc Demo", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2018/december/flight-training-magazine/technique-directional-control", "b": "Explains the directional-control logic of the Vmc demo and why a slow recovery risks an uncommanded roll toward the dead engine."}, {"t": "Vmc Demonstration Lesson Plan", "s": "myCFIbook", "u": "https://mycfibook.com/lesson-plan/vmc-demonstration/", "b": "A ready-made teaching plan covering setup, the recovery trigger points, and the safety margins an MEI must enforce."}, {"t": "Airplane Flying Handbook: Multiengine Operations", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/14_afh_ch13.pdf", "b": "The FAA reference defining the Vmc demo procedure, certification conditions, and the recover-at-first-indication standard."}], "videos": [{"t": "VMC and Critical Engine Made EASY: Multi-Engine Ground School", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=XFDNE0BsGjo", "views": "150K approx", "b": "Ground-school explanation of what Vmc is and how the demo is flown safely at altitude."}, {"t": "VMC Demo and Nailing the Drill: Multi-Engine Rating Day 2", "s": "Aviation101", "u": "https://www.youtube.com/watch?v=dGwxBU2SxlY", "views": "80K approx", "b": "A real training flight showing the Vmc demo and recovery from the student seat."}]}, {"n": 2, "title": "The Critical Engine and the Lean", "subject": "Multiengine aerodynamics", "topics": "Multiengine aerodynamics", "news": [{"t": "4 Factors That Make the Left Engine Critical", "s": "GlobalAir", "u": "https://www.globalair.com/articles/4-factors-that-make-the-left-engine-critical?id=6230", "b": "Breaks down the PAST factors of P-factor, accelerated slipstream, spiraling slipstream, and torque that define the critical engine."}, {"t": "Defining the Critical Engine", "s": "CTS", "u": "https://www.ctsys.com/defining-the-critical-engine/", "b": "A clear teaching explanation of why the left engine is critical on conventional twins and how counter-rotating props eliminate it."}, {"t": "Airplane Flying Handbook: Multiengine Operations", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/14_afh_ch13.pdf", "b": "The authoritative source on multiengine aerodynamics including critical engine, Vmc, and the stall-yaw hazard."}], "videos": [{"t": "Multi-Engine Ground School: Aerodynamics and the Critical Engine", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=nbLKS5W17FI", "views": "120K approx", "b": "A whiteboard-style breakdown of P-factor and the other factors that make one engine critical."}, {"t": "VMC and Critical Engine Made EASY: Multi-Engine Ground School", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=XFDNE0BsGjo", "views": "150K approx", "b": "Ties critical-engine aerodynamics directly to why Vmc behaves the way it does."}]}, {"n": 3, "title": "Dead Foot, Dead Engine", "subject": "Engine-out procedures", "topics": "Engine-out procedures", "news": [{"t": "Remaking Multiengine Training: Identify, Verify, Feather", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2020/may/flight-training-magazine/remaking-multiengine-training", "b": "Re-examines the classic identify-verify-feather-secure flow and how modern instructors teach the drill more safely."}, {"t": "Plane Engine Failure: Why It Happens and What to Do", "s": "Pilot Institute", "u": "https://pilotinstitute.com/plane-engine-failure/", "b": "Covers engine failure causes and the immediate response priorities students must internalize."}, {"t": "Engine Inoperative Principles in a Twin Airplane", "s": "PilotsCafe", "u": "https://www.pilotscafe.com/engine-inoperative-principles-in-a-twin-airplane/", "b": "Explains the aerodynamics behind feathering, drift-down, and single-engine controllability."}], "videos": [{"t": "Taming the Twin: Engine Failure During Takeoff", "s": "AOPA Air Safety Institute", "u": "https://www.youtube.com/watch?v=r2X1gF1HxGQ", "views": "150K approx", "b": "Demonstrates the takeoff briefing and the identify-verify-feather response when an engine quits on climbout."}, {"t": "Taming the Twin: Engine Failure During Cruise", "s": "AOPA Air Safety Institute", "u": "https://www.youtube.com/watch?v=gEPpiBJ6R5M", "views": "90K approx", "b": "Walks through securing a failed engine and managing single-engine drift-down in cruise."}]}, {"n": 4, "title": "My Airplane, Your Airplane", "subject": "MEI regulations & instruction", "topics": "Regulations and instruction", "news": [{"t": "Multi-Engine Rating Explained: Cost, Requirements, Privileges", "s": "Pilot Institute", "u": "https://pilotinstitute.com/multi-engine-rating-explained/", "b": "Lays out the privileges and prerequisites that frame what an MEI is authorized to teach."}, {"t": "Heads Up, Instructors: CFI Changes", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2025/january/flight-training/cfi-changes-heads-up-instructors", "b": "Covers recent flight-instructor certificate changes that affect MEIs and how they renew and exercise privileges."}, {"t": "How to Become a Multi Engine Instructor (MEI)", "s": "CFI Academy", "u": "https://www.cfiacademy.com/become-a-multi-engine-instructor-mei/", "b": "Details the commercial prerequisite, PIC time, and make-and-model rules that govern MEI instruction."}], "videos": [{"t": "Taming the Twin: Introduction to Multiengine Airplanes", "s": "AOPA Air Safety Institute", "u": "https://www.youtube.com/watch?v=yxX-S3NXytI", "views": "200K approx", "b": "A foundational overview an MEI can use to introduce twin systems and concepts to new multiengine students."}, {"t": "Multi-Engine Ground School: Aerodynamics and the Critical Engine", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=nbLKS5W17FI", "views": "120K approx", "b": "Models the ground-instruction approach an MEI should use to teach core multiengine theory."}]}];
+var QUIZKEY = "mei";
+</script>
+<script>
+  var modal = document.getElementById('modal');
+  function openModal(title, src, body, url, linkLabel){
+    document.getElementById('modalTitle').textContent = title;
+    var s = document.getElementById('modalSrc'); s.textContent = src || ''; s.style.display = src ? 'block' : 'none';
+    document.getElementById('modalBody').textContent = body;
+    var link = document.getElementById('modalLink');
+    link.setAttribute('href', url); link.textContent = linkLabel;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
+  document.getElementById('modalx').onclick = closeModal;
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  var box = document.getElementById('episodes');
+  EPISODES.forEach(function(ep){
+    var div = document.createElement('div'); div.className = 'card'; div.id = 'ep' + ep.n;
+    div.innerHTML = '<div class="meta"><span>Episode ' + ep.n + '</span><span class="acs">' + ep.subject + '</span></div>'
+      + '<div class="q" style="font-size:17px">' + ep.title + '</div>'
+      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
+      + '<div class="soon">&#127911; Audio coming soon</div>';
+
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="quizcta" href="quiz.html?cert=' + QUIZKEY + '">Lock it in now with the Quiz &#9654;</a>';
+    div.appendChild(qrow);
+
+    if(ep.news && ep.news.length){
+      var nl = document.createElement('p'); nl.className = 'reflabel'; nl.textContent = '📰 Further Reading'; div.appendChild(nl);
+      var ul = document.createElement('ul'); ul.className = 'newslist';
+      ep.news.forEach(function(a){
+        var li = document.createElement('li');
+        if(a.b){
+          var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = a.t;
+          btn.onclick = function(){ openModal(a.t, a.s, a.b, a.u, 'Read the full article at ' + a.s + ' →'); };
+          li.appendChild(btn);
+        } else {
+          var link = document.createElement('a'); link.className = 'newslink'; link.textContent = a.t;
+          link.href = a.u; link.target = '_blank'; link.rel = 'noopener'; li.appendChild(link);
+        }
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = a.s; li.appendChild(src);
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
+
+    if(ep.videos && ep.videos.length){
+      var vl = document.createElement('p'); vl.className = 'reflabel'; vl.textContent = '🎬 Watch'; div.appendChild(vl);
+      var vul = document.createElement('ul'); vul.className = 'newslist';
+      ep.videos.forEach(function(v){
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = v.t;
+        var sub = v.s + (v.views ? ' · ' + v.views + ' views' : '');
+        btn.onclick = function(){ openModal(v.t, sub, v.b, v.u, 'Watch on YouTube →'); };
+        li.appendChild(btn);
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = v.s + (v.views ? ' · ' + v.views : ''); li.appendChild(src);
+        vul.appendChild(li);
+      });
+      div.appendChild(vul);
+    }
+
+    box.appendChild(div);
+  });
+  if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }
+</script>
+</body>
+</html>
