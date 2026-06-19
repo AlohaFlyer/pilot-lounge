@@ -52,6 +52,12 @@
   .payrow:last-child{border-bottom:0}
   .payrow .lvl{color:var(--ink)} .payrow .amt{font-family:var(--mono); color:var(--green); white-space:nowrap}
   .note{font-size:12px; color:var(--muted); line-height:1.5}
+  .fairs{margin:6px 0 0; padding:0; list-style:none}
+  .fairs li{display:flex; gap:12px; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px; line-height:1.45}
+  .fairs li:last-child{border-bottom:0}
+  .fairs .mo{font-family:var(--mono); font-size:11px; color:var(--amber); min-width:42px}
+  .fairs a{color:var(--breeze); text-decoration:none; font-weight:700} .fairs a:hover{text-decoration:underline}
+  .fairs .d{color:#c9d6e2}
   .tips{margin:6px 0 0; padding-left:18px}
   .tips li{margin:7px 0; line-height:1.5; font-size:14px}
 </style>
@@ -91,7 +97,7 @@
       <tr><th>Step</th><th>Minimum</th><th>Notes</th></tr>
       <tr><td>Private (PPL)</td><td class="n">40 hr</td><td>Part 61 minimum total time. National average is higher; 60 to 70 is common.</td></tr>
       <tr><td>Instrument</td><td class="n">50 hr XC PIC</td><td>Plus 40 hours of actual or simulated instrument time.</td></tr>
-      <tr><td>Commercial</td><td class="n">250 hr</td><td>Total time under Part 61, with specific PIC, cross-country, and night requirements.</td></tr>
+      <tr><td>Commercial</td><td class="n">250 hr</td><td>Total time under Part 61 (190 under an approved Part 141 course), with specific requirements.</td></tr>
       <tr><td>ATP (standard)</td><td class="n">1,500 hr</td><td>Total time, plus the 61.159 experience requirements.</td></tr>
       <tr><td>R-ATP, bachelor's aviation</td><td class="n">1,000 hr</td><td>Qualifying bachelor's degree with 60+ aviation credit hours from an authorized institution.</td></tr>
       <tr><td>R-ATP, associate's aviation</td><td class="n">1,250 hr</td><td>Qualifying associate's degree with 30+ aviation credit hours (also the 30 to 59 credit bachelor's path).</td></tr>
@@ -169,6 +175,42 @@
 
   <h2 class="sec">Getting hired</h2>
   <div class="card">
+    <h3>Paths to your certificates</h3>
+    <p>Three common ways to get the ratings. None is "best" for everyone; it comes down to budget, timeline, and how you learn. Costs and timelines vary widely by region and how often you fly, so treat these as ballparks.</p>
+
+    <h4>Part 61 &mdash; local flight school</h4>
+    <p>Train at your own pace with an independent school or freelance CFI. The most flexible route and often the lowest out-of-pocket, but the pace and discipline are on you. <span class="money">Roughly $15k for the PPL, ~$60k to $90k from zero to commercial multi plus instructor ratings. About 1.5 to 3 years, part time.</span></p>
+
+    <h4>Part 141 &mdash; approved academy</h4>
+    <p>An FAA-approved, structured syllabus at an academy or college. More regimented, eligible for some reduced minimums (for example a 190-hour commercial), and usually faster if you attend full time. <span class="money">Roughly $80k to $110k accelerated. About 12 to 20 months full time.</span></p>
+
+    <h4>College degree program</h4>
+    <p>A four-year aviation university (Embry-Riddle, UND, Purdue and others) bundles the ratings into a bachelor's degree and can grant the R-ATP reduction (1,000 or 1,250 hours). <span class="money">Roughly $150k to $300k+ all in. Four years.</span></p>
+
+    <div class="bp"><h5>Pro tip on the degree</h5><ul>
+      <li>A bachelor's degree is effectively required to be competitive at the majors, the legacy carriers, and the cargo majors (FedEx and UPS). The field of study does not matter.</li>
+      <li>For most people it is smartest <b>not</b> to major in aviation. If you lose your medical early in your career, a non-aviation degree is your fallback. The airlines do not care whether your degree is in aviation or anything else.</li>
+      <li>A second, marketable skill also lets you earn a side income while you build hours and ride out the lean early years.</li>
+    </ul></div>
+
+    <h3 style="margin-top:20px">Interview prep</h3>
+    <p>Airline interviews test technical knowledge (a technical evaluation), situational and behavioral judgment (the SBI), line-oriented scenarios (the LOI), and CRM. Dedicated prep services run mock interviews and coach all of it.
+    <a href="https://www.cageconsulting.com/" target="_blank" rel="noopener">Cage Marshall Consulting</a> is the long-standing name, founded in 1988 by Cheryl Cage (author of "Checklist for Success"); their consultants are former airline interviewers who prep both the technical and situational rounds. Pair any service with this portal's Hot Seat and Quiz to keep your fundamentals sharp.</p>
+
+    <h3 style="margin-top:20px">Job fairs and industry expos</h3>
+    <p>Where recruiters and pilots meet face to face. Going early, even before you are hireable, builds the network that gets you hired later. The recurring US events (always confirm the exact dates each year):</p>
+    <ul class="fairs">
+      <li><span class="mo">FEB</span><span class="d"><a href="https://www.ngpa.org/ngpa_industry_expo" target="_blank" rel="noopener">NGPA Industry Expo</a> &mdash; National Gay Pilots Association (Palm Springs).</span></li>
+      <li><span class="mo">MAR</span><span class="d"><a href="https://www.wai.org/" target="_blank" rel="noopener">Women in Aviation International (WAI)</a> &mdash; the big annual WAI conference.</span></li>
+      <li><span class="mo">MAY</span><span class="d"><a href="https://thepilotnetwork.com/pages/tpnx" target="_blank" rel="noopener">TPNx</a> &mdash; The Pilot Network, part job fair and part networking.</span></li>
+      <li><span class="mo">JUN</span><span class="d"><a href="https://www.fapa.aero/events" target="_blank" rel="noopener">FAPA Pilot Job Fair, Las Vegas</a> &mdash; the one that just wrapped (June 1&ndash;3); FAPA runs these monthly in rotating cities.</span></li>
+      <li><span class="mo">AUG</span><span class="d"><a href="https://obap.org/obap-events/" target="_blank" rel="noopener">OBAP Annual Conference</a> &mdash; Organization of Black Aerospace Professionals.</span></li>
+      <li><span class="mo">OCT</span><span class="d"><a href="https://nbaa.org/events/" target="_blank" rel="noopener">NBAA-BACE</a> &mdash; the big business-aviation convention (Las Vegas).</span></li>
+      <li><span class="mo">NOV</span><span class="d"><a href="https://www.aopa.org/" target="_blank" rel="noopener">AOPA Aviation Career Expo</a>.</span></li>
+    </ul>
+    <p class="note"><a href="https://www.fapa.aero/events" target="_blank" rel="noopener">FAPA (fapa.aero)</a> hosts pilot job fairs across the country most months; check their events page for the next city and date.</p>
+
+    <h3 style="margin-top:20px">On the ramp</h3>
     <ul class="tips">
       <li><b>Keep your records clean and current.</b> A tidy, accurate logbook and a clean certificate file save you at every interview. John would have it laminated.</li>
       <li><b>Network early and pay it forward.</b> Most pilots get somewhere because someone took the time on them. Say yes to the hangar conversation. Find a mentor, then become one.</li>
@@ -180,7 +222,7 @@
   </div>
 
   <footer>
-    Free study tool for student and new pilots. Career figures trace to FAA public-domain sources and 14 CFR Part 61; pay ranges are illustrative, verify at AirlinePilotCentral.<br>
+    Free study tool for student and new pilots. Career figures trace to FAA public-domain sources and 14 CFR Part 61; pay ranges and program costs are illustrative, verify at the sources linked.<br>
     Requirements and pay change. Verify against current FAA publications, airline sources, and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
   </footer>
 </div>
