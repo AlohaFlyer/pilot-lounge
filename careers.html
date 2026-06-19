@@ -33,6 +33,7 @@
   .roaddesc{background:#02101f; border:1px solid var(--line); border-left:3px solid var(--amber);
     border-radius:8px; padding:14px 16px; font-size:14px; line-height:1.55}
   .roaddesc h4{margin:0 0 6px; font-size:15px; color:var(--ink)}
+  .roaddesc h5{margin:12px 0 4px; font-size:13px; color:var(--breeze)}
   .roaddesc p{margin:0 0 10px; color:#c9d6e2}
   .cadet{margin:0; padding:0; list-style:none}
   .cadet li{padding:10px 0; border-bottom:1px solid var(--line)}
@@ -48,6 +49,7 @@
   .oplist{margin:4px 0 0; padding-left:18px}
   .oplist li{margin:6px 0; font-size:13.5px; line-height:1.45}
   .oplist b{color:var(--ink)}
+  .oplist a{color:var(--breeze)}
   .payrow{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px}
   .payrow:last-child{border-bottom:0}
   .payrow .lvl{color:var(--ink)} .payrow .amt{font-family:var(--mono); color:var(--green); white-space:nowrap}
@@ -236,11 +238,11 @@
       + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/career-opportunities/pilots/pilot-training/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">Ab-initio to a Horizon Air first officer seat, trained at Hillsboro Aero Academy. <span class="money">Money:</span> you self-fund the PPL; Horizon Air contributes about $27,000 toward the commercial single-engine and Hillsboro funds the CFII, with secured loan options for the rest. First Class Medical required to apply; about a three-year commitment to Horizon.</span></li>'
       + '<li><span class="nm">United Aviate Academy</span> &nbsp;<a class="apply" href="https://www.aviateacademy.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">United’s own ab-initio academy (Goodyear, AZ) feeding the United pilot pipeline. <span class="money">Money:</span> about $71,250 all-in with financing available; United covers the PPL portion (around $17,750). Must be 18+, a US citizen or legal resident, pass the PPL written at 80%+, and hold a first-class medical. United has signaled a very large hiring wave for 2026.</span></li>'
+        + '<span class="det">United&rsquo;s own ab-initio academy (Goodyear, AZ) feeding the United pilot pipeline. <span class="money">Money:</span> about $71,250 all-in with financing available; United covers the PPL portion (around $17,750). Must be 18+, a US citizen or legal resident, pass the PPL written at 80%+, and hold a first-class medical. United has signaled a very large hiring wave for 2026.</span></li>'
       + '<li><span class="nm">American Airlines Cadet Academy</span> &nbsp;<a class="apply" href="https://academy.aa.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">Integrated training (about 9 to 12 months to Commercial + CFI) through partner schools, then a guaranteed-interview flow through Envoy and PSA to American mainline. <span class="money">Money:</span> training is self-funded or financed; the payoff is the structured, guaranteed-interview flow. Needs HS/GED, US work eligibility, first-class medical, passport, and an admissions flight.</span></li>'
       + '<li><span class="nm">Delta Propel</span> &nbsp;<a class="apply" href="https://www.delta.com/us/en/careers/pilots/propel" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">Delta’s career-path program with a defined route to a Delta interview and a conditional job offer. <span class="money">Money:</span> up to $20,000 in support from Delta, and Delta covers the interest on training loans from select lenders. Delta has also stood up its own Propel Flight Academy.</span></li>'
+        + '<span class="det">Delta&rsquo;s career-path program with a defined route to a Delta interview and a conditional job offer. <span class="money">Money:</span> up to $20,000 in support from Delta, and Delta covers the interest on training loans from select lenders. Delta has also stood up its own Propel Flight Academy.</span></li>'
       + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/skywest-airline-jobs/career-guides/pilot-pathway-program" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">For students at SkyWest partner schools: enhanced seniority, a guaranteed SkyWest interview, and assigned pilot mentors while you train. <span class="money">Money:</span> no big tuition subsidy, but it secures your place in line at a major regional, which is the scarce thing.</span></li>'
       + '<li><span class="nm">JetBlue Gateway (Gateway Select)</span> &nbsp;<a class="apply" href="https://www.jetbluegateways.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
@@ -253,7 +255,25 @@
       + '<li>Have your motivation and behavioral answers ready: why this airline, decision-making, leadership, teamwork. With 1 to 5 percent acceptance, rehearse them out loud.</li>'
       + '<li>Show demonstrated commitment: a discovery flight or a few lessons, a clean background and driving record, and real knowledge of the specific program. Network with current pilots.</li>'
       + '</ul></div>'
-      + '<p style="font-size:12px; color:var(--muted); margin-top:10px; margin-bottom:0">Costs, sizes, and terms change often. Confirm the current details on each program’s official page before applying.</p>'},
+      + '<p style="font-size:12px; color:var(--muted); margin-top:10px; margin-bottom:0">Costs, sizes, and terms change often. Confirm the current details on each program&rsquo;s official page before applying.</p>'},
+    {k:'Military', t:'The military path', html:
+      '<p>Military aviation is a separate, fully-funded route to wings, and a huge share of airline pilots came up this way. Someone else pays for world-class training and you build heavy, turbine, and command time fast. Two broad ways in:</p>'
+      + '<h5>Active duty (Air Force, Navy, Marines, Coast Guard, Army)</h5>'
+      + '<p>Commission through a service academy, ROTC, or Officer Training School, then go through fully-funded military flight training. <span class="money">Pros:</span> no training debt, advanced aircraft, leadership and PIC time the civilian world cannot match, and a resume airlines love. <span class="money">Cons:</span> a long service commitment (Air Force pilots owe roughly 10 years after training), you do not choose your aircraft or base, and deployments are part of the deal.</p>'
+      + '<h5>Air National Guard and Reserve</h5>'
+      + '<p>You apply directly to a specific squadron and aircraft, train, then serve part-time. As an example, the <b>Hawaii Air National Guard&rsquo;s 154th Wing</b> at Joint Base Pearl Harbor-Hickam, the largest wing in the Air National Guard, flies the <b>F-22 Raptor</b> (199th Fighter Squadron), the <b>KC-135 Stratotanker</b> (203rd Air Refueling Squadron), and the <b>C-17 Globemaster III</b> (204th Airlift Squadron). <span class="money">Pros:</span> you pick the unit, aircraft, and location, and Guard or Reserve service fits alongside an airline job. <span class="money">Cons:</span> you have to win a slot, training is still a big commitment, and deployments still happen.</p>'
+      + '<div class="bp"><h5>The job-insurance play</h5><ul>'
+      + '<li>A common, durable strategy: come up through the military (Air Force, Navy, Coast Guard, or a Guard/Reserve unit), get hired by an airline as early as you can, and then keep one foot in the military with the Guard or Reserve.</li>'
+      + '<li>When the airline industry takes a dip and furloughs hit, as it did after 9/11, in 2008, and during COVID, the Guard or Reserve job keeps you employed, current, and earning until the airline recalls you.</li>'
+      + '<li>It is one of the most reliable forms of career insurance in aviation, and it keeps you flying through the down cycles instead of starting over.</li>'
+      + '</ul></div>'},
+    {k:'Scenic & commuter', t:'Scenic tours and small commuter first jobs', html:
+      '<p>Small Part 135 commuter and air-tour operators are classic first jobs. You fly real revenue passengers in turbine singles, build pilot-in-command and turbine time, and often sleep in your own bed every night. The pay is modest early on, but the turbine PIC time and operational resume are exactly what regionals and beyond want to see.</p>'
+      + '<ul class="oplist">'
+      + '<li><b><a href="https://www.mokuleleairlines.com/" target="_blank" rel="noopener">Mokulele Airlines</a></b> (Hawaii) flies the Cessna 208 Caravan on more than 100 daily inter-island flights. First officers can start around 500 hours total time, building turbine time hopping between the islands.</li>'
+      + '<li><b><a href="https://www.grandcanyonairlines.com/about/employment" target="_blank" rel="noopener">Grand Canyon Scenic Airlines</a></b> (Las Vegas and Boulder City) flies Caravans and de Havilland Twin Otters on Grand Canyon sightseeing tours, hiring around the commercial certificate and roughly 500 hours, with full days of flying and home each night.</li>'
+      + '<li>Look also at <b>Cape Air</b>, regional seaplane and tour operators, and other island and canyon carriers. The pattern is the same: turbine time, real passengers, a foot in the door.</li>'
+      + '</ul>'},
     {k:'Banner towing', t:'Banner towing', d:'Low and slow over beaches, stadiums, and events, towing advertising banners. Demanding stick-and-rudder flying with a hook-and-release pickup, usually seasonal and weather-dependent, and a genuinely fun way to log tailwheel and low-level hours.'},
     {k:'Traffic watch', t:'Traffic watch', d:'Flying orbits over a city during rush hour while a reporter calls in the traffic and weather. Steady, repetitive hours, almost always early mornings and late afternoons, with a lot of time maneuvering over congested terrain.'},
     {k:'Aerial survey / pipeline', t:'Aerial survey and pipeline patrol', d:'Long, methodical lines flown for mapping, photography, or pipeline and powerline inspection. Big cross-country and often instrument-building potential, frequently in higher-performance singles, and a lot of solo time to sharpen your airmanship.'},
