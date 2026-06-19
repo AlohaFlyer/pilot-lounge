@@ -65,6 +65,17 @@
     padding:14px 16px; border-radius:10px; margin:8px 0 0}
   .cta:hover{background:#f4b573}
   .welcome{margin:8px 0 0; padding:12px 14px; background:rgba(0,199,230,.06); border:1px solid rgba(0,199,230,.3); border-radius:8px; font-size:13.5px; line-height:1.5; color:#c9d6e2}
+  .estrow{margin:14px 0 0}
+  .estrow label{display:block; font-size:13px; color:var(--ink); margin-bottom:6px}
+  .estrow label .val{font-family:var(--mono); color:var(--amber); float:right}
+  .estrow input[type=range]{width:100%; accent-color:var(--breeze); height:26px}
+  .estgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px 20px}
+  @media(max-width:520px){.estgrid{grid-template-columns:1fr}}
+  .calcout{margin:16px 0 0; padding:14px 16px; background:#02101f; border:1px solid var(--line); border-radius:10px; text-align:center}
+  .calcout .big{font-family:var(--mono); color:var(--green); font-size:30px; font-weight:800; line-height:1.1; display:block}
+  .calcout .lbl{font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); display:block; margin-top:4px}
+  .calcout .sub{font-size:13px; color:#c9d6e2; margin-top:10px}
+  .calcout .sub .n{font-family:var(--mono); color:var(--breeze); font-weight:700}
 </style>
 </head>
 <body>
@@ -135,7 +146,7 @@
     <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>. Island flying (inter-island hops, Part 135 commuter and cargo) is excellent early time. You can even fly <b>powered paragliding (PPG)</b> as a US citizen under FAR Part 103, which needs no certificate at all. Local carriers (all on the <a href="airlines.html">Airlines page</a> with links) include <b>Star Marianas Air</b>, <b>Vieques Air Link</b>, <b>Cape Air</b>, and <b>Seaborne</b>.</p>
   </div>
 
-  <h2 class="sec">Retirement: the part nobody tells you</h2>
+  <h2 class="sec">Career benefits</h2>
   <div class="card">
     <h3>The 401k that builds millions</h3>
     <p>Here is something genuinely different about this career. In most industries an employer <b>matches</b> part of what you put into your 401k, usually a few percent. The airlines instead make a large <b>direct (non-elective) contribution</b>: they put a percentage of your pay into your retirement account whether or not you contribute a dime of your own.</p>
@@ -152,7 +163,39 @@
     <p class="note" style="margin-bottom:0">Contribution percentages change with each contract; confirm the current numbers and the IRS annual limits with a financial advisor and your union contract.</p>
   </div>
 
-  <h2 class="sec">The travel benefits</h2>
+  <div class="card">
+    <h3>Retirement estimator</h3>
+    <p>Model a full career, regional to legacy, and watch the company 401k direct contribution compound. Slide the inputs and the numbers below update live.</p>
+    <div class="estgrid">
+      <div class="estrow">
+        <label for="estAge">Current age <span class="val" id="estAgeV">24</span></label>
+        <input type="range" id="estAge" min="18" max="65" step="1" value="24">
+      </div>
+      <div class="estrow">
+        <label for="estRet">Retirement age <span class="val" id="estRetV">65</span></label>
+        <input type="range" id="estRet" min="50" max="65" step="1" value="65">
+      </div>
+      <div class="estrow">
+        <label for="estUpg">Age you upgrade to a major/legacy <span class="val" id="estUpgV">30</span></label>
+        <input type="range" id="estUpg" min="18" max="65" step="1" value="30">
+      </div>
+      <div class="estrow">
+        <label for="estPct">Company 401k direct contribution <span class="val" id="estPctV">16%</span></label>
+        <input type="range" id="estPct" min="0" max="20" step="1" value="16">
+      </div>
+      <div class="estrow">
+        <label for="estGro">Assumed annual growth <span class="val" id="estGroV">7%</span></label>
+        <input type="range" id="estGro" min="0" max="12" step="1" value="7">
+      </div>
+    </div>
+    <div class="calcout">
+      <span class="big" id="estBal">$0</span>
+      <span class="lbl">Projected 401k balance at retirement</span>
+      <div class="sub">Total career W-2 earnings <span class="n" id="estW2">$0</span></div>
+    </div>
+    <p class="note" style="margin-bottom:0">A rough illustration only. It assumes you start at a regional, upgrade to a major/legacy at the age you set, and uses simplified longevity-weighted pay (regional roughly $90k rising to $160k; major/legacy first officer roughly $150k rising, narrowbody captain roughly $300k, senior widebody captain roughly $400k). The company contribution compounds yearly at the growth rate you choose. It ignores taxes, your own contributions, market swings, contract changes, and IRS limits. Not financial advice; talk to a financial advisor and read your union contract.</p>
+  </div>
+
   <div class="card">
     <h3>The whole world becomes your back yard</h3>
     <p>This is one of the most joyful parts of the job. As an airline employee you and your registered family fly on space-available <b>non-rev</b> passes, often for the cost of taxes or free. Whole airline families grow up criss-crossing the planet on their own airline, jumping to Tokyo for a weekend or Europe for spring break on a standby seat.</p>
@@ -317,6 +360,91 @@
     document.getElementById('roaddesc').innerHTML = '<h4>' + d.t + '</h4>' + (d.html ? d.html : '<p>' + d.d + '</p>');
   }
   renderRoads();
+
+  // Retirement estimator (illustrative only)
+  (function(){
+    var ids = ['estAge','estRet','estUpg','estPct','estGro'];
+    var el = {};
+    ids.forEach(function(id){ el[id] = document.getElementById(id); });
+    if(!el.estAge){ return; }
+
+    function money(n){
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    // Linear interpolation between two salary points across a stage.
+    function lerp(a, b, frac){ return a + (b - a) * frac; }
+
+    function compute(){
+      var curAge = +el.estAge.value;
+      var retAge = +el.estRet.value;
+      var upgAge = +el.estUpg.value;
+      var pct = +el.estPct.value / 100;
+      var growth = +el.estGro.value / 100;
+
+      // Guard rails: cannot retire before current age; upgrade within working life.
+      if(retAge <= curAge){
+        document.getElementById('estBal').textContent = money(0);
+        document.getElementById('estW2').textContent = money(0);
+        return;
+      }
+      var upg = Math.min(Math.max(upgAge, curAge), retAge);
+
+      var balance = 0;
+      var totalW2 = 0;
+
+      // Track years served within the major/legacy stage to walk the pay curve.
+      var majorYears = 0;
+      var regionalYears = 0;
+
+      for(var age = curAge; age < retAge; age++){
+        var salary;
+        if(age < upg){
+          // Regional: $90k rising to $160k over about 10 years of seniority.
+          var rf = Math.min(regionalYears / 10, 1);
+          salary = lerp(90000, 160000, rf);
+          regionalYears++;
+        } else {
+          // Major/legacy progression by years in stage.
+          if(majorYears < 5){
+            // First officer: $150k rising to $210k over 5 years.
+            salary = lerp(150000, 210000, majorYears / 5);
+          } else if(majorYears < 12){
+            // Narrowbody captain: ~$300k rising slightly.
+            salary = lerp(300000, 340000, (majorYears - 5) / 7);
+          } else {
+            // Senior widebody captain: up to ~$400k.
+            salary = lerp(340000, 400000, Math.min((majorYears - 12) / 8, 1));
+          }
+          majorYears++;
+        }
+
+        totalW2 += salary;
+
+        // Company direct contribution for the year, then grow everything to retirement.
+        var contribution = salary * pct;
+        var yearsToRet = retAge - age - 1; // remaining full years of growth
+        balance += contribution * Math.pow(1 + growth, yearsToRet);
+      }
+
+      document.getElementById('estBal').textContent = money(balance);
+      document.getElementById('estW2').textContent = money(totalW2);
+    }
+
+    function syncLabels(){
+      el.estAge.parentNode.querySelector('.val').textContent = el.estAge.value;
+      el.estRet.parentNode.querySelector('.val').textContent = el.estRet.value;
+      el.estUpg.parentNode.querySelector('.val').textContent = el.estUpg.value;
+      el.estPct.parentNode.querySelector('.val').textContent = el.estPct.value + '%';
+      el.estGro.parentNode.querySelector('.val').textContent = el.estGro.value + '%';
+    }
+
+    ids.forEach(function(id){
+      el[id].addEventListener('input', function(){ syncLabels(); compute(); });
+    });
+
+    syncLabels();
+    compute();
+  })();
 </script>
 </body>
 </html>
