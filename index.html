@@ -63,15 +63,15 @@
   var PASSWORD = "pilotlounge";
 
   var TRACKS = [
-    {key:'student',    label:'Student',              available:true,  hasGuide:true},
-    {key:'private',    label:'Private',              available:true,  hasPodcast:true},
-    {key:'instrument', label:'Instrument',           available:true},
-    {key:'commercial', label:'Commercial',           available:true},
-    {key:'multi',      label:'Multi-Engine',         available:true},
-    {key:'atp',        label:'ATP',                  available:true},
-    {key:'cfi',        label:'CFI',                  available:false},
-    {key:'cfii',       label:'CFII',                 available:false},
-    {key:'mei',        label:'MEI',                  available:false}
+    {key:'student',    label:'Student',      available:true,  hasGuide:true},
+    {key:'private',    label:'Private',      available:true,  hasPodcast:true, podcastHref:'podcast.html'},
+    {key:'instrument', label:'Instrument',   available:true,  hasPodcast:true, podcastHref:'podcast-instrument.html'},
+    {key:'commercial', label:'Commercial',   available:true,  hasPodcast:true, podcastHref:'podcast-commercial.html'},
+    {key:'multi',      label:'Multi-Engine', available:true},
+    {key:'atp',        label:'ATP',          available:true,  hasPodcast:true, podcastHref:'podcast-atp.html'},
+    {key:'cfi',        label:'CFI',          available:true,  hasPodcast:true, podcastHref:'podcast-cfi.html'},
+    {key:'cfii',       label:'CFII',         available:true,  hasPodcast:true, podcastHref:'podcast-cfii.html'},
+    {key:'mei',        label:'MEI',          available:true,  hasPodcast:true, podcastHref:'podcast-mei.html'}
   ];
   var activeTrack = 'private';
 
@@ -99,7 +99,7 @@
     document.getElementById('trackhint').textContent = 'Showing ' + t.label + ' content. Tap another tag above to switch.';
     var html = '';
     if(t.hasPodcast){
-      html += card('podcast.html', 'The Pilot Lounge - Podcast 🎙️', 'A full ' + t.label + ' season by subject, with the whole crew');
+      html += card(t.podcastHref || 'podcast.html', 'The Pilot Lounge - Podcast 🎙️', 'A full ' + t.label + ' season by subject, with the whole crew');
     }
     if(t.hasGuide){
       html += card('student.html', 'Student Pilot Guide ✈', 'Day one to first solo: traditions, study habits, careers, and the road to solo');
@@ -112,6 +112,7 @@
     var html = '';
     html += card('careers.html', 'Job Seeking & Careers', 'The ladder, the money, the lifestyle, and how hiring works');
     html += card('airlines.html', 'Airlines, Bases & Pay', 'Hiring-page links, crew-base map, and a pay calculator');
+    html += card('tools.html', 'Airport & Route Tools', 'Search airport codes and plot waypoint routes on a map');
     document.getElementById('resourceList').innerHTML = html;
   }
 
