@@ -14,6 +14,10 @@
 <style>
 .certbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
 .certbar .chip{font-weight:700}
+.gamesbar{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.gamesbar a{font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:16px;border:1px solid var(--line);color:var(--breeze);text-decoration:none;min-height:34px;display:inline-flex;align-items:center}
+.gamesbar a.on{background:var(--breeze);color:#01172b;border-color:var(--breeze)}
+.gamesbar a:hover{border-color:var(--breeze)}
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
@@ -34,6 +38,7 @@
   </header>
 
   <div class="certbar" id="certbar"></div>
+  <div class="gamesbar" id="gamesbar"></div>
 
   <div id="quizView">
     <div class="subjbar" id="subjbar"></div>
@@ -64,7 +69,7 @@
 
   <div id="resultsView" style="display:none"></div>
 
-  <footer>Pick a certificate, then pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. See results to review what you missed.</footer>
+  <footer>Pick a certificate, then pick subjects to drill, answer to reveal the result, tap Source for the reference, or Listen to hear the matching episode. Switch games with the buttons up top.</footer>
 </div>
 
 <script src="data/student.js"></script>
@@ -72,6 +77,9 @@
 <script src="data/instrument.js"></script>
 <script src="data/commercial.js"></script>
 <script src="data/multi.js"></script>
+<script src="data/cfi.js"></script>
+<script src="data/cfii.js"></script>
+<script src="data/mei.js"></script>
 <script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
@@ -95,6 +103,18 @@
   document.getElementById('certTitle').textContent = DATA.title;
   document.getElementById('acsdoc').textContent = DATA.acsDoc;
   document.title = 'Pilot Lounge - ' + DATA.title + ' Quiz';
+
+  function gamesbar(){
+    var bar = document.getElementById('gamesbar'); if(!bar) return;
+    var games = [['quiz.html','Quiz'],['limit-or-bust.html','Limit or Bust'],['hot-seat.html','Hot Seat']];
+    var here = location.pathname.split('/').pop() || 'quiz.html';
+    bar.innerHTML = '';
+    games.forEach(function(g){
+      var a = document.createElement('a'); a.href = g[0] + '?cert=' + CERT; a.textContent = g[1];
+      if(g[0] === here) a.className = 'on';
+      bar.appendChild(a);
+    });
+  }
 
   function certbar(){
     var bar = document.getElementById('certbar'); bar.innerHTML = '';
@@ -243,7 +263,7 @@
   }
   function startOver(){ applyFilter(); window.scrollTo(0, 0); }
 
-  certbar(); chips(); render();
+  gamesbar(); certbar(); chips(); render();
 </script>
 </body>
 </html>
