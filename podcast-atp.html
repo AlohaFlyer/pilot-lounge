@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Airline Transport Pilot Podcast</title>
+<meta name="theme-color" content="#01172b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pilot Lounge">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
+.linkbtn:hover{background:var(--amber);color:#01172b}
+.quizcta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 16px;border-radius:10px;border:1px solid var(--amber);background:var(--amber);color:#01172b;text-decoration:none;cursor:pointer}
+.quizcta:hover{background:#f4b573;border-color:#f4b573}
+.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:16px 0 6px}
+.newslist{list-style:none;padding:0;margin:4px 0 0}
+.newslist li{margin:0 0 2px;line-height:1.3}
+.newslink{display:inline-block;color:var(--amber);text-decoration:none;background:none;border:none;padding:10px 0;font:inherit;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
+.newslink:hover{text-decoration:underline}
+.newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
+.soon{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:9px 12px;margin:12px 0 0;display:inline-block}
+.modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;max-height:82dvh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:4px;right:6px;width:44px;height:44px;background:none;border:none;color:var(--muted);font-size:30px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 40px 2px 0}
+.modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Airline Transport Pilot Podcast</span></h1>
+    <span class="src">Crew of six</span>
+  </header>
+
+  <div class="card">
+    <p class="q" style="margin-top:0">A full Airline Transport Pilot season, by subject</p>
+    <p style="color:var(--muted)">Tex and the crew climb into the transport category for the ATP, from the 1500 hour rule and the FMS to V1 and the rejected takeoff. Every fact traces to FAA public-domain sources.</p>
+  </div>
+
+  <div id="episodes"></div>
+
+  <footer>Audio for this season is in production with the locked six-host cast. Every fact traces to FAA public-domain sources.</footer>
+</div>
+
+<div class="modal" id="modal" style="display:none">
+  <div class="modalbox">
+    <button class="modalx" id="modalx" aria-label="Close">&times;</button>
+    <div class="modalhead" id="modalTitle"></div>
+    <div class="modalsrc" id="modalSrc"></div>
+    <div class="modalbody" id="modalBody"></div>
+    <a class="linkbtn" id="modalLink" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
+<script>
+var EPISODES = [{"n": 1, "title": "Earning the Left Seat", "subject": "ATP requirements", "topics": "ATP preflight preparation, aeronautical experience, the 1500 hour rule, dispatch and release, transport-category weight and balance and performance", "news": [{"t": "The 1500-Hour Rule: Restricted ATP Requirements for First Officers", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/2013/08/1500-hour-rule-restricted-atp/", "b": "Explains how the post-Colgan rule forces airline first officers to hold an ATP and lays out the restricted-ATP hour breaks."}, {"t": "How to Get a Restricted ATP (R-ATP): Requirements", "s": "Pilot Institute", "u": "https://pilotinstitute.com/restricted-atp-requirements/", "b": "Walks through the 750, 1000, and 1250 hour R-ATP pathways and why R-ATP holders cannot serve as Part 121 pilot in command."}, {"t": "Airline Transport Pilot", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/learn-to-fly/flying-for-a-career/airline-transport-pilot", "b": "Summarizes the standard ATP eligibility rules including age 23, 1500 total hours, and the required ATP-CTP course."}], "videos": [{"t": "How to Become an Airline Pilot: Timeline, Cost and ATP Requirements", "s": "ATP Flight School", "u": "https://www.youtube.com/watch?v=VgtTxYDVshQ", "views": "200K approx", "b": "Lays out the full zero-to-airline timeline and the hour and certificate milestones needed to reach the ATP."}, {"t": "Private Pilot vs Commercial Pilot Privileges and Limitations", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=kITY8yN8eQY", "views": "150K approx", "b": "Frames how privileges escalate up the certificate ladder toward the ATP at the top."}]}, {"n": 2, "title": "Walking the Jet", "subject": "Transport-category systems & automation", "topics": "ATP preflight procedures, transport-category systems, automation and FMS philosophy, crew briefings, the MEL and CDL", "news": [{"t": "Flight Management System (FMS)", "s": "SKYbrary", "u": "https://skybrary.aero/articles/flight-management-system-fms", "b": "Describes how the FMS automates navigation, performance, and guidance and how it feeds commands to the autopilot."}, {"t": "10 Tips For Flying With An Autopilot In IMC", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/lists/2025/03/10-tips-for-autopilot-flying-in-imc/", "b": "Practical guidance on managing autopilot modes and avoiding mode confusion when hand-managing automation in IMC."}, {"t": "Autopilot Basics", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/students/crosscountry/special/autopilot-basics", "b": "Introduces the core autopilot modes and how pilots layer them to reduce workload in flight."}], "videos": [{"t": "The Autopilot Can Now Do Things You Wouldnt Believe", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=nOJQ-XbjOz8", "views": "1M approx", "b": "An airline captain breaks down how modern jet autopilots and automation logic fly the aircraft and where their limits are."}, {"t": "How Flight Instruments Work, Required Instruments, Inoperative Equipment", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=mnxd5aOGDu8", "views": "150K approx", "b": "Builds the instrument-and-systems foundation that transport-category glass cockpits automate."}]}, {"n": 3, "title": "V1 and the Point of No Return", "subject": "Takeoffs & landings (V1/V2)", "topics": "ATP takeoffs and landings, V1 VR V2, the balanced field, takeoff alternates, crosswind limits, the rejected takeoff decision", "news": [{"t": "How To Handle An Engine Failure During Takeoff: V1, Vr, and V2", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/republic/how-to-handle-an-engine-failure-during-takeoff-in-a-part-121-aircraft-e-175/", "b": "Defines the takeoff decision speeds and how V1 separates the reject-and-stop case from continue-and-fly after a failure."}, {"t": "Aircraft Take-off Speeds: V1, Vr, and V2", "s": "BAA Training", "u": "https://baatraining.com/blog/aircraft-take-off-speeds-v1-vr-and-v2", "b": "Breaks down each V-speed and how flap setting, weight, and runway length shift the numbers a crew briefs before departure."}, {"t": "Rejected Takeoff", "s": "SKYbrary", "u": "https://skybrary.aero/articles/rejected-takeoff", "b": "Covers the accelerate-stop concept and the human-factors reasons high-speed aborts above V1 are statistically dangerous."}], "videos": [{"t": "Take-Off Speeds V1, Vr, V2 Explained", "s": "Captain Joe", "u": "https://www.youtube.com/watch?v=7p8Pqna4t7c", "views": "3M approx", "b": "A widely viewed airline-pilot explainer defining V1, Vr, and V2 with simple logic for when to abort versus continue."}, {"t": "Rejected Takeoff and Evacuation", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=PP98VQGFpDQ", "views": "500K approx", "b": "Walks through the crew decision-making and procedures for a high-speed rejected takeoff followed by an evacuation."}]}, {"n": 4, "title": "Energy in the Bank", "subject": "In-flight maneuvers", "topics": "ATP in-flight maneuvers, steep turns at altitude, area departures and arrivals, automation management, energy management", "news": [{"t": "Your Guide To Flying Commercial Steep Turns", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/maneuvers/commercial-steep-turns/", "b": "Details the 50-degree steep turn standard and the back-pressure and power changes needed to hold altitude and airspeed."}, {"t": "Technique: Steep Turns", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2019/march/flight-training-magazine/technique-steep-turns", "b": "Explains load factor, increased stall speed, and the lift-vector geometry that make a steep turn a precise handling exercise."}], "videos": [{"t": "Mastering Steep Turns", "s": "MzeroA Flight Training", "u": "https://www.youtube.com/watch?v=cYb6gvEpymM", "views": "1M approx", "b": "A popular flight-training walkthrough of entering, holding, and rolling out of a steep turn to checkride standards."}, {"t": "Steep Turns According To The ACS", "s": "MzeroA Flight Training", "u": "https://www.youtube.com/watch?v=z9F-sdmP4_M", "views": "300K approx", "b": "Demonstrates the maneuver against the published tolerances and the common errors that cost altitude and heading."}]}, {"n": 5, "title": "Angle of Attack First", "subject": "Stall prevention (AQP)", "topics": "ATP stall prevention, the AQP approach-to-stall philosophy, recovery, reduce angle of attack first, swept-wing considerations", "news": [{"t": "Upset Prevention and Recovery Training (UPRT)", "s": "SKYbrary", "u": "https://skybrary.aero/articles/upset-prevention-and-recovery-training-uprt-updated-perspectives", "b": "Explains why loss of control in flight drives UPRT and how prevention and recovery skills are built into modern airline training."}, {"t": "Stall Recovery: 6 Common Mistakes Made By Pilots", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/lists/2025/02/six-common-pilot-mistakes-during-stall-recovery/", "b": "Lists the recurring errors, like not reducing angle of attack first, that turn a routine stall into a worse situation."}, {"t": "Power-On Stall: How to Recover", "s": "Pilot Institute", "u": "https://pilotinstitute.com/power-on-stall-recovery/", "b": "Breaks down the recovery sequence and stresses that reducing angle of attack is what gets the wing flying again."}], "videos": [{"t": "How Stalls Happen, And How To Recover From Them", "s": "Boldmethod", "u": "https://www.youtube.com/watch?v=oRCaOPRoJnQ", "views": "200K approx", "b": "Covers stall aerodynamics through the full recovery procedure in a live teaching format."}, {"t": "Upset Prevention and Recovery Training", "s": "Airbus", "u": "https://www.youtube.com/watch?v=F-VV7gjAxx8", "views": "500K approx", "b": "Shows how a transport-category manufacturer trains crews to recognize and recover from developing upsets."}]}, {"n": 6, "title": "Down to Minimums", "subject": "Instrument procedures", "topics": "ATP instrument procedures, precision and non-precision approaches, CAT II and CAT III awareness, holding, RNAV, missed approach in transport ops", "news": [{"t": "Categories of the ILS", "s": "AVweb", "u": "https://avweb.com/features/categories-of-the-ils/", "b": "Explains how CAT I, II, and III minimums step down visibility and decision height and what each requires."}, {"t": "Should You Fly An ILS, LPV, Or LNAV/VNAV Approach?", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/navigation/should-you-fly-an-ils-lpv-or-lnav-vnav/", "b": "Compares precision and RNAV approach guidance and minimums to inform the approach selection a crew briefs."}, {"t": "Instrument Procedures Handbook", "s": "FAA", "u": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/instrument_procedures_handbook", "b": "The FAA reference covering departure, enroute, arrival, and approach procedures flown in airline IFR operations."}], "videos": [{"t": "How to Fly an ILS Approach: Glideslope Intercept and Approach Clearance", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=W7B7dDwkLC8", "views": "500K approx", "b": "Demonstrates intercepting the localizer and glideslope and flying a precision approach to minimums."}, {"t": "A Really Unusual Problem Tricked These Pilots", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=KTICjQxiDms", "views": "1M approx", "b": "Analyzes an approach-and-automation case showing how disciplined IFR procedures and monitoring catch errors."}]}, {"n": 7, "title": "The Day Something Breaks", "subject": "Emergencies & CRM", "topics": "ATP emergencies, engine failure at V1 and in cruise, driftdown, rapid depressurization, fire, CRM and threat-and-error management", "news": [{"t": "Crew Resource Management (CRM)", "s": "SKYbrary", "u": "https://skybrary.aero/articles/crew-resource-management-crm", "b": "Defines CRM as the effective use of all available resources and traces its origin to accidents caused by poor crew coordination."}, {"t": "Crew Resource Management: Head in the Game", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2019/july/flight-training-magazine/crm-head-in-the-game", "b": "Translates airline CRM concepts into communication, workload, and decision-making habits for any cockpit."}, {"t": "Emergency Procedures", "s": "AOPA Air Safety Institute", "u": "https://www.aopa.org/training-and-safety/air-safety-institute/safety-centers/emergency-procedures", "b": "Collects guidance on systematically working emergencies, prioritizing aircraft control, and using all resources under pressure."}], "videos": [{"t": "What HAPPENED in this A350 Cockpit? French Bee Flight 711 Explained", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=LAtcrdJqJDc", "views": "2M approx", "b": "Dissects a real crew handling a developing emergency and shows CRM and decision-making in action."}, {"t": "Rejected Takeoff and Evacuation", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=PP98VQGFpDQ", "views": "500K approx", "b": "Shows crew coordination and emergency procedures during a high-speed reject followed by an evacuation."}]}, {"n": 8, "title": "Securing the Jet", "subject": "Postflight", "topics": "ATP postflight, after-landing, securing the jet, the postflight debrief and the safety culture", "news": [{"t": "Postflight Procedures", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/students/presolo/skills/postflight-procedures", "b": "Outlines the shutdown checklist, postflight inspection, and securing steps that properly close out a flight."}, {"t": "Technique: Postflight Debrief", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2025/september/flight-training/technique-postflight-debrief", "b": "Makes the case for a structured debrief to capture lessons learned before the next leg."}, {"t": "Pilot Safety: Following Postflight Procedures", "s": "Hartzell Propeller", "u": "https://hartzellprop.com/pilot-safety-following-postflight-procedures/", "b": "Argues disciplined postflight habits catch developing discrepancies and keep the aircraft airworthy for the next crew."}], "videos": [{"t": "The Autopilot Can Now Do Things You Wouldnt Believe", "s": "Mentour Pilot", "u": "https://www.youtube.com/watch?v=nOJQ-XbjOz8", "views": "1M approx", "b": "An airline captain tour of cockpit automation that frames the systems a crew secures during shutdown."}, {"t": "Reviewing Emergency Procedures in Flight: Full Training Example", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=EPuoThY0jvw", "views": "200K approx", "b": "Includes the after-landing and shutdown flow as part of a complete training-flight walkthrough."}]}];
+var QUIZKEY = "atp";
+</script>
+<script>
+  var modal = document.getElementById('modal');
+  function openModal(title, src, body, url, linkLabel){
+    document.getElementById('modalTitle').textContent = title;
+    var s = document.getElementById('modalSrc'); s.textContent = src || ''; s.style.display = src ? 'block' : 'none';
+    document.getElementById('modalBody').textContent = body;
+    var link = document.getElementById('modalLink');
+    link.setAttribute('href', url); link.textContent = linkLabel;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
+  document.getElementById('modalx').onclick = closeModal;
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  var box = document.getElementById('episodes');
+  EPISODES.forEach(function(ep){
+    var div = document.createElement('div'); div.className = 'card'; div.id = 'ep' + ep.n;
+    div.innerHTML = '<div class="meta"><span>Episode ' + ep.n + '</span><span class="acs">' + ep.subject + '</span></div>'
+      + '<div class="q" style="font-size:17px">' + ep.title + '</div>'
+      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
+      + '<div class="soon">&#127911; Audio coming soon</div>';
+
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="quizcta" href="quiz.html?cert=' + QUIZKEY + '">Lock it in now with the Quiz &#9654;</a>';
+    div.appendChild(qrow);
+
+    if(ep.news && ep.news.length){
+      var nl = document.createElement('p'); nl.className = 'reflabel'; nl.textContent = '📰 Further Reading'; div.appendChild(nl);
+      var ul = document.createElement('ul'); ul.className = 'newslist';
+      ep.news.forEach(function(a){
+        var li = document.createElement('li');
+        if(a.b){
+          var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = a.t;
+          btn.onclick = function(){ openModal(a.t, a.s, a.b, a.u, 'Read the full article at ' + a.s + ' →'); };
+          li.appendChild(btn);
+        } else {
+          var link = document.createElement('a'); link.className = 'newslink'; link.textContent = a.t;
+          link.href = a.u; link.target = '_blank'; link.rel = 'noopener'; li.appendChild(link);
+        }
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = a.s; li.appendChild(src);
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
+
+    if(ep.videos && ep.videos.length){
+      var vl = document.createElement('p'); vl.className = 'reflabel'; vl.textContent = '🎬 Watch'; div.appendChild(vl);
+      var vul = document.createElement('ul'); vul.className = 'newslist';
+      ep.videos.forEach(function(v){
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = v.t;
+        var sub = v.s + (v.views ? ' · ' + v.views + ' views' : '');
+        btn.onclick = function(){ openModal(v.t, sub, v.b, v.u, 'Watch on YouTube →'); };
+        li.appendChild(btn);
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = v.s + (v.views ? ' · ' + v.views : ''); li.appendChild(src);
+        vul.appendChild(li);
+      });
+      div.appendChild(vul);
+    }
+
+    box.appendChild(div);
+  });
+  if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }
+</script>
+</body>
+</html>
