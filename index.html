@@ -20,6 +20,7 @@
 .track{flex:0 0 auto;font-family:var(--mono),monospace;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--amber);background:transparent;color:var(--amber);cursor:pointer;white-space:nowrap}
 .track.on{background:var(--amber);color:#01172b}
 .trackhint{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin:0 0 12px;letter-spacing:.04em}
+.seclabel{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:18px 0 8px}
 .byline{display:block;margin-top:10px;color:var(--muted);font-size:10px;letter-spacing:.04em;text-decoration:none;opacity:.75}
 .byline:hover{opacity:1}
 </style>
@@ -45,6 +46,8 @@
     <div class="tracks" id="tracks"></div>
     <p class="trackhint" id="trackhint"></p>
     <div class="menu" id="menuList"></div>
+    <div class="seclabel">Career resources (all ratings)</div>
+    <div class="menu" id="resourceList"></div>
   </div>
 
   <footer>
@@ -57,10 +60,6 @@
 <script>
   var PASSWORD = "pilotlounge";
 
-  /* Rating tracks. available:true surfaces a toggle. A toggle filters the menu below to
-     that certificate's content. 'careers' is a non-rating track that navigates to its own
-     page. hasPodcast marks tracks whose podcast episodes are hosted; hasGuide marks tracks
-     with an on-site study guide page. Flip these as content ships. */
   var TRACKS = [
     {key:'student',    label:'Student',              available:true,  hasGuide:true},
     {key:'private',    label:'Private',              available:true,  hasPodcast:true},
@@ -70,8 +69,7 @@
     {key:'atp',        label:'ATP',                  available:true},
     {key:'cfi',        label:'CFI',                  available:false},
     {key:'cfii',       label:'CFII',                 available:false},
-    {key:'mei',        label:'MEI',                  available:false},
-    {key:'careers',    label:'Job Seeking & Careers',available:true,  href:'careers.html'}
+    {key:'mei',        label:'MEI',                  available:false}
   ];
   var activeTrack = 'private';
 
@@ -96,24 +94,25 @@
 
   function renderMenu(){
     var t = trackByKey(activeTrack) || trackByKey('private');
-    var hint = document.getElementById('trackhint');
-    hint.textContent = 'Showing ' + t.label + ' content. Tap another tag above to switch.';
+    document.getElementById('trackhint').textContent = 'Showing ' + t.label + ' content. Tap another tag above to switch.';
     var html = '';
     if(t.hasPodcast){
-      html += card('podcast.html', 'The Pilot Lounge - Podcast 🎙️',
-        'A full ' + t.label + ' season by subject, with the whole crew');
+      html += card('podcast.html', 'The Pilot Lounge - Podcast 🎙️', 'A full ' + t.label + ' season by subject, with the whole crew');
     }
     if(t.hasGuide){
-      html += card('student.html', 'Student Pilot Guide ✈',
-        'Day one to first solo: traditions, study habits, careers, and the road to solo');
+      html += card('student.html', 'Student Pilot Guide ✈', 'Day one to first solo: traditions, study habits, careers, and the road to solo');
     }
-    html += card('quiz.html?cert=' + t.key, 'Quiz',
-      'Question, answer, and a Source button for every item');
-    html += card('limit-or-bust.html?cert=' + t.key, 'Limit or Bust',
-      'Beat the clock. Answer fast, keep your streak, chase a high score');
-    html += card('hot-seat.html?cert=' + t.key, 'Hot Seat',
-      'Recall it before the timer, then grade yourself. Honor system');
+    html += card('quiz.html?cert=' + t.key, 'Quiz', 'Question, answer, and a Source button for every item');
+    html += card('limit-or-bust.html?cert=' + t.key, 'Limit or Bust', 'Beat the clock. Answer fast, keep your streak, chase a high score');
+    html += card('hot-seat.html?cert=' + t.key, 'Hot Seat', 'Recall it before the timer, then grade yourself. Honor system');
     document.getElementById('menuList').innerHTML = html;
+  }
+
+  function renderResources(){
+    var html = '';
+    html += card('careers.html', 'Job Seeking & Careers', 'The ladder, the money, the lifestyle, and how hiring works');
+    html += card('airlines.html', 'Airlines, Bases & Pay', 'Hiring-page links, crew-base map, and a pay calculator');
+    document.getElementById('resourceList').innerHTML = html;
   }
 
   function setTrack(t){
@@ -126,7 +125,7 @@
   function reveal(){
     document.getElementById('gate').style.display = 'none';
     document.getElementById('menu').style.display = 'block';
-    renderTracks(); renderMenu();
+    renderTracks(); renderMenu(); renderResources();
   }
   function tryUnlock(){
     var v = document.getElementById('pw').value.trim().toLowerCase();
