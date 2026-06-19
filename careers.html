@@ -25,8 +25,14 @@
   .hours th,.hours td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top}
   .hours th{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--breeze)}
   .hours td .n{font-family:var(--mono); color:var(--green); font-weight:700}
-  .pill{display:inline-block; font-family:var(--mono); font-size:11px; color:var(--amber);
-    border:1px solid var(--amber); border-radius:999px; padding:2px 9px; margin:0 6px 6px 0}
+  .roads{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 14px}
+  .road{font-family:var(--mono); font-size:12px; color:var(--amber); border:1px solid var(--amber);
+    border-radius:999px; padding:7px 13px; background:transparent; cursor:pointer; min-height:36px}
+  .road.on{background:var(--amber); color:#01172b}
+  .roaddesc{background:#02101f; border:1px solid var(--line); border-left:3px solid var(--amber);
+    border-radius:8px; padding:14px 16px; font-size:14px; line-height:1.55}
+  .roaddesc h4{margin:0 0 6px; font-size:15px; color:var(--ink)}
+  .roaddesc p{margin:0; color:#c9d6e2}
   .tips{margin:6px 0 0; padding-left:18px}
   .tips li{margin:7px 0; line-height:1.5; font-size:14px}
 </style>
@@ -80,18 +86,9 @@
   <h2 class="sec">How pilots build the time</h2>
   <div class="card">
     <h3>From 250 to 1,500</h3>
-    <p>The gap between your commercial certificate and the airlines is the time-building years. The trick is to get paid, or at least not go broke, while the hours add up. The common roads:</p>
-    <p>
-      <span class="pill">Flight instructing</span>
-      <span class="pill">Banner towing</span>
-      <span class="pill">Traffic watch</span>
-      <span class="pill">Aerial survey / pipeline</span>
-      <span class="pill">Skydive ops</span>
-      <span class="pill">Part 135 charter / cargo</span>
-      <span class="pill">Part 91 corporate</span>
-    </p>
-    <p><b>Flight instructing is the classic path</b> for a reason. You earn while you learn, you log PIC, and teaching the material is how it goes from your head into your bones. Most of the crew in this lounge built their first thousand hours in the right seat as a CFI.</p>
-    <p><b>Part 135</b> (charter and cargo) and <b>Part 91</b> corporate flying open up as you cross experience thresholds, and they are where a lot of pilots transition into turbine and multi-engine time before the regionals.</p>
+    <p>The gap between your commercial certificate and the airlines is the time-building years. The trick is to get paid, or at least not go broke, while the hours add up. Tap a road to see what that flying is really like:</p>
+    <div class="roads" id="roads"></div>
+    <div class="roaddesc" id="roaddesc"></div>
   </div>
 
   <h2 class="sec">The career path</h2>
@@ -118,5 +115,31 @@
     Requirements change. Verify against current FAA publications and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
   </footer>
 </div>
+
+<script>
+  var ROADS = [
+    {k:'Flight instructing', t:'Flight instructing (CFI)', d:'The classic path, for a reason. You earn while you learn, you log pilot-in-command time, and teaching the material is the fastest way to truly master it, because you have to explain it out loud. Most of the crew in this lounge built their first thousand hours in the right seat as a CFI.'},
+    {k:'Banner towing', t:'Banner towing', d:'Low and slow over beaches, stadiums, and events, towing advertising banners. Demanding stick-and-rudder flying with a hook-and-release pickup, usually seasonal and weather-dependent, and a genuinely fun way to log tailwheel and low-level hours.'},
+    {k:'Traffic watch', t:'Traffic watch', d:'Flying orbits over a city during rush hour while a reporter calls in the traffic and weather. Steady, repetitive hours, almost always early mornings and late afternoons, with a lot of time maneuvering over congested terrain.'},
+    {k:'Aerial survey / pipeline', t:'Aerial survey and pipeline patrol', d:'Long, methodical lines flown for mapping, photography, or pipeline and powerline inspection. Big cross-country and often instrument-building potential, frequently in higher-performance singles, and a lot of solo time to sharpen your airmanship.'},
+    {k:'Skydive ops', t:'Skydive operations', d:'Hauling jumpers to altitude and diving back down, turn after turn after turn. Fast-paced flying with lots of takeoffs, climbs, and descents, often in larger piston or turbine singles, and a quick way to stack hours on busy weekends.'},
+    {k:'Part 135 charter / cargo', t:'Part 135 charter and cargo', d:'On-demand charter and cargo flying under stricter operating rules than Part 91. Real-world IFR in the system, turbine and multi-engine time, and the bridge a lot of pilots take straight into the regionals.'},
+    {k:'Part 91 corporate', t:'Part 91 corporate', d:'Flying for a company or an owner under general operating rules, often in turboprops and jets. Excellent equipment and mentorship and frequently strong pay, with schedules that vary widely from job to job.'}
+  ];
+  var active = 0;
+  function renderRoads(){
+    var bar = document.getElementById('roads'); bar.innerHTML = '';
+    ROADS.forEach(function(r, i){
+      var b = document.createElement('button');
+      b.className = 'road' + (i === active ? ' on' : '');
+      b.textContent = r.k;
+      b.onclick = function(){ active = i; renderRoads(); };
+      bar.appendChild(b);
+    });
+    var d = ROADS[active];
+    document.getElementById('roaddesc').innerHTML = '<h4>' + d.t + '</h4><p>' + d.d + '</p>';
+  }
+  renderRoads();
+</script>
 </body>
 </html>
