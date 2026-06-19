@@ -157,33 +157,33 @@
   var GROUPS = [
     {g:'Legacy carriers', cat:'legacy', list:[
       {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA'], ac:'A321/A320/A319, B737, B777, B787'},
-      {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG'], ac:'A220/A320/A330/A350, B737/B757/B767'},
-      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'},
-      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. former Hawaiian)', bases:['HNL','ANC','SEA','PDX','SFO','LAX','SAN'], ac:'B737, A330/A321neo/B787 (ex-Hawaiian widebodies), B717 inter-island'}
+      {nm:'Delta Air Lines', url:'https://www.delta.com/us/en/careers/pilots', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG'], ac:'A220/A320/A330/A350, B737/B757/B767'},
+      {nm:'United Airlines', url:'https://careers.united.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'},
+      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/', pilots:'~5,500 (incl. former Hawaiian)', bases:['HNL','ANC','SEA','PDX','SFO','LAX','SAN'], ac:'B737, A330/A321neo/B787 (ex-Hawaiian widebodies), B717 inter-island'}
     ]},
     {g:'Other majors and low-cost', cat:'major', list:[
-      {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA'], ac:'Boeing 737 (700/800/MAX)'},
+      {nm:'Southwest Airlines', url:'https://careers.southwestair.com/', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA'], ac:'Boeing 737 (700/800/MAX)'},
       {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO'], ac:'A320/A321, A220, E190'},
-      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL','PHL'], ac:'Airbus A320 family'},
+      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL','PHL'], ac:'Airbus A320 family'},
       {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO','SFB'], ac:'Airbus A319/A320'},
       {nm:'Sun Country Airlines', url:'https://suncountry.com/careers', pilots:'~700', bases:['MSP'], ac:'Boeing 737-800'},
       {nm:'Breeze Airways', url:'https://www.flybreeze.com/careers', pilots:'~700', bases:['BNA','MCO','PVD'], ac:'A220, E190/E195'},
       {nm:'Avelo Airlines', url:'https://www.aveloair.com/careers', pilots:'~400', bases:['BUR'], ac:'Boeing 737'}
     ]},
     {g:'Cargo and freight', cat:'cargo', acmi:true, list:[
-      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC','LAX'], ac:'B767F, B777F, MD-11F, A300, ATR, Cessna 208'},
+      {nm:'FedEx Express', url:'https://careers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC','LAX'], ac:'B767F, B777F, MD-11F, A300, ATR, Cessna 208'},
       {nm:'UPS Airlines', url:'https://www.jobs-ups.com/flight-operations', pilots:'~3,000', bases:['SDF'], ac:'B767F, B757F, B747-8F, MD-11F, A300'},
-      {nm:'Atlas Air', url:'https://www.atlasair.com/atlas-air-careers/pilots/', pilots:'~2,300', bases:['CVG','MIA'], ac:'B747, B767, B777 (ACMI)'},
+      {nm:'Atlas Air', url:'https://www.atlasair.com/careers/', pilots:'~2,300', bases:['CVG','MIA'], ac:'B747, B767, B777 (ACMI)'},
       {nm:'Kalitta Air', url:'https://www.kalittaair.com/careers/', pilots:'~900', bases:['YIP'], ac:'B747, B767, A321/A330 (ACMI)'}
     ]},
     {g:'Regional airlines', cat:'regional', list:[
-      {nm:'SkyWest Airlines', url:'https://www.skywest.com/skywest-airline-jobs/pilots/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW'], ac:'CRJ-700/900, Embraer E175'},
+      {nm:'SkyWest Airlines', url:'https://www.skywest.com/become-a-skywest-pilot/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW'], ac:'CRJ-700/900, Embraer E175'},
       {nm:'Envoy Air (American Eagle)', url:'https://www.envoyair.com/pilots/', pilots:'~2,300', bases:['DFW','ORD','MIA'], ac:'Embraer E175'},
       {nm:'Endeavor Air (Delta Connection)', url:'https://endeavorair.com/pilots', pilots:'~2,000', bases:['MSP','DTW','JFK','ATL'], ac:'CRJ-900'},
       {nm:'Republic Airways', url:'https://www.rjet.com/pilots/', pilots:'~2,600', bases:['IND','CMH'], ac:'Embraer E170/E175 (merged with Mesa 2025)'},
       {nm:'PSA Airlines (American Eagle)', url:'https://www.psaairlines.com/pilots/', pilots:'~1,900', bases:['CLT','DAY','CVG'], ac:'CRJ-700/900'},
       {nm:'Piedmont Airlines (American Eagle)', url:'https://piedmont-airlines.com/careers/pilots/', pilots:'~1,400', bases:['CLT','PHL'], ac:'Embraer E145 (to E175)'},
-      {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,000', bases:['SEA','PDX','BOI'], ac:'Embraer E175'}
+      {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/', pilots:'~1,000', bases:['SEA','PDX','BOI'], ac:'Embraer E175'}
     ]},
     {g:'Fractional and corporate', cat:'fractional', list:[
       {nm:'NetJets', url:'https://netjetspilots.com/', pilots:'~3,300', bases:['Domicile flexible'], ac:'Citation, Phenom, Challenger, Global'},
@@ -194,6 +194,8 @@
       {nm:'Vieques Air Link', url:'https://www.viequesairlink.com/', pilots:'~30', bases:['SIG','VQS','CPX','SJU'], ac:'Britten-Norman Islander, Cessna'},
       {nm:'Seaborne Airlines', url:'https://www.seaborneairlines.com/', pilots:'~40', bases:['STX','STT','SJU'], ac:'DHC-6 Twin Otter'},
       {nm:'Star Marianas Air', url:'https://www.starmarianasair.com/', pilots:'~40', bases:['SPN','TIQ','ROP','GUM'], ac:'Cessna 207/210'},
+      {nm:'Samoa Airways', url:'https://samoaairways.com/', pilots:'~8', bases:['PPG'], ac:'DHC-6 Twin Otter (PPG to Ofu and Fitiuta/Manua, and Apia)'},
+      {nm:'Talofa Airways', url:'https://www.talofaairways.com/', pilots:'~8', bases:['PPG'], ac:'Rockwell 690 Turbo Commander (PPG to Apia)'},
       {nm:'Mokulele Airlines', url:'https://www.mokuleleairlines.com/', pilots:'~120', bases:['HNL','OGG','KOA','LIH'], ac:'Cessna 208 Caravan'},
       {nm:'Grand Canyon Scenic Airlines', url:'https://www.grandcanyonairlines.com/about/employment', pilots:'~80', bases:['BVU'], ac:'Cessna 208, DHC-6 Twin Otter'}
     ]}
