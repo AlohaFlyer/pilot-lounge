@@ -22,17 +22,28 @@
   .calcout{margin-top:16px; text-align:center; background:#02101f; border:1px solid var(--line); border-radius:10px; padding:16px}
   .calcout .big{font-size:38px; font-weight:800; font-family:var(--mono); color:var(--green)}
   .calcout .sub{font-size:12px; color:var(--muted); font-family:var(--mono)}
-  .grp{margin:0 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--amber); font-family:var(--mono)}
-  .al{display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); font-size:13.5px; line-height:1.4}
+  .grp{margin:14px 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--amber); font-family:var(--mono)}
+  .grp:first-child{margin-top:0}
+  .al{border-bottom:1px solid var(--line)}
   .al:last-child{border-bottom:0}
-  .al .nm{font-weight:700; color:var(--ink)}
-  .al .nm a{color:var(--breeze); text-decoration:none}
-  .al .nm a:hover{text-decoration:underline}
-  .al .meta{color:var(--muted); font-size:12px; font-family:var(--mono); text-align:right; min-width:120px}
-  .al .bases{display:block; color:#c9d6e2; font-size:12.5px; margin-top:2px}
-  #map{height:420px; border-radius:10px; border:1px solid var(--line); margin-top:6px}
+  .alhead{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:11px 0; cursor:pointer; font-size:14px}
+  .alhead:hover .nm{color:var(--breeze)}
+  .alhead .nm{font-weight:700; color:var(--ink)}
+  .alhead .meta{color:var(--muted); font-size:12px; font-family:var(--mono); white-space:nowrap}
+  .alhead .tw{color:var(--amber); font-family:var(--mono); font-size:13px; margin-left:6px}
+  .aldet{display:none; padding:2px 0 14px; font-size:13.5px; line-height:1.5; color:#c9d6e2}
+  .al.open .aldet{display:block}
+  .aldet .row2{margin:4px 0}
+  .aldet .k{color:var(--breeze); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em}
+  .aldet a{color:var(--breeze)}
+  .maps{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px}
+  .mapwrap{}
+  .mapwrap .cap{font-family:var(--mono); font-size:11px; color:var(--muted); margin:0 0 4px}
+  .lmap{height:200px; border-radius:8px; border:1px solid var(--line)}
+  #mapMain{height:380px; border-radius:10px; border:1px solid var(--line)}
   .leaflet-popup-content{font-family:var(--sans); font-size:13px; line-height:1.4}
   .note{font-size:12px; color:var(--muted); line-height:1.5}
+  @media(max-width:520px){ .maps{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -44,10 +55,9 @@
     <div class="bt">Airlines, Bases &amp; Pay<small>Who is hiring, where they are based, and what it pays</small></div>
   </div>
 
-  <p class="lead">A directory of US passenger, cargo, regional, and fractional operators, each linked straight to its
-  pilot hiring page, with approximate pilot headcounts and crew bases plotted on the map. Plus a pay calculator so you
-  can model a monthly or annual line. Headcounts and pay move constantly; verify current numbers at
-  <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
+  <p class="lead">A directory of US passenger, cargo, regional, fractional, and territory operators, each linked straight to its
+  pilot hiring page, with approximate pilot headcounts, crew bases, and fleets. Tap any airline to expand its details. Headcounts
+  and pay move constantly; verify at <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
 
   <h2 class="sec">Pay calculator</h2>
   <div class="card calc">
@@ -64,21 +74,29 @@
       <div class="big" id="total">$35,750</div>
       <div class="sub" id="annual">about $429,000 per year at 13 bid periods</div>
     </div>
-    <p class="note" style="margin-top:10px">Illustrative only. Real pay depends on the contract, aircraft, seat, and work rules. Check the live per-airline scales at
+    <p class="note" style="margin-top:10px">Illustrative only. Check the live per-airline scales at
     <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
   </div>
 
   <h2 class="sec">Crew base map</h2>
   <div class="card">
-    <div id="map"></div>
-    <p class="note" style="margin-top:8px">Markers show major crew bases. Tap a marker to see which carriers are based there. Bases shift with the network; this is a representative snapshot.</p>
+    <div id="mapMain"></div>
+    <p class="note" style="margin-top:8px">Continental US bases. Tap a marker for the carriers based there. Hawaii, Alaska, and the territories have their own maps below.</p>
+    <div class="maps">
+      <div class="mapwrap"><div class="cap">Alaska</div><div id="mapAK" class="lmap"></div></div>
+      <div class="mapwrap"><div class="cap">Hawaii</div><div id="mapHI" class="lmap"></div></div>
+      <div class="mapwrap"><div class="cap">Guam &amp; CNMI</div><div id="mapGU" class="lmap"></div></div>
+      <div class="mapwrap"><div class="cap">Puerto Rico</div><div id="mapPR" class="lmap"></div></div>
+      <div class="mapwrap"><div class="cap">US Virgin Islands</div><div id="mapVI" class="lmap"></div></div>
+      <div class="mapwrap"><div class="cap">American Samoa</div><div id="mapAS" class="lmap"></div></div>
+    </div>
   </div>
 
   <h2 class="sec">The directory</h2>
   <div class="card" id="directory"></div>
 
   <footer>
-    Pilot headcounts and bases are approximate and trace to public sources and AirlinePilotCentral; verify before relying on them.
+    Pilot headcounts, fleets, and bases are approximate and trace to public sources and AirlinePilotCentral; verify before relying on them.
     Pay figures are illustrative. Aloha and keep the shiny side up.
   </footer>
 </div>
@@ -87,110 +105,131 @@
 <script>
   function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
   function calc(){
-    var rate = +document.getElementById('rate').value;
-    var credit = +document.getElementById('credit').value;
-    var bid = +document.getElementById('bid').value;
-    var pct = +document.getElementById('pct').value;
-    document.getElementById('rOut').textContent = '$' + rate;
-    document.getElementById('cOut').textContent = credit;
-    document.getElementById('bOut').textContent = bid;
-    document.getElementById('pOut').textContent = pct;
-    var perPeriod = rate * credit * (pct/100);
-    var total = perPeriod * bid;
-    document.getElementById('total').textContent = money(total);
-    var annual = perPeriod * 13;
-    document.getElementById('annual').textContent = 'about ' + money(annual) + ' per year at 13 bid periods';
+    var rate=+rate_.value, credit=+credit_.value, bid=+bid_.value, pct=+pct_.value;
+    rOut.textContent='$'+rate; cOut.textContent=credit; bOut.textContent=bid; pOut.textContent=pct;
+    var per=rate*credit*(pct/100);
+    total.textContent=money(per*bid);
+    annual.textContent='about '+money(per*13)+' per year at 13 bid periods';
   }
-  ['rate','credit','bid','pct'].forEach(function(id){
-    document.getElementById(id).addEventListener('input', calc);
-  });
+  var rate_=document.getElementById('rate'), credit_=document.getElementById('credit'),
+      bid_=document.getElementById('bid'), pct_=document.getElementById('pct'),
+      rOut=document.getElementById('rOut'), cOut=document.getElementById('cOut'),
+      bOut=document.getElementById('bOut'), pOut=document.getElementById('pOut'),
+      total=document.getElementById('total'), annual=document.getElementById('annual');
+  [rate_,credit_,bid_,pct_].forEach(function(el){ el.addEventListener('input', calc); });
   calc();
 
+  /* airport: [lat, lng, region] */
   var AP = {
-    ATL:[33.64,-84.43], DFW:[32.90,-97.04], ORD:[41.98,-87.90], DEN:[39.86,-104.67], LAX:[33.94,-118.41],
-    CLT:[35.21,-80.94], MIA:[25.79,-80.29], PHX:[33.43,-112.01], SEA:[47.45,-122.31], SFO:[37.62,-122.38],
-    MSP:[44.88,-93.22], DTW:[42.21,-83.35], IAH:[29.98,-95.34], EWR:[40.69,-74.17], JFK:[40.64,-73.78],
-    LGA:[40.78,-73.87], BOS:[42.36,-71.01], SLC:[40.79,-111.98], PHL:[39.87,-75.24], DCA:[38.85,-77.04],
-    IAD:[38.95,-77.46], MCO:[28.43,-81.31], LAS:[36.08,-115.15], HOU:[29.65,-95.28], DAL:[32.85,-96.85],
-    BWI:[39.18,-76.67], MDW:[41.79,-87.75], OAK:[37.71,-122.22], PDX:[45.59,-122.60], ANC:[61.17,-149.99],
-    HNL:[21.32,-157.92], SAN:[32.73,-117.19], MEM:[35.04,-89.98], SDF:[38.17,-85.74], IND:[39.72,-86.29],
-    CVG:[39.05,-84.67], GUM:[13.48,144.80], BNA:[36.12,-86.68], FLL:[26.07,-80.15], DAY:[39.90,-84.22],
-    CMH:[39.998,-82.89], BOI:[43.56,-116.22], YIP:[42.24,-83.53]
+    ATL:[33.64,-84.43,'c'], DFW:[32.90,-97.04,'c'], ORD:[41.98,-87.90,'c'], DEN:[39.86,-104.67,'c'], LAX:[33.94,-118.41,'c'],
+    CLT:[35.21,-80.94,'c'], MIA:[25.79,-80.29,'c'], PHX:[33.43,-112.01,'c'], SEA:[47.45,-122.31,'c'], SFO:[37.62,-122.38,'c'],
+    MSP:[44.88,-93.22,'c'], DTW:[42.21,-83.35,'c'], IAH:[29.98,-95.34,'c'], EWR:[40.69,-74.17,'c'], JFK:[40.64,-73.78,'c'],
+    LGA:[40.78,-73.87,'c'], BOS:[42.36,-71.01,'c'], SLC:[40.79,-111.98,'c'], PHL:[39.87,-75.24,'c'], DCA:[38.85,-77.04,'c'],
+    IAD:[38.95,-77.46,'c'], MCO:[28.43,-81.31,'c'], LAS:[36.08,-115.15,'c'], HOU:[29.65,-95.28,'c'], DAL:[32.85,-96.85,'c'],
+    BWI:[39.18,-76.67,'c'], MDW:[41.79,-87.75,'c'], OAK:[37.71,-122.22,'c'], PDX:[45.59,-122.60,'c'],
+    SAN:[32.73,-117.19,'c'], MEM:[35.04,-89.98,'c'], SDF:[38.17,-85.74,'c'], IND:[39.72,-86.29,'c'],
+    CVG:[39.05,-84.67,'c'], BNA:[36.12,-86.68,'c'], FLL:[26.07,-80.15,'c'], DAY:[39.90,-84.22,'c'],
+    CMH:[39.998,-82.89,'c'], BOI:[43.56,-116.22,'c'], YIP:[42.24,-83.53,'c'], BVU:[35.95,-114.86,'c'],
+    ANC:[61.17,-149.99,'ak'],
+    HNL:[21.32,-157.92,'hi'], OGG:[20.90,-156.43,'hi'], KOA:[19.74,-156.05,'hi'], LIH:[21.98,-159.34,'hi'],
+    GUM:[13.48,144.80,'gu'], SPN:[15.12,145.73,'gu'], ROP:[14.17,145.24,'gu'], TIQ:[14.999,145.62,'gu'],
+    SJU:[18.44,-66.00,'pr'], BQN:[18.49,-67.13,'pr'], VQS:[18.13,-65.49,'pr'], CPX:[18.31,-65.30,'pr'], SIG:[18.46,-66.10,'pr'],
+    STT:[18.34,-64.97,'vi'], STX:[17.70,-64.80,'vi'],
+    PPG:[-14.33,-170.71,'as']
   };
 
   var GROUPS = [
     {g:'Legacy carriers', list:[
-      {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA']},
-      {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG']},
-      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM']}
+      {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA'], ac:'A321/A320/A319, B737, B777, B787'},
+      {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG'], ac:'A220/A320/A330/A350, B737/B757/B767'},
+      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'}
     ]},
     {g:'Other majors and low-cost', list:[
-      {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA']},
-      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. Hawaiian)', bases:['SEA','PDX','ANC','LAX','SFO','SAN','HNL']},
-      {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO']},
-      {nm:'Spirit Airlines', url:'https://careers.spirit.com/', pilots:'~3,000', bases:['FLL','MCO','LAS','DFW','DTW','ORD','IAH']},
-      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL']},
-      {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO']}
+      {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA'], ac:'Boeing 737 (700/800/MAX)'},
+      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. Hawaiian)', bases:['SEA','PDX','ANC','LAX','SFO','SAN','HNL'], ac:'B737, A320; Hawaiian A330/A321neo/B787'},
+      {nm:'Hawaiian Airlines (Alaska Air Group)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,100', bases:['HNL','OGG','KOA','LIH'], ac:'A330, A321neo, B787, B717 inter-island'},
+      {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO'], ac:'A320/A321, A220, E190'},
+      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL'], ac:'Airbus A320 family'},
+      {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO'], ac:'Airbus A319/A320'},
+      {nm:'Sun Country Airlines', url:'https://suncountry.com/careers', pilots:'~700', bases:['MSP'], ac:'Boeing 737-800'},
+      {nm:'Breeze Airways', url:'https://www.flybreeze.com/careers', pilots:'~700', bases:['BNA','MCO'], ac:'A220, E190/E195'},
+      {nm:'Avelo Airlines', url:'https://www.aveloair.com/careers', pilots:'~400', bases:['BUR'], ac:'Boeing 737'}
     ]},
-    {g:'Cargo and freight', list:[
-      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC']},
-      {nm:'UPS Airlines', url:'https://www.jobs-ups.com/flight-operations', pilots:'~3,000', bases:['SDF']},
-      {nm:'Atlas Air', url:'https://www.atlasair.com/atlas-air-careers/pilots/', pilots:'~2,300', bases:['CVG','MIA']},
-      {nm:'Kalitta Air', url:'https://www.kalittaair.com/careers/', pilots:'~900', bases:['YIP']}
+    {g:'Cargo and freight', acmi:true, list:[
+      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC'], ac:'B767F, B777F, MD-11F, A300, ATR, Cessna 208'},
+      {nm:'UPS Airlines', url:'https://www.jobs-ups.com/flight-operations', pilots:'~3,000', bases:['SDF'], ac:'B767F, B757F, B747-8F, MD-11F, A300'},
+      {nm:'Atlas Air', url:'https://www.atlasair.com/atlas-air-careers/pilots/', pilots:'~2,300', bases:['CVG','MIA'], ac:'B747, B767, B777 (ACMI)'},
+      {nm:'Kalitta Air', url:'https://www.kalittaair.com/careers/', pilots:'~900', bases:['YIP'], ac:'B747, B767, A321/A330 (ACMI)'}
     ]},
     {g:'Regional airlines', list:[
-      {nm:'SkyWest Airlines', url:'https://www.skywest.com/skywest-airline-jobs/pilots/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW']},
-      {nm:'Envoy Air (American Eagle)', url:'https://www.envoyair.com/pilots/', pilots:'~2,300', bases:['DFW','ORD','MIA']},
-      {nm:'Endeavor Air (Delta Connection)', url:'https://endeavorair.com/pilots', pilots:'~2,000', bases:['MSP','DTW','JFK','ATL']},
-      {nm:'Republic Airways', url:'https://www.rjet.com/pilots/', pilots:'~2,600', bases:['IND','CMH']},
-      {nm:'PSA Airlines (American Eagle)', url:'https://www.psaairlines.com/pilots/', pilots:'~1,900', bases:['CLT','DAY','CVG']},
-      {nm:'Piedmont Airlines (American Eagle)', url:'https://piedmont-airlines.com/careers/pilots/', pilots:'~1,400', bases:['CLT','PHL']},
-      {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,000', bases:['SEA','PDX','BOI']}
+      {nm:'SkyWest Airlines', url:'https://www.skywest.com/skywest-airline-jobs/pilots/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW'], ac:'CRJ-700/900, Embraer E175'},
+      {nm:'Envoy Air (American Eagle)', url:'https://www.envoyair.com/pilots/', pilots:'~2,300', bases:['DFW','ORD','MIA'], ac:'Embraer E175'},
+      {nm:'Endeavor Air (Delta Connection)', url:'https://endeavorair.com/pilots', pilots:'~2,000', bases:['MSP','DTW','JFK','ATL'], ac:'CRJ-900'},
+      {nm:'Republic Airways', url:'https://www.rjet.com/pilots/', pilots:'~2,600', bases:['IND','CMH'], ac:'Embraer E170/E175 (merged with Mesa 2025)'},
+      {nm:'PSA Airlines (American Eagle)', url:'https://www.psaairlines.com/pilots/', pilots:'~1,900', bases:['CLT','DAY','CVG'], ac:'CRJ-700/900'},
+      {nm:'Piedmont Airlines (American Eagle)', url:'https://piedmont-airlines.com/careers/pilots/', pilots:'~1,400', bases:['CLT','PHL'], ac:'Embraer E145 (to E175)'},
+      {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,000', bases:['SEA','PDX','BOI'], ac:'Embraer E175'}
     ]},
     {g:'Fractional and corporate', list:[
-      {nm:'NetJets', url:'https://netjetspilots.com/', pilots:'~3,300', bases:['Domicile flexible']},
-      {nm:'Flexjet', url:'https://careers.flexjet.com/pilots/', pilots:'~1,500', bases:['Domicile flexible']}
+      {nm:'NetJets', url:'https://netjetspilots.com/', pilots:'~3,300', bases:['Domicile flexible'], ac:'Citation, Phenom, Challenger, Global'},
+      {nm:'Flexjet', url:'https://careers.flexjet.com/pilots/', pilots:'~1,500', bases:['Domicile flexible'], ac:'Phenom, Praetor, Challenger, Gulfstream, Global'}
+    ]},
+    {g:'Territory and commuter carriers', list:[
+      {nm:'Cape Air', url:'https://www.capeairpilots.com/', pilots:'~400', bases:['SJU','STT','VQS','CPX','BOS'], ac:'Cessna 402, Tecnam P2012'},
+      {nm:'Vieques Air Link', url:'https://www.viequesairlink.com/', pilots:'~30', bases:['SIG','VQS','CPX','SJU'], ac:'Britten-Norman Islander, Cessna'},
+      {nm:'Seaborne Airlines', url:'https://www.seaborneairlines.com/', pilots:'~40', bases:['STX','STT','SJU'], ac:'DHC-6 Twin Otter'},
+      {nm:'Star Marianas Air', url:'https://www.starmarianasair.com/', pilots:'~40', bases:['SPN','TIQ','ROP','GUM'], ac:'Cessna 207/210'},
+      {nm:'Mokulele Airlines', url:'https://www.mokuleleairlines.com/', pilots:'~120', bases:['HNL','OGG','KOA','LIH'], ac:'Cessna 208 Caravan'},
+      {nm:'Grand Canyon Scenic Airlines', url:'https://www.grandcanyonairlines.com/about/employment', pilots:'~80', bases:['BVU'], ac:'Cessna 208, DHC-6 Twin Otter'}
     ]}
   ];
 
+  /* directory with expandable details */
   (function(){
     var box = document.getElementById('directory');
     GROUPS.forEach(function(grp){
-      var h = document.createElement('div'); h.className='grp'; h.textContent = grp.g; box.appendChild(h);
+      var h = document.createElement('div'); h.className='grp';
+      h.innerHTML = grp.g + (grp.acmi ? ' <a href="https://en.wikipedia.org/wiki/Aircraft_lease#Wet_lease" target="_blank" rel="noopener" style="text-transform:none;letter-spacing:0;font-size:11px">(what is ACMI?)</a>' : '');
+      box.appendChild(h);
       grp.list.forEach(function(a){
-        var row = document.createElement('div'); row.className='al';
-        row.innerHTML = '<div><span class="nm"><a href="'+a.url+'" target="_blank" rel="noopener">'+a.nm+' &#8599;</a></span>'
-          + '<span class="bases">Bases: '+a.bases.join(', ')+'</span></div>'
-          + '<span class="meta">'+a.pilots+' pilots</span>';
-        box.appendChild(row);
+        var wrap=document.createElement('div'); wrap.className='al';
+        var head=document.createElement('div'); head.className='alhead';
+        head.innerHTML='<span><span class="nm">'+a.nm+'</span><span class="tw">+</span></span><span class="meta">'+a.pilots+' pilots</span>';
+        var det=document.createElement('div'); det.className='aldet';
+        det.innerHTML='<div class="row2"><span class="k">Bases</span> '+a.bases.join(', ')+'</div>'
+          + '<div class="row2"><span class="k">Fleet</span> '+a.ac+'</div>'
+          + '<div class="row2"><span class="k">Pilots</span> '+a.pilots+' (approx)</div>'
+          + '<div class="row2"><a href="'+a.url+'" target="_blank" rel="noopener">Pilot hiring page &#8599;</a> &nbsp; '
+          + '<a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">Pay scales (APC) &#8599;</a></div>';
+        head.onclick=function(){ wrap.classList.toggle('open'); head.querySelector('.tw').textContent = wrap.classList.contains('open')?'−':'+'; };
+        wrap.appendChild(head); wrap.appendChild(det); box.appendChild(wrap);
       });
-      box.appendChild(Object.assign(document.createElement('div'), {style:'height:10px'}));
     });
   })();
 
+  /* airport -> airlines index */
   var byAirport = {};
-  GROUPS.forEach(function(grp){
-    grp.list.forEach(function(a){
-      a.bases.forEach(function(code){
-        if(!AP[code]) return;
-        (byAirport[code] = byAirport[code] || []).push(a.nm);
-      });
-    });
-  });
+  GROUPS.forEach(function(grp){ grp.list.forEach(function(a){ a.bases.forEach(function(code){
+    if(!AP[code]) return; (byAirport[code]=byAirport[code]||[]).push(a.nm);
+  }); }); });
 
-  (function(){
-    var map = L.map('map', {scrollWheelZoom:false}).setView([39.5,-98.35], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 11, attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
+  function makeMap(id, center, zoom, region){
+    var el=document.getElementById(id); if(!el) return;
+    var map=L.map(id,{scrollWheelZoom:false, zoomControl:(region==='c')}).setView(center, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:11, attribution:'&copy; OSM'}).addTo(map);
     Object.keys(byAirport).forEach(function(code){
-      var c = AP[code];
-      var names = byAirport[code];
-      L.circleMarker(c, {radius:6, color:'#f2a65a', fillColor:'#f2a65a', fillOpacity:0.85, weight:1})
-        .addTo(map)
-        .bindPopup('<b>'+code+'</b><br>'+names.join('<br>'));
+      if(AP[code][2]!==region) return;
+      L.circleMarker([AP[code][0],AP[code][1]],{radius:6,color:'#f2a65a',fillColor:'#f2a65a',fillOpacity:0.85,weight:1})
+        .addTo(map).bindPopup('<b>'+code+'</b><br>'+byAirport[code].join('<br>'));
     });
-  })();
+  }
+  makeMap('mapMain',[39.5,-98.35],4,'c');
+  makeMap('mapAK',[63,-152],3,'ak');
+  makeMap('mapHI',[20.6,-157.3],6,'hi');
+  makeMap('mapGU',[14.4,145.2],7,'gu');
+  makeMap('mapPR',[18.2,-66.1],8,'pr');
+  makeMap('mapVI',[18.05,-64.85],9,'vi');
+  makeMap('mapAS',[-14.31,-170.71],9,'as');
 </script>
 </body>
 </html>
