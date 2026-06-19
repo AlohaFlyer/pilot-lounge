@@ -14,6 +14,7 @@
   h2.sec{font-size:13px; text-transform:uppercase; letter-spacing:.13em; color:var(--breeze);
     margin:26px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px}
   .card h3{margin:0 0 6px; font-size:16px}
+  .card h4{margin:18px 0 6px; font-size:14px; color:var(--breeze); letter-spacing:.02em}
   .card p{margin:6px 0; line-height:1.5; font-size:14px}
   .ladder{list-style:none; padding:0; margin:0}
   .ladder li{display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line)}
@@ -44,6 +45,13 @@
   .bp{margin:10px 0 0; padding:12px 14px; background:rgba(192,229,133,.06); border:1px solid rgba(192,229,133,.3); border-radius:8px}
   .bp h5{margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--green)}
   .bp ul{margin:0; padding-left:18px} .bp li{margin:5px 0; font-size:13.5px; line-height:1.45}
+  .oplist{margin:4px 0 0; padding-left:18px}
+  .oplist li{margin:6px 0; font-size:13.5px; line-height:1.45}
+  .oplist b{color:var(--ink)}
+  .payrow{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px}
+  .payrow:last-child{border-bottom:0}
+  .payrow .lvl{color:var(--ink)} .payrow .amt{font-family:var(--mono); color:var(--green); white-space:nowrap}
+  .note{font-size:12px; color:var(--muted); line-height:1.5}
   .tips{margin:6px 0 0; padding-left:18px}
   .tips li{margin:7px 0; line-height:1.5; font-size:14px}
 </style>
@@ -104,9 +112,59 @@
 
   <h2 class="sec">The career path</h2>
   <div class="card">
-    <h3>Regional, then major</h3>
-    <p>The traditional airline ladder runs regional airline first, building turbine and multi-crew experience, then a move to a major or legacy carrier. Plenty of pilots also build careers in <b>Part 135</b> charter and cargo, <b>Part 91</b> corporate and fractional flying, and outside the airlines entirely. There is no single right route.</p>
-    <p style="margin-bottom:0"><b>Part 121</b> is the scheduled airlines. <b>Part 135</b> is on-demand charter and commuter. <b>Part 91</b> is general operating rules, including most corporate and private flying. Each has its own quality-of-life, pay, and schedule trade-offs, and good careers live in all three.</p>
+    <h3>Where the seats are</h3>
+    <p>The traditional ladder runs <b>regional first, then a major or legacy carrier</b>, building turbine and multi-crew time along the way. But it is not the only route, and not even always the highest paid one. <b>Cargo (freight)</b> and <b>corporate and fractional</b> flying are full careers in their own right, and plenty of pilots never fly a passenger airline at all.</p>
+    <p><b>Part 121</b> is the scheduled airlines and major cargo. <b>Part 135</b> is on-demand charter and commuter. <b>Part 91</b> is general operating rules, including most corporate and private flying. Good careers live in all of them.</p>
+
+    <h4>Legacy carriers</h4>
+    <p>The big three full-service network airlines: <b>American</b>, <b>Delta</b>, and <b>United</b>. Largest fleets, global networks, widebody flying, and the top of most pay scales.</p>
+
+    <h4>Other majors and low-cost carriers</h4>
+    <ul class="oplist">
+      <li><b>Southwest</b>, <b>Alaska</b> (now including Hawaiian), and <b>JetBlue</b> are large established mainline carriers.</li>
+      <li><b>Spirit</b>, <b>Frontier</b>, <b>Allegiant</b>, <b>Sun Country</b>, <b>Breeze</b>, and <b>Avelo</b> are the low-cost and ultra-low-cost carriers.</li>
+    </ul>
+
+    <h4>Cargo and freight</h4>
+    <ul class="oplist">
+      <li><b>FedEx Express</b> and <b>UPS Airlines</b> are the cargo majors, with pay and benefits that rival or beat the passenger legacies.</li>
+      <li><b>Atlas Air</b>, <b>Kalitta Air</b>, <b>Western Global</b>, <b>ABX Air</b>, and <b>Amerijet</b> are ACMI and supplemental freight operators, a common turbine and widebody way in.</li>
+    </ul>
+
+    <h4>Regional airlines</h4>
+    <p>Where most airline careers begin. They fly as American Eagle, Delta Connection, and United Express:</p>
+    <ul class="oplist">
+      <li><b>SkyWest</b> is the largest US regional, 500+ aircraft, flying for all three legacies.</li>
+      <li><b>Republic Airways</b> flies about 200 aircraft for American, Delta, and United (merged with Mesa in 2025).</li>
+      <li><b>Envoy Air</b>, <b>PSA Airlines</b>, and <b>Piedmont Airlines</b> are American's wholly-owned American Eagle carriers, with a flow to American mainline.</li>
+      <li><b>Endeavor Air</b> is Delta's wholly-owned Delta Connection carrier, with a flow to Delta.</li>
+      <li><b>Horizon Air</b> is Alaska's regional and the Ascend Pilot Academy destination.</li>
+      <li><b>GoJet</b>, <b>Air Wisconsin</b>, and <b>CommutAir</b> round out the United Express and independent regionals.</li>
+    </ul>
+
+    <h4>Corporate and fractional</h4>
+    <p><b>NetJets</b> and <b>Flexjet</b> are the big fractional operators, and thousands of company flight departments fly <b>Part 91</b> and <b>Part 135</b> in everything from turboprops to large-cabin jets. Excellent equipment, mentorship, and increasingly competitive pay, with widely varying schedules.</p>
+
+    <h4>What it pays</h4>
+    <p class="note">Pay jumped dramatically with the 2022 to 2024 contracts and keeps moving. These are rough <b>potential</b> total-annual ranges, not promises. For current, exact, contract-by-contract rates, check the pay scales at
+    <a href="https://www.airlinepilotcentral.com/" target="_blank" rel="noopener">AirlinePilotCentral.com</a> (per-airline pages, updated continuously).</p>
+    <div style="margin-top:8px">
+      <div class="payrow"><span class="lvl">Regional first officer (year 1)</span><span class="amt">~$90k+</span></div>
+      <div class="payrow"><span class="lvl">Regional captain (senior)</span><span class="amt">~$150k&ndash;230k</span></div>
+      <div class="payrow"><span class="lvl">Major / legacy first officer</span><span class="amt">~$110k&ndash;250k</span></div>
+      <div class="payrow"><span class="lvl">Major narrowbody captain</span><span class="amt">~$300k&ndash;400k</span></div>
+      <div class="payrow"><span class="lvl">Major widebody captain (senior)</span><span class="amt">~$400k&ndash;500k+</span></div>
+      <div class="payrow"><span class="lvl">Cargo (FedEx / UPS) senior captain</span><span class="amt">~$400k&ndash;500k+</span></div>
+      <div class="payrow"><span class="lvl">Corporate / fractional</span><span class="amt">~$90k&ndash;250k+</span></div>
+    </div>
+    <p class="note" style="margin-top:8px">Numbers swing with aircraft, seat, seniority, and how much you fly. Always verify against the live pay scales linked above.</p>
+
+    <h4>Australia and New Zealand</h4>
+    <p>The ladder rhymes, under different regulators. In <b>Australia</b> the regulator is <b>CASA</b>: you build from a CPL through ATPL theory, a multi-engine command instrument rating, and an MCC course. The <b>Qantas Group Pilot Academy</b> (Toowoomba) is an ab-initio school whose strong graduates are invited to a Qantas Group assessment for <b>QantasLink</b>, <b>Jetstar</b>, or <b>Network Aviation</b>. Mainline carriers are <b>Qantas</b>, <b>Jetstar</b>, and <b>Virgin Australia</b>, with regionals like <b>QantasLink</b>, <b>Rex (Regional Express)</b>, and <b>Alliance</b>.</p>
+    <p>In <b>New Zealand</b> the regulator is the <b>CAA NZ</b>, and the licence path is similar (CPL, then ATPL). <b>Air New Zealand</b> is the flag carrier and runs partner-school and preferred-pathway schemes into its turboprop fleet and on to jets. Other operators include <b>Sounds Air</b>, <b>Originair</b>, <b>Barrier Air</b>, and <b>Air Chathams</b>. A New Zealand licence must be converted to an Australian one before applying to Qantas Group, and vice versa.</p>
+
+    <h4>US territories: Puerto Rico, USVI, Guam, American Samoa, CNMI</h4>
+    <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>: same certificates, same Part 61 hour gates, same ATP. Local island flying (inter-island hops, Part 135 commuter and cargo) is excellent early experience and time building, and pilots there move into the same regionals, majors, and cargo carriers as the mainland.</p>
   </div>
 
   <h2 class="sec">Getting hired</h2>
@@ -122,8 +180,8 @@
   </div>
 
   <footer>
-    Free study tool for student and new pilots. Career figures trace to FAA public-domain sources and 14 CFR Part 61.<br>
-    Requirements change. Verify against current FAA publications and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
+    Free study tool for student and new pilots. Career figures trace to FAA public-domain sources and 14 CFR Part 61; pay ranges are illustrative, verify at AirlinePilotCentral.<br>
+    Requirements and pay change. Verify against current FAA publications, airline sources, and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
   </footer>
 </div>
 
