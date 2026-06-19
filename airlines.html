@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Airlines, Bases & Pay</title>
+<meta name="theme-color" content="#01172b">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  .lead{color:var(--muted); font-size:14px; line-height:1.55; margin:2px 0 18px}
+  h2.sec{font-size:13px; text-transform:uppercase; letter-spacing:.13em; color:var(--breeze);
+    margin:26px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px}
+  .card h3{margin:0 0 6px; font-size:16px}
+  .card p{margin:6px 0; line-height:1.5; font-size:14px}
+  .calc label{display:block; font-size:13px; color:var(--muted); margin:14px 0 4px; font-family:var(--mono)}
+  .calc label b{color:var(--ink); font-size:14px}
+  .calc input[type=range]{width:100%; accent-color:var(--amber); height:26px}
+  .calcout{margin-top:16px; text-align:center; background:#02101f; border:1px solid var(--line); border-radius:10px; padding:16px}
+  .calcout .big{font-size:38px; font-weight:800; font-family:var(--mono); color:var(--green)}
+  .calcout .sub{font-size:12px; color:var(--muted); font-family:var(--mono)}
+  .grp{margin:0 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--amber); font-family:var(--mono)}
+  .al{display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); font-size:13.5px; line-height:1.4}
+  .al:last-child{border-bottom:0}
+  .al .nm{font-weight:700; color:var(--ink)}
+  .al .nm a{color:var(--breeze); text-decoration:none}
+  .al .nm a:hover{text-decoration:underline}
+  .al .meta{color:var(--muted); font-size:12px; font-family:var(--mono); text-align:right; min-width:120px}
+  .al .bases{display:block; color:#c9d6e2; font-size:12.5px; margin-top:2px}
+  #map{height:420px; border-radius:10px; border:1px solid var(--line); margin-top:6px}
+  .leaflet-popup-content{font-family:var(--sans); font-size:13px; line-height:1.4}
+  .note{font-size:12px; color:var(--muted); line-height:1.5}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&#8592; Lounge</a>
+<div class="wrap">
+
+  <div class="brand">
+    <img src="logo.jpg" alt="The Pilot Lounge logo">
+    <div class="bt">Airlines, Bases &amp; Pay<small>Who is hiring, where they are based, and what it pays</small></div>
+  </div>
+
+  <p class="lead">A directory of US passenger, cargo, regional, and fractional operators, each linked straight to its
+  pilot hiring page, with approximate pilot headcounts and crew bases plotted on the map. Plus a pay calculator so you
+  can model a monthly or annual line. Headcounts and pay move constantly; verify current numbers at
+  <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
+
+  <h2 class="sec">Pay calculator</h2>
+  <div class="card calc">
+    <p style="margin-top:0; color:var(--muted); font-size:13px">Drag the sliders. Monthly pay = rate &times; credit hours &times; percentage. Set bid periods to about 13 for a yearly estimate.</p>
+    <label>Pay rate: <b id="rOut">$325</b> / hour
+      <input type="range" id="rate" min="0" max="1000" step="5" value="325"></label>
+    <label>Credit time: <b id="cOut">110</b> hours
+      <input type="range" id="credit" min="0" max="150" step="1" value="110"></label>
+    <label>Bid periods: <b id="bOut">1</b>
+      <input type="range" id="bid" min="1" max="13" step="1" value="1"></label>
+    <label>Percentage: <b id="pOut">100</b>%
+      <input type="range" id="pct" min="0" max="100" step="1" value="100"></label>
+    <div class="calcout">
+      <div class="big" id="total">$35,750</div>
+      <div class="sub" id="annual">about $429,000 per year at 13 bid periods</div>
+    </div>
+    <p class="note" style="margin-top:10px">Illustrative only. Real pay depends on the contract, aircraft, seat, and work rules. Check the live per-airline scales at
+    <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
+  </div>
+
+  <h2 class="sec">Crew base map</h2>
+  <div class="card">
+    <div id="map"></div>
+    <p class="note" style="margin-top:8px">Markers show major crew bases. Tap a marker to see which carriers are based there. Bases shift with the network; this is a representative snapshot.</p>
+  </div>
+
+  <h2 class="sec">The directory</h2>
+  <div class="card" id="directory"></div>
+
+  <footer>
+    Pilot headcounts and bases are approximate and trace to public sources and AirlinePilotCentral; verify before relying on them.
+    Pay figures are illustrative. Aloha and keep the shiny side up.
+  </footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function calc(){
+    var rate = +document.getElementById('rate').value;
+    var credit = +document.getElementById('credit').value;
+    var bid = +document.getElementById('bid').value;
+    var pct = +document.getElementById('pct').value;
+    document.getElementById('rOut').textContent = '$' + rate;
+    document.getElementById('cOut').textContent = credit;
+    document.getElementById('bOut').textContent = bid;
+    document.getElementById('pOut').textContent = pct;
+    var perPeriod = rate * credit * (pct/100);
+    var total = perPeriod * bid;
+    document.getElementById('total').textContent = money(total);
+    var annual = perPeriod * 13;
+    document.getElementById('annual').textContent = 'about ' + money(annual) + ' per year at 13 bid periods';
+  }
+  ['rate','credit','bid','pct'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calc);
+  });
+  calc();
+
+  var AP = {
+    ATL:[33.64,-84.43], DFW:[32.90,-97.04], ORD:[41.98,-87.90], DEN:[39.86,-104.67], LAX:[33.94,-118.41],
+    CLT:[35.21,-80.94], MIA:[25.79,-80.29], PHX:[33.43,-112.01], SEA:[47.45,-122.31], SFO:[37.62,-122.38],
+    MSP:[44.88,-93.22], DTW:[42.21,-83.35], IAH:[29.98,-95.34], EWR:[40.69,-74.17], JFK:[40.64,-73.78],
+    LGA:[40.78,-73.87], BOS:[42.36,-71.01], SLC:[40.79,-111.98], PHL:[39.87,-75.24], DCA:[38.85,-77.04],
+    IAD:[38.95,-77.46], MCO:[28.43,-81.31], LAS:[36.08,-115.15], HOU:[29.65,-95.28], DAL:[32.85,-96.85],
+    BWI:[39.18,-76.67], MDW:[41.79,-87.75], OAK:[37.71,-122.22], PDX:[45.59,-122.60], ANC:[61.17,-149.99],
+    HNL:[21.32,-157.92], SAN:[32.73,-117.19], MEM:[35.04,-89.98], SDF:[38.17,-85.74], IND:[39.72,-86.29],
+    CVG:[39.05,-84.67], GUM:[13.48,144.80], BNA:[36.12,-86.68], FLL:[26.07,-80.15], DAY:[39.90,-84.22],
+    CMH:[39.998,-82.89], BOI:[43.56,-116.22], YIP:[42.24,-83.53]
+  };
+
+  var GROUPS = [
+    {g:'Legacy carriers', list:[
+      {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA']},
+      {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG']},
+      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM']}
+    ]},
+    {g:'Other majors and low-cost', list:[
+      {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA']},
+      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. Hawaiian)', bases:['SEA','PDX','ANC','LAX','SFO','SAN','HNL']},
+      {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO']},
+      {nm:'Spirit Airlines', url:'https://careers.spirit.com/', pilots:'~3,000', bases:['FLL','MCO','LAS','DFW','DTW','ORD','IAH']},
+      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL']},
+      {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO']}
+    ]},
+    {g:'Cargo and freight', list:[
+      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC']},
+      {nm:'UPS Airlines', url:'https://www.jobs-ups.com/flight-operations', pilots:'~3,000', bases:['SDF']},
+      {nm:'Atlas Air', url:'https://www.atlasair.com/atlas-air-careers/pilots/', pilots:'~2,300', bases:['CVG','MIA']},
+      {nm:'Kalitta Air', url:'https://www.kalittaair.com/careers/', pilots:'~900', bases:['YIP']}
+    ]},
+    {g:'Regional airlines', list:[
+      {nm:'SkyWest Airlines', url:'https://www.skywest.com/skywest-airline-jobs/pilots/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW']},
+      {nm:'Envoy Air (American Eagle)', url:'https://www.envoyair.com/pilots/', pilots:'~2,300', bases:['DFW','ORD','MIA']},
+      {nm:'Endeavor Air (Delta Connection)', url:'https://endeavorair.com/pilots', pilots:'~2,000', bases:['MSP','DTW','JFK','ATL']},
+      {nm:'Republic Airways', url:'https://www.rjet.com/pilots/', pilots:'~2,600', bases:['IND','CMH']},
+      {nm:'PSA Airlines (American Eagle)', url:'https://www.psaairlines.com/pilots/', pilots:'~1,900', bases:['CLT','DAY','CVG']},
+      {nm:'Piedmont Airlines (American Eagle)', url:'https://piedmont-airlines.com/careers/pilots/', pilots:'~1,400', bases:['CLT','PHL']},
+      {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,000', bases:['SEA','PDX','BOI']}
+    ]},
+    {g:'Fractional and corporate', list:[
+      {nm:'NetJets', url:'https://netjetspilots.com/', pilots:'~3,300', bases:['Domicile flexible']},
+      {nm:'Flexjet', url:'https://careers.flexjet.com/pilots/', pilots:'~1,500', bases:['Domicile flexible']}
+    ]}
+  ];
+
+  (function(){
+    var box = document.getElementById('directory');
+    GROUPS.forEach(function(grp){
+      var h = document.createElement('div'); h.className='grp'; h.textContent = grp.g; box.appendChild(h);
+      grp.list.forEach(function(a){
+        var row = document.createElement('div'); row.className='al';
+        row.innerHTML = '<div><span class="nm"><a href="'+a.url+'" target="_blank" rel="noopener">'+a.nm+' &#8599;</a></span>'
+          + '<span class="bases">Bases: '+a.bases.join(', ')+'</span></div>'
+          + '<span class="meta">'+a.pilots+' pilots</span>';
+        box.appendChild(row);
+      });
+      box.appendChild(Object.assign(document.createElement('div'), {style:'height:10px'}));
+    });
+  })();
+
+  var byAirport = {};
+  GROUPS.forEach(function(grp){
+    grp.list.forEach(function(a){
+      a.bases.forEach(function(code){
+        if(!AP[code]) return;
+        (byAirport[code] = byAirport[code] || []).push(a.nm);
+      });
+    });
+  });
+
+  (function(){
+    var map = L.map('map', {scrollWheelZoom:false}).setView([39.5,-98.35], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 11, attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    Object.keys(byAirport).forEach(function(code){
+      var c = AP[code];
+      var names = byAirport[code];
+      L.circleMarker(c, {radius:6, color:'#f2a65a', fillColor:'#f2a65a', fillOpacity:0.85, weight:1})
+        .addTo(map)
+        .bindPopup('<b>'+code+'</b><br>'+names.join('<br>'));
+    });
+  })();
+</script>
+</body>
+</html>
