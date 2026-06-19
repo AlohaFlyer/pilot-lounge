@@ -15,6 +15,10 @@
 .certbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px;justify-content:center}
 .certbar .chip{font-weight:700;border-color:rgba(255,255,255,.35)}
 .certbar .chip.on{background:var(--green,#3ddc97);color:#01172b;border-color:var(--green,#3ddc97)}
+.gamesbar{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.gamesbar a{font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:16px;border:1px solid #c9a0e6;color:#c9a0e6;text-decoration:none;min-height:34px;display:inline-flex;align-items:center}
+.gamesbar a.on{background:#c9a0e6;color:#01172b}
+.gamesbar a:hover{background:#c9a0e6;color:#01172b}
 .subjbar{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;justify-content:center}
 .chip{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;min-height:34px;display:inline-flex;align-items:center}
 .chip.on{background:var(--amber);color:#01172b;border-color:var(--amber)}
@@ -32,6 +36,7 @@
     <span class="src" id="best">best 0</span>
   </header>
   <div class="certbar" id="certbar"></div>
+  <div class="gamesbar" id="gamesbar"></div>
   <div class="tbar"><div class="tfill" id="tf"></div></div>
   <div id="app"></div>
   <footer>Pick a certificate and subjects. The examiner asks, you answer out loud, then reveal the answer and its source and grade yourself. Review what you missed at the end.</footer>
@@ -42,6 +47,9 @@
 <script src="data/instrument.js"></script>
 <script src="data/commercial.js"></script>
 <script src="data/multi.js"></script>
+<script src="data/cfi.js"></script>
+<script src="data/cfii.js"></script>
+<script src="data/mei.js"></script>
 <script src="data/atp.js"></script>
 <script src="data/subjects.js"></script>
 <script>
@@ -58,6 +66,14 @@
   var best = +(localStorage.getItem(BESTKEY) || 0);
   document.getElementById('best').textContent = 'best ' + best;
   var app = document.getElementById('app'), tf = document.getElementById('tf');
+
+  function gamesbar(){
+    var bar=document.getElementById('gamesbar'); if(!bar) return;
+    var games=[['quiz.html','Quiz'],['limit-or-bust.html','Limit or Bust'],['hot-seat.html','Hot Seat']];
+    var here=location.pathname.split('/').pop()||'';
+    bar.innerHTML='';
+    games.forEach(function(g){ var a=document.createElement('a'); a.href=g[0]+'?cert='+CERT; a.textContent=g[1]; if(g[0]===here) a.className='on'; bar.appendChild(a); });
+  }
 
   function certbar(){
     var bar = document.getElementById('certbar'); bar.innerHTML = '';
@@ -185,7 +201,7 @@
     makeReview(document.getElementById('review'), missed);
     window.scrollTo(0, 0);
   }
-  certbar(); intro();
+  gamesbar(); certbar(); intro();
 </script>
 </body>
 </html>
