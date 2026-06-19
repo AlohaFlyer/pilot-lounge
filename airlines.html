@@ -88,7 +88,7 @@
   <div class="card">
     <div class="filt" id="filt"></div>
     <div id="mapMain"></div>
-    <p class="note" style="margin-top:8px">Toggle categories with the buttons. Tap a marker for the carriers based there. Hawaii, Alaska, and the territories have their own maps below.</p>
+    <p class="note" style="margin-top:8px">Toggle categories with the buttons. Tap a marker for the carriers based there. Every base is on this map (zoom or pan out to see Hawaii, Alaska, Guam, and the Caribbean); the smaller maps below zoom you straight to each region.</p>
     <div class="maps">
       <div class="mapwrap"><div class="cap">Alaska</div><div id="mapAK" class="lmap"></div></div>
       <div class="mapwrap"><div class="cap">Hawaii</div><div id="mapHI" class="lmap"></div></div>
@@ -118,13 +118,10 @@
     document.getElementById('rOut').textContent='$'+rate; document.getElementById('cOut').textContent=credit;
     document.getElementById('bOut').textContent=bid; document.getElementById('pOut').textContent=pct;
     document.getElementById('kOut').textContent=k;
-    var per=rate*credit*(pct/100);
-    var pay=per*bid;
-    var k401=pay*(k/100);
+    var per=rate*credit*(pct/100); var pay=per*bid; var k401=pay*(k/100);
     document.getElementById('total').textContent=money(pay+k401);
     document.getElementById('breakdown').textContent='pay '+money(pay)+' + 401k '+money(k401)+' ('+k+'%)';
-    var annual=per*13*(1+k/100);
-    document.getElementById('annual').textContent='about '+money(annual)+' per year total at 13 bid periods';
+    document.getElementById('annual').textContent='about '+money(per*13*(1+k/100))+' per year total at 13 bid periods';
   }
   [rate_,credit_,bid_,pct_,k401_].forEach(function(el){ el.addEventListener('input', calc); });
   calc();
@@ -161,12 +158,11 @@
     {g:'Legacy carriers', cat:'legacy', list:[
       {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA'], ac:'A321/A320/A319, B737, B777, B787'},
       {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG'], ac:'A220/A320/A330/A350, B737/B757/B767'},
-      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'}
+      {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'},
+      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. former Hawaiian)', bases:['HNL','ANC','SEA','PDX','SFO','LAX','SAN'], ac:'B737, A330/A321neo/B787 (ex-Hawaiian widebodies), B717 inter-island'}
     ]},
     {g:'Other majors and low-cost', cat:'major', list:[
       {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA'], ac:'Boeing 737 (700/800/MAX)'},
-      {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. Hawaiian)', bases:['SEA','PDX','ANC','LAX','SFO','SAN','HNL'], ac:'B737, A320; Hawaiian A330/A321neo/B787'},
-      {nm:'Hawaiian Airlines (Alaska Air Group)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,100', bases:['HNL','OGG','KOA','LIH'], ac:'A330, A321neo, B787, B717 inter-island'},
       {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO'], ac:'A320/A321, A220, E190'},
       {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL','PHL'], ac:'Airbus A320 family'},
       {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO','SFB'], ac:'Airbus A319/A320'},
@@ -236,17 +232,21 @@
   });
 
   function layerFor(cat, region){
-    var lg=L.layerGroup(); var byA=(catAir[cat]||{})[region]||{};
-    Object.keys(byA).forEach(function(code){
-      L.circleMarker([AP[code][0],AP[code][1]],{radius:6,color:CATS[cat].color,fillColor:CATS[cat].color,fillOpacity:0.85,weight:1})
-        .bindPopup('<b>'+code+'</b><br>'+byA[code].join('<br>')).addTo(lg);
+    var lg=L.layerGroup();
+    var regions = (region==='all') ? Object.keys(catAir[cat]||{}) : [region];
+    regions.forEach(function(rg){
+      var byA=(catAir[cat]||{})[rg]||{};
+      Object.keys(byA).forEach(function(code){
+        L.circleMarker([AP[code][0],AP[code][1]],{radius:6,color:CATS[cat].color,fillColor:CATS[cat].color,fillOpacity:0.85,weight:1})
+          .bindPopup('<b>'+code+'</b><br>'+byA[code].join('<br>')).addTo(lg);
+      });
     });
     return lg;
   }
 
   function makeMap(id, center, zoom, region, withFilter){
-    var map=L.map(id,{scrollWheelZoom:false}).setView(center, zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:11, attribution:'&copy; OSM'}).addTo(map);
+    var map=L.map(id,{scrollWheelZoom:false, worldCopyJump:true}).setView(center, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:11, minZoom:1, attribution:'&copy; OSM'}).addTo(map);
     var layers={};
     Object.keys(CATS).forEach(function(cat){ layers[cat]=layerFor(cat, region); layers[cat].addTo(map); });
     if(withFilter){
@@ -261,7 +261,7 @@
     }
     return map;
   }
-  makeMap('mapMain',[39.5,-98.35],4,'c',true);
+  makeMap('mapMain',[37,-96],4,'all',true);
   makeMap('mapAK',[63,-152],3,'ak',false);
   makeMap('mapHI',[20.6,-157.3],6,'hi',false);
   makeMap('mapGU',[14.4,145.2],7,'gu',false);
