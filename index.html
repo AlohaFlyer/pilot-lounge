@@ -21,6 +21,8 @@
 .track.on{background:var(--amber);color:#01172b}
 .trackhint{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin:0 0 12px;letter-spacing:.04em}
 .seclabel{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:18px 0 8px}
+.menu a.quizcard{border-color:var(--green)}
+.menu a.quizcard .arrow{color:var(--green)}
 .byline{display:block;margin-top:10px;color:var(--muted);font-size:10px;letter-spacing:.04em;text-decoration:none;opacity:.75}
 .byline:hover{opacity:1}
 </style>
@@ -87,8 +89,8 @@
     });
   }
 
-  function card(href, title, sub){
-    return '<a href="' + href + '"><span><span class="t">' + title + '</span>'
+  function card(href, title, sub, cls){
+    return '<a class="' + (cls||'') + '" href="' + href + '"><span><span class="t">' + title + '</span>'
       + '<small>' + sub + '</small></span><span class="arrow">&#9654;</span></a>';
   }
 
@@ -102,9 +104,7 @@
     if(t.hasGuide){
       html += card('student.html', 'Student Pilot Guide ✈', 'Day one to first solo: traditions, study habits, careers, and the road to solo');
     }
-    html += card('quiz.html?cert=' + t.key, 'Quiz', 'Question, answer, and a Source button for every item');
-    html += card('limit-or-bust.html?cert=' + t.key, 'Limit or Bust', 'Beat the clock. Answer fast, keep your streak, chase a high score');
-    html += card('hot-seat.html?cert=' + t.key, 'Hot Seat', 'Recall it before the timer, then grade yourself. Honor system');
+    html += card('quiz.html?cert=' + t.key, 'Quiz &amp; Games', 'Quiz, Limit or Bust, and Hot Seat. Switch games inside.', 'quizcard');
     document.getElementById('menuList').innerHTML = html;
   }
 
