@@ -122,7 +122,7 @@ window.PILOT_LOUNGE.episodes = [
      ref(R.aopa, 'AOPA explains airworthiness and the inoperative-equipment decision in plain language.')
    ],
    news:[
-     {t:'10 Regulations To Know Before Your Private Pilot Checkride', s:'Boldmethod', u:'https://www.boldmethod.com/blog/lists/2024/05/ten-faa-regs-to-know-before-your-checkride/', b:'Boldmethod groups the ten FARs most often probed on the private checkride, from certificate and medical rules to required documents, inspections, and VFR equipment under 91.205.'},
+     {t:'10 Regulations To Know Before Your Private Pilot Checkride', s:'Boldmethod', u:'https://www.boldmethod.com/blog/lists/2026/03/ten-faa-regs-to-know-before-your-checkride/', b:'Boldmethod groups the ten FARs most often probed on the private checkride, from certificate and medical rules to required documents, inspections, and VFR equipment under 91.205.'},
      {t:'Guide to Aircraft Airworthiness', s:'AOPA', u:'https://www.aopa.org/go-fly/aircraft-and-ownership/maintenance-and-inspections/aircraft-airworthiness/guide-to-aircraft-airworthiness', b:'AOPA walks through what makes an aircraft legally airworthy, covering the certificate, required inspections, and the pilot in command\'s responsibility to verify safe condition before flight.'},
      {t:'How to Pre-Flight an Airplane (ARROW documents and logs)', s:'AOPA', u:'https://www.aopa.org/training-and-safety/students/presolo/skills/how-to-pre-flight-an-airplane', b:'This AOPA student article explains the ARROW required-documents check and how to confirm the airframe\'s inspections are current by reviewing the maintenance logs.'}
    ],
@@ -147,7 +147,7 @@ window.PILOT_LOUNGE.episodes = [
    videos:[
      {t:'Airspace Explained - Class A, B, C, D, E, G + Special Use + TFRs', s:'Pilot Institute', u:'https://www.youtube.com/watch?v=y2KrWe47E1s', views:'1.5M (approx)', b:'A visual, chart-based walkthrough of the entire airspace system that pairs each class with its dimensions and requirements.'},
      {t:'Airspace Classes Made Easy in 8 Minutes', s:'Pilot Institute', u:'https://www.youtube.com/watch?v=K7Klkxny_FQ', views:'600K (approx)', b:'A fast, beginner-friendly summary that distills the six airspace classes into the essentials a new student needs to remember.'},
-     {t:'Types of Airspace [Private Pilot Ground Lesson 15]', s:'FLY8MA Flight Training', u:'https://www.youtube.com/watch?v=YVsyBO133sA', views:'300K (approx)', b:'A ground-school lesson tying airspace structure to how it actually appears on sectional charts during flight planning.'}
+     {t:'Class B Airspace Made Easy: Do Not Be Afraid of the Bravo', s:'Pilot Institute', u:'https://www.youtube.com/watch?v=xQzh0m8FkZI', views:'300K (approx)', b:'Walks through the layout, entry clearance, and equipment rules for the busy airspace around major airports.'}
    ]},
   {n:3, subject:'Weather', title:'Reading the Sky 🎙️', subjects:['Weather'], len:null,
    blurb:'Chester leads the weather you must own before a VFR cross country.',
@@ -175,7 +175,7 @@ window.PILOT_LOUNGE.episodes = [
    videos:[
      {t:'How to do a PRE-FLIGHT Inspection | Cessna 172', s:'FLY8MA Flight Training', u:'https://www.youtube.com/watch?v=HbFw40T1sCY', views:'700K (approx)', b:'A full Cessna 172 walkaround that demonstrates each checklist item and what a healthy versus a problem condition looks like.'},
      {t:'How to Preflight a Cessna 172 - In Depth Tutorial - G1000', s:'FlightInsight', u:'https://www.youtube.com/watch?v=4cwKZ0Q_Xug', views:'500K (approx)', b:'An in-depth glass-cockpit preflight tutorial covering the cockpit setup and exterior inspection step by step.'},
-     {t:'Private Pilot Weight and Balance Preflight Lesson', s:'MzeroA Flight Training', u:'https://www.youtube.com/watch?v=ReA3VxQciSk', views:'200K (approx)', b:'Walks through computing weight and balance for a trainer so you can confirm the aircraft is loaded within limits before takeoff.'}
+     {t:'Calculating Weight and Balance', s:'MzeroA Flight Training', u:'https://www.youtube.com/watch?v=Bo2ydJq9F-c', views:'200K (approx)', b:'Walks through computing weight and balance for a trainer so you can confirm the aircraft is loaded within limits before takeoff.'}
    ]},
   {n:5, subject:'Airport Operations', title:'Talking and Taxiing 🎙️', subjects:['Airport Operations'], len:null,
    blurb:'Radios, lights, patterns, and the air the big jets leave behind.',
@@ -217,7 +217,7 @@ window.PILOT_LOUNGE.episodes = [
    videos:[
      {t:'Ground Reference Maneuvers (Private Pilot Lesson 4a)', s:'FlightInsight', u:'https://www.youtube.com/watch?v=oop-jMbrkNg', views:'400K (approx)', b:'A clear ground-school explanation of why wind drives bank-angle changes in every ground reference maneuver.'},
      {t:'Turns Around a Point | Private Pilot Ground Reference Maneuver', s:'Pilot Institute', u:'https://www.youtube.com/watch?v=_rH0iLeAa3I', views:'150K (approx)', b:'Demonstrates from the cockpit how to fly a constant-radius circle around a point by adjusting bank with groundspeed.'},
-     {t:'Ground Reference Maneuvers - Turns Around a Point (ERAU)', s:'ERAU', u:'https://www.youtube.com/watch?v=niebvZ-TPp8', views:'100K (approx)', b:'Embry-Riddle training footage covering crabbing, the wind-drift circle, and turns around a point.'}
+     {t:'Embry Riddle Ground Reference Flight', s:'ERAU', u:'https://www.youtube.com/watch?v=KS4dyvvV9iA', views:'100K (approx)', b:'Embry-Riddle training footage covering crabbing, the wind-drift circle, and turns around a point.'}
    ]},
   {n:8, subject:'Navigation', title:'Finding Your Way 🎙️', subjects:['Navigation'], len:null,
    blurb:'When the magenta line quits, you go back to the map and the clock.',
