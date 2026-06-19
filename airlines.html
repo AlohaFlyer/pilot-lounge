@@ -21,7 +21,7 @@
   .calc input[type=range]{width:100%; accent-color:var(--amber); height:26px}
   .calcout{margin-top:16px; text-align:center; background:#02101f; border:1px solid var(--line); border-radius:10px; padding:16px}
   .calcout .big{font-size:38px; font-weight:800; font-family:var(--mono); color:var(--green)}
-  .calcout .sub{font-size:12px; color:var(--muted); font-family:var(--mono)}
+  .calcout .sub{font-size:12px; color:var(--muted); font-family:var(--mono); line-height:1.6; margin-top:6px}
   .filt{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px}
   .filt button{font-family:var(--mono); font-size:11px; padding:6px 10px; border-radius:14px; border:1px solid var(--line);
     background:transparent; color:var(--muted); cursor:pointer}
@@ -64,7 +64,7 @@
 
   <h2 class="sec">Pay calculator</h2>
   <div class="card calc">
-    <p style="margin-top:0; color:var(--muted); font-size:13px">Drag the sliders. Monthly pay = rate &times; credit hours &times; percentage. Set bid periods to about 13 for a yearly estimate.</p>
+    <p style="margin-top:0; color:var(--muted); font-size:13px">Drag the sliders. Monthly pay = rate &times; credit hours &times; percentage. The 401k slider adds the airline's direct retirement contribution on top. Set bid periods to about 13 for a yearly estimate.</p>
     <label>Pay rate: <b id="rOut">$325</b> / hour
       <input type="range" id="rate" min="0" max="1000" step="5" value="325"></label>
     <label>Credit time: <b id="cOut">110</b> hours
@@ -73,11 +73,14 @@
       <input type="range" id="bid" min="1" max="13" step="1" value="1"></label>
     <label>Percentage: <b id="pOut">100</b>%
       <input type="range" id="pct" min="0" max="100" step="1" value="100"></label>
+    <label>401k company contribution: <b id="kOut">15</b>%
+      <input type="range" id="k401" min="0" max="30" step="1" value="15"></label>
     <div class="calcout">
-      <div class="big" id="total">$35,750</div>
-      <div class="sub" id="annual">about $429,000 per year at 13 bid periods</div>
+      <div class="big" id="total">$41,113</div>
+      <div class="sub" id="breakdown">pay $35,750 + 401k $5,363 (15%)</div>
+      <div class="sub" id="annual">about $493,350 per year total at 13 bid periods</div>
     </div>
-    <p class="note" style="margin-top:10px">Illustrative only. Check the live per-airline scales at
+    <p class="note" style="margin-top:10px">Illustrative only. Major-carrier 401k direct contributions run roughly 9 to 18 percent with no match required. Check the live per-airline scales at
     <a href="https://www.airlinepilotcentral.com/airlines" target="_blank" rel="noopener">AirlinePilotCentral</a>.</p>
   </div>
 
@@ -109,16 +112,21 @@
 <script>
   function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
   var rate_=document.getElementById('rate'), credit_=document.getElementById('credit'),
-      bid_=document.getElementById('bid'), pct_=document.getElementById('pct');
+      bid_=document.getElementById('bid'), pct_=document.getElementById('pct'), k401_=document.getElementById('k401');
   function calc(){
-    var rate=+rate_.value, credit=+credit_.value, bid=+bid_.value, pct=+pct_.value;
+    var rate=+rate_.value, credit=+credit_.value, bid=+bid_.value, pct=+pct_.value, k=+k401_.value;
     document.getElementById('rOut').textContent='$'+rate; document.getElementById('cOut').textContent=credit;
     document.getElementById('bOut').textContent=bid; document.getElementById('pOut').textContent=pct;
+    document.getElementById('kOut').textContent=k;
     var per=rate*credit*(pct/100);
-    document.getElementById('total').textContent=money(per*bid);
-    document.getElementById('annual').textContent='about '+money(per*13)+' per year at 13 bid periods';
+    var pay=per*bid;
+    var k401=pay*(k/100);
+    document.getElementById('total').textContent=money(pay+k401);
+    document.getElementById('breakdown').textContent='pay '+money(pay)+' + 401k '+money(k401)+' ('+k+'%)';
+    var annual=per*13*(1+k/100);
+    document.getElementById('annual').textContent='about '+money(annual)+' per year total at 13 bid periods';
   }
-  [rate_,credit_,bid_,pct_].forEach(function(el){ el.addEventListener('input', calc); });
+  [rate_,credit_,bid_,pct_,k401_].forEach(function(el){ el.addEventListener('input', calc); });
   calc();
 
   var AP = {
@@ -195,7 +203,6 @@
     ]}
   ];
 
-  /* directory with expandable details */
   (function(){
     var box = document.getElementById('directory');
     GROUPS.forEach(function(grp){
@@ -218,8 +225,7 @@
     });
   })();
 
-  /* per-category, per-airport airline index */
-  var catAir = {}; /* cat -> region -> airport -> [names] */
+  var catAir = {};
   GROUPS.forEach(function(grp){
     catAir[grp.cat] = catAir[grp.cat] || {};
     grp.list.forEach(function(a){ a.bases.forEach(function(code){
@@ -244,11 +250,10 @@
     var layers={};
     Object.keys(CATS).forEach(function(cat){ layers[cat]=layerFor(cat, region); layers[cat].addTo(map); });
     if(withFilter){
-      var bar=document.getElementById('filt');
-      var allBtn=document.createElement('button'); allBtn.textContent='All'; allBtn.className='on'; allBtn.style.background=allBtn.classList.contains('on')?'#fff':'transparent';
-      var state={}; Object.keys(CATS).forEach(function(c){ state[c]=true; });
+      var bar=document.getElementById('filt'); var state={};
       function paint(btn,cat,on){ btn.className=on?'on':''; btn.style.background=on?CATS[cat].color:'transparent'; btn.style.borderColor=CATS[cat].color; btn.style.color=on?'#01172b':CATS[cat].color; }
       Object.keys(CATS).forEach(function(cat){
+        state[cat]=true;
         var b=document.createElement('button'); b.textContent=CATS[cat].label; paint(b,cat,true);
         b.onclick=function(){ state[cat]=!state[cat]; if(state[cat]){ layers[cat].addTo(map); } else { map.removeLayer(layers[cat]); } paint(b,cat,state[cat]); };
         bar.appendChild(b);
