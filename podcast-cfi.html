@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Flight Instructor Podcast</title>
+<meta name="theme-color" content="#01172b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pilot Lounge">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
+.linkbtn:hover{background:var(--amber);color:#01172b}
+.quizcta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 16px;border-radius:10px;border:1px solid var(--amber);background:var(--amber);color:#01172b;text-decoration:none;cursor:pointer}
+.quizcta:hover{background:#f4b573;border-color:#f4b573}
+.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:16px 0 6px}
+.newslist{list-style:none;padding:0;margin:4px 0 0}
+.newslist li{margin:0 0 2px;line-height:1.3}
+.newslink{display:inline-block;color:var(--amber);text-decoration:none;background:none;border:none;padding:10px 0;font:inherit;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
+.newslink:hover{text-decoration:underline}
+.newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
+.soon{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:9px 12px;margin:12px 0 0;display:inline-block}
+.modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;max-height:82dvh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:4px;right:6px;width:44px;height:44px;background:none;border:none;color:var(--muted);font-size:30px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 40px 2px 0}
+.modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Flight Instructor Podcast</span></h1>
+    <span class="src">Crew of six</span>
+  </header>
+
+  <div class="card">
+    <p class="q" style="margin-top:0">A full Flight Instructor season, by subject</p>
+    <p style="color:var(--muted)">The crew turns the seat around for the CFI, teaching how people learn, the teaching process, human behavior, and the privilege of the pen. Every fact traces to FAA public-domain sources.</p>
+  </div>
+
+  <div id="episodes"></div>
+
+  <footer>Audio for this season is in production with the locked six-host cast. Every fact traces to FAA public-domain sources.</footer>
+</div>
+
+<div class="modal" id="modal" style="display:none">
+  <div class="modalbox">
+    <button class="modalx" id="modalx" aria-label="Close">&times;</button>
+    <div class="modalhead" id="modalTitle"></div>
+    <div class="modalsrc" id="modalSrc"></div>
+    <div class="modalbody" id="modalBody"></div>
+    <a class="linkbtn" id="modalLink" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
+<script>
+var EPISODES = [{"n": 1, "title": "How People Actually Learn", "subject": "Fundamentals of instructing", "topics": "Fundamentals of Instructing, the laws of learning, levels of learning, perceptions and insight, memory and transfer", "news": [{"t": "Aviation Instructors Handbook: The Learning Process", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/aviation_instructors_handbook/11_aih_chapter_9.pdf", "b": "The FAA instructor reference laying out the laws of learning and the rote, understanding, application, and correlation levels."}, {"t": "Beyond Rote Learning: A Principles-based Approach to Flight Training", "s": "FAA Safety Briefing", "u": "https://faasteam.medium.com/beyond-rote-learning-c3c1157706ce", "b": "An FAA piece arguing that good instruction pushes students past memorization toward true understanding and correlation."}, {"t": "Fundamentals of Instructing Overview", "s": "CFI Notebook", "u": "https://www.cfinotebook.net/lesson-plans/fundamentals-of-instructing/fundamentals-of-instructing", "b": "A plain-language study guide summarizing the learning theories, laws, and instructor responsibilities tested on the FOI exam."}], "videos": [{"t": "Fundamentals of Instruction: Laws and Levels of Learning", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=z_kgINHyqLY", "views": "30K approx", "b": "A focused walkthrough of the laws of learning framed for the CFI oral exam."}, {"t": "Fundamentals of Instruction: Learning Skills", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=juqJyqVMUjQ", "views": "40K approx", "b": "Breaks down the domains and levels of learning with examples a checkride examiner expects."}]}, {"n": 2, "title": "A Plan, A Lesson, A Method", "subject": "The teaching process", "topics": "The Teaching Process, course and lesson planning, the syllabus, and teaching methods", "news": [{"t": "Instructor Report: The Magic of Lesson Plans", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2021/march/flight-training-magazine/instructor-report-lesson-plans", "b": "Makes the case that a dedicated lesson plan for each task keeps both student and instructor organized and on track."}, {"t": "Planning Instructional Activities", "s": "CFI Notebook", "u": "https://www.cfinotebook.net/lesson-plans/fundamentals-of-instructing/planning-instructional-activities", "b": "Explains how objectives and standards drive lesson plans and the logical ordering of material from known to unknown."}, {"t": "Flight Instructor Resources: Lesson Plans", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/cfis/flight-instructor-resources/lesson-plans", "b": "A library of lesson-plan templates instructors can adapt to structure and sequence their ground and flight instruction."}], "videos": [{"t": "The Teaching Process", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=80qL9ipdqUs", "views": "20K approx", "b": "Walks through the four steps of the teaching process: preparation, presentation, application, and assessment."}, {"t": "FOI: The Teaching Process for the CFI Checkride", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=8pERBj5KXZY", "views": "15K approx", "b": "A checkride-oriented review of how to organize and deliver a lesson under the teaching-process model."}]}, {"n": 3, "title": "What Is Going On In There", "subject": "Human behavior & motivation", "topics": "Human Behavior, defense mechanisms, Maslow's hierarchy and motivation, communication, and the instructor as a risk manager", "news": [{"t": "Aviation Instructors Handbook: Human Behavior", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/aviation_instructors_handbook/04_aih_chapter_2.pdf", "b": "The FAA chapter covering human needs, motivation, and the defense mechanisms that can block learning."}, {"t": "Human Behavior", "s": "CFI Notebook", "u": "https://www.cfinotebook.net/lesson-plans/fundamentals-of-instructing/human-behavior", "b": "A study guide listing the common defense mechanisms and practical ways instructors can keep students motivated."}, {"t": "The Psychology of Spin Training", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2009/august/flight-training-magazine/the-psychology-of-spin-training", "b": "Explores how fear and anxiety shape student behavior and how instructors can manage those emotions during demanding lessons."}], "videos": [{"t": "Fundamentals of Instruction: Defense Mechanisms", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=HgEsI1Cf1oI", "views": "15K approx", "b": "Defines each defense mechanism with relatable student examples for the FOI exam."}, {"t": "Human Behavior and Effective Communication: CFI Checkride Prep", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=PjqT0xQdlTw", "views": "12K approx", "b": "Connects human behavior and motivation concepts to what an examiner probes on the oral."}]}, {"n": 4, "title": "Telling The Truth Kindly", "subject": "Assessment & critique", "topics": "Assessment and Critique, characteristics of effective assessment, types of assessment, the learning plateau, and collaborative critique", "news": [{"t": "Aviation Instructors Handbook: Assessment", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/aviation_instructors_handbook/08_aih_chapter_6.pdf", "b": "The FAA chapter detailing assessment types and the traits of an effective, performance-focused critique."}, {"t": "Critique and Evaluation", "s": "CFI Notebook", "u": "https://www.cfinotebook.net/lesson-plans/fundamentals-of-instructing/critique-and-evaluation", "b": "Lays out the characteristics of a good critique and methods for objectively evaluating student performance."}, {"t": "Critique and Evaluation", "s": "Dynamic Flight", "u": "http://www.dynamicflight.com/avcfibook/evals/", "b": "Explains why critiques must be objective, balanced, and aimed squarely at improving the students next performance."}], "videos": [{"t": "FOI: Assessment and Critique", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=xfzbmv_quqY", "views": "10K approx", "b": "Reviews critique characteristics and assessment techniques for getting the most out of every debrief."}, {"t": "CFI Oral Exam Part 1: Fundamentals of Instruction Explained", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=4IxiQeh0FFI", "views": "60K approx", "b": "A broad FOI oral-prep video that includes how to structure assessments and critiques for an examiner."}]}, {"n": 5, "title": "The Pen Is The Privilege", "subject": "Endorsements & privileges", "topics": "Endorsements and Privileges, 61.183 eligibility, 61.193 privileges, 61.195 limitations, 61.197 renewal, and solo endorsements", "news": [{"t": "Solo Endorsements: Understanding Basic Solo Requirements", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/cfis/solo-endorsements-basic/", "b": "Explains the regulatory basis for the basic solo endorsement and the 90-day currency window it carries."}, {"t": "14 CFR 61.195: Flight Instructor Limitations and Qualifications", "s": "FAA/eCFR", "u": "https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61/subpart-H/section-61.195", "b": "The regulation spelling out what a CFI may and may not endorse, including instrument and category-class limits."}, {"t": "Aviation Instructors Handbook: Certificates, Ratings, and Endorsements", "s": "FAA", "u": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/aviation_instructors_handbook/15_aih_appendix_c.pdf", "b": "The FAAs canonical list of endorsement wording and the recordkeeping rules every instructor must follow."}], "videos": [{"t": "Student and Private Pilot Endorsements", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=ycr5VKYOU2w", "views": "15K approx", "b": "Walks through the endorsements a CFI gives during primary training and how to word them correctly."}, {"t": "Logbook Endorsements for the CFI Check Ride", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=yy_lc6KDilU", "views": "12K approx", "b": "Reviews the endorsements and logbook entries an examiner expects a CFI applicant to know cold."}]}, {"n": 6, "title": "From The Other Seat", "subject": "Technical subjects (stalls/spins)", "topics": "Technical Subjects, teaching the four fundamentals, stall and spin awareness and the spin endorsement, and right-seat flying considerations", "news": [{"t": "The Four Steps Of Spin Recovery, Explained (PARE)", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/maneuvers/the-four-steps-of-spin-recovery-explanation-pare-recovery-procedure/", "b": "Breaks down the PARE recovery procedure step by step so instructors can teach it clearly."}, {"t": "AC 61-67: Stall and Spin Awareness Training", "s": "FAA", "u": "https://www.faa.gov/documentlibrary/media/advisory_circular/ac_61-67c.pdf", "b": "The FAA advisory circular defining the stall and spin awareness training CFIs must give and demonstrate."}, {"t": "Should All Pilots Be Required To Complete Spin Training?", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/maneuvers/should-all-pilots-be-required-to-complete-spin-training/", "b": "A discussion of why spin training is mandatory only for instructors and what that means for teaching spin awareness."}], "videos": [{"t": "Spin Awareness, Entry, and Recovery", "s": "CFI Bootcamp", "u": "https://www.youtube.com/watch?v=MuMZ53iX0VU", "views": "25K approx", "b": "Demonstrates spin entry, recognition, and recovery with the inputs an instructor needs to model for students."}, {"t": "How Stalls Happen, And How To Recover From Them", "s": "Boldmethod", "u": "https://www.youtube.com/watch?v=oRCaOPRoJnQ", "views": "150K approx", "b": "A live session on stall aerodynamics and recovery that a CFI can use to teach stall awareness."}]}];
+var QUIZKEY = "cfi";
+</script>
+<script>
+  var modal = document.getElementById('modal');
+  function openModal(title, src, body, url, linkLabel){
+    document.getElementById('modalTitle').textContent = title;
+    var s = document.getElementById('modalSrc'); s.textContent = src || ''; s.style.display = src ? 'block' : 'none';
+    document.getElementById('modalBody').textContent = body;
+    var link = document.getElementById('modalLink');
+    link.setAttribute('href', url); link.textContent = linkLabel;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
+  document.getElementById('modalx').onclick = closeModal;
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  var box = document.getElementById('episodes');
+  EPISODES.forEach(function(ep){
+    var div = document.createElement('div'); div.className = 'card'; div.id = 'ep' + ep.n;
+    div.innerHTML = '<div class="meta"><span>Episode ' + ep.n + '</span><span class="acs">' + ep.subject + '</span></div>'
+      + '<div class="q" style="font-size:17px">' + ep.title + '</div>'
+      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
+      + '<div class="soon">&#127911; Audio coming soon</div>';
+
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="quizcta" href="quiz.html?cert=' + QUIZKEY + '">Lock it in now with the Quiz &#9654;</a>';
+    div.appendChild(qrow);
+
+    if(ep.news && ep.news.length){
+      var nl = document.createElement('p'); nl.className = 'reflabel'; nl.textContent = '📰 Further Reading'; div.appendChild(nl);
+      var ul = document.createElement('ul'); ul.className = 'newslist';
+      ep.news.forEach(function(a){
+        var li = document.createElement('li');
+        if(a.b){
+          var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = a.t;
+          btn.onclick = function(){ openModal(a.t, a.s, a.b, a.u, 'Read the full article at ' + a.s + ' →'); };
+          li.appendChild(btn);
+        } else {
+          var link = document.createElement('a'); link.className = 'newslink'; link.textContent = a.t;
+          link.href = a.u; link.target = '_blank'; link.rel = 'noopener'; li.appendChild(link);
+        }
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = a.s; li.appendChild(src);
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
+
+    if(ep.videos && ep.videos.length){
+      var vl = document.createElement('p'); vl.className = 'reflabel'; vl.textContent = '🎬 Watch'; div.appendChild(vl);
+      var vul = document.createElement('ul'); vul.className = 'newslist';
+      ep.videos.forEach(function(v){
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = v.t;
+        var sub = v.s + (v.views ? ' · ' + v.views + ' views' : '');
+        btn.onclick = function(){ openModal(v.t, sub, v.b, v.u, 'Watch on YouTube →'); };
+        li.appendChild(btn);
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = v.s + (v.views ? ' · ' + v.views : ''); li.appendChild(src);
+        vul.appendChild(li);
+      });
+      div.appendChild(vul);
+    }
+
+    box.appendChild(div);
+  });
+  if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }
+</script>
+</body>
+</html>
