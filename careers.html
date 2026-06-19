@@ -143,7 +143,7 @@
     <p>The ladder rhymes under different regulators. In <b>Australia</b> (regulator <b>CASA</b>) you build from a CPL through ATPL theory, a multi-engine command instrument rating, and an MCC course; the <b>Qantas Group Pilot Academy</b> feeds <b>QantasLink</b>, <b>Jetstar</b>, and <b>Network Aviation</b>, and the mainline carriers are <b>Qantas</b>, <b>Jetstar</b>, and <b>Virgin Australia</b>. In <b>New Zealand</b> (regulator <b>CAA NZ</b>) the path is similar; <b>Air New Zealand</b> runs partner-school pathways, and a NZ licence must be converted to an Australian one before applying to Qantas Group.</p>
 
     <h4>US territories: Puerto Rico, USVI, Guam, American Samoa, CNMI</h4>
-    <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>. Island flying (inter-island hops, Part 135 commuter and cargo) is excellent early time. You can even fly <b>powered paragliding (PPG)</b> as a US citizen under FAR Part 103, which needs no certificate at all. Local carriers (all on the <a href="airlines.html">Airlines page</a> with links) include <b>Star Marianas Air</b>, <b>Vieques Air Link</b>, <b>Cape Air</b>, and <b>Seaborne</b>.</p>
+    <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>. Island flying (inter-island hops, Part 135 commuter and cargo) is excellent early time. You can even fly <b>powered paragliding (PPG)</b> as a US citizen under FAR Part 103, which needs no certificate at all. Local carriers (all on the <a href="airlines.html">Airlines page</a> with links) include <b>Star Marianas Air</b>, <b>Vieques Air Link</b>, <b>Cape Air</b>, <b>Seaborne</b>, and in American Samoa <b>Samoa Airways</b> and <b>Talofa Airways</b>.</p>
   </div>
 
   <h2 class="sec">Career benefits</h2>
@@ -303,7 +303,7 @@
     {k:'Cadet programs', t:'Airline cadet and pathway programs', html:
       '<p>Airline-sponsored pipelines from little or no experience toward a regional or mainline first officer seat, with a defined path, mentorship, and often financial support. Competitive (roughly 1 to 5 percent accepted), so preparation is not optional.</p>'
       + '<ul class="cadet">'
-      + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/pilots" target="_blank" rel="noopener">Apply &#8599;</a>'
+      + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">Ab-initio to a Horizon Air seat via Hillsboro Aero Academy. <span class="money">Money:</span> you fund the PPL; Horizon adds about $27,000 toward the commercial single-engine and Hillsboro funds the CFII. First Class Medical required.</span></li>'
       + '<li><span class="nm">United Aviate Academy</span> &nbsp;<a class="apply" href="https://www.aviateacademy.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">United&rsquo;s own ab-initio academy (Goodyear, AZ). <span class="money">Money:</span> about $71,250 all-in with financing; United covers the PPL portion. Must be 18+, US citizen or legal resident, pass the PPL written at 80%+.</span></li>'
@@ -311,7 +311,7 @@
         + '<span class="det">Integrated training (~9 to 12 months to Commercial + CFI) then a guaranteed-interview flow through Envoy and PSA to American mainline.</span></li>'
       + '<li><span class="nm">Delta Propel</span> &nbsp;<a class="apply" href="https://www.delta.com/us/en/careers/pilots/propel" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">A defined route to a Delta interview. <span class="money">Money:</span> up to $20,000 in support and Delta covers loan interest from select lenders.</span></li>'
-      + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/skywest-airline-jobs/pilots/" target="_blank" rel="noopener">Apply &#8599;</a>'
+      + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/become-a-skywest-pilot/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">Enhanced seniority, a guaranteed SkyWest interview, and mentors while you train at partner schools.</span></li>'
       + '<li><span class="nm">JetBlue Gateway (Gateway Select)</span> &nbsp;<a class="apply" href="https://www.jetbluegateways.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
         + '<span class="det">CAE-run ab-initio to a JetBlue seat. <span class="money">Money:</span> about $122,000 with lender options, roughly 3.5 years.</span></li>'
@@ -361,75 +361,36 @@
   }
   renderRoads();
 
-  // Retirement estimator (illustrative only)
   (function(){
     var ids = ['estAge','estRet','estUpg','estPct','estGro'];
     var el = {};
     ids.forEach(function(id){ el[id] = document.getElementById(id); });
     if(!el.estAge){ return; }
-
-    function money(n){
-      return '$' + Math.round(n).toLocaleString('en-US');
-    }
-    // Linear interpolation between two salary points across a stage.
+    function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
     function lerp(a, b, frac){ return a + (b - a) * frac; }
-
     function compute(){
-      var curAge = +el.estAge.value;
-      var retAge = +el.estRet.value;
-      var upgAge = +el.estUpg.value;
-      var pct = +el.estPct.value / 100;
-      var growth = +el.estGro.value / 100;
-
-      // Guard rails: cannot retire before current age; upgrade within working life.
-      if(retAge <= curAge){
-        document.getElementById('estBal').textContent = money(0);
-        document.getElementById('estW2').textContent = money(0);
-        return;
-      }
+      var curAge = +el.estAge.value, retAge = +el.estRet.value, upgAge = +el.estUpg.value;
+      var pct = +el.estPct.value / 100, growth = +el.estGro.value / 100;
+      if(retAge <= curAge){ document.getElementById('estBal').textContent = money(0); document.getElementById('estW2').textContent = money(0); return; }
       var upg = Math.min(Math.max(upgAge, curAge), retAge);
-
-      var balance = 0;
-      var totalW2 = 0;
-
-      // Track years served within the major/legacy stage to walk the pay curve.
-      var majorYears = 0;
-      var regionalYears = 0;
-
+      var balance = 0, totalW2 = 0, majorYears = 0, regionalYears = 0;
       for(var age = curAge; age < retAge; age++){
         var salary;
-        if(age < upg){
-          // Regional: $90k rising to $160k over about 10 years of seniority.
-          var rf = Math.min(regionalYears / 10, 1);
-          salary = lerp(90000, 160000, rf);
-          regionalYears++;
-        } else {
-          // Major/legacy progression by years in stage.
-          if(majorYears < 5){
-            // First officer: $150k rising to $210k over 5 years.
-            salary = lerp(150000, 210000, majorYears / 5);
-          } else if(majorYears < 12){
-            // Narrowbody captain: ~$300k rising slightly.
-            salary = lerp(300000, 340000, (majorYears - 5) / 7);
-          } else {
-            // Senior widebody captain: up to ~$400k.
-            salary = lerp(340000, 400000, Math.min((majorYears - 12) / 8, 1));
-          }
+        if(age < upg){ var rf = Math.min(regionalYears / 10, 1); salary = lerp(90000, 160000, rf); regionalYears++; }
+        else {
+          if(majorYears < 5){ salary = lerp(150000, 210000, majorYears / 5); }
+          else if(majorYears < 12){ salary = lerp(300000, 340000, (majorYears - 5) / 7); }
+          else { salary = lerp(340000, 400000, Math.min((majorYears - 12) / 8, 1)); }
           majorYears++;
         }
-
         totalW2 += salary;
-
-        // Company direct contribution for the year, then grow everything to retirement.
         var contribution = salary * pct;
-        var yearsToRet = retAge - age - 1; // remaining full years of growth
+        var yearsToRet = retAge - age - 1;
         balance += contribution * Math.pow(1 + growth, yearsToRet);
       }
-
       document.getElementById('estBal').textContent = money(balance);
       document.getElementById('estW2').textContent = money(totalW2);
     }
-
     function syncLabels(){
       el.estAge.parentNode.querySelector('.val').textContent = el.estAge.value;
       el.estRet.parentNode.querySelector('.val').textContent = el.estRet.value;
@@ -437,13 +398,8 @@
       el.estPct.parentNode.querySelector('.val').textContent = el.estPct.value + '%';
       el.estGro.parentNode.querySelector('.val').textContent = el.estGro.value + '%';
     }
-
-    ids.forEach(function(id){
-      el[id].addEventListener('input', function(){ syncLabels(); compute(); });
-    });
-
-    syncLabels();
-    compute();
+    ids.forEach(function(id){ el[id].addEventListener('input', function(){ syncLabels(); compute(); }); });
+    syncLabels(); compute();
   })();
 </script>
 </body>
