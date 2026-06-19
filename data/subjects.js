@@ -2,11 +2,12 @@
    Single source of truth for grouping the question bank by subject
    (quiz + games) and for listing the podcast episodes by subject.
 
-   Supports four certificate banks: private (PA), instrument (IR),
-   commercial (CA), and atp (ATP). subjectOf() routes on the ACS prefix,
-   and subjectOrders/subjectOrderFor() give the subject list per bank.
-   Podcast episodes currently exist for the Private season only; other
-   banks return null from episodeForSubject and simply hide the Listen link.
+   Supports certificate banks: private (PA), instrument (IR),
+   commercial (CA), atp (ATP), student (SP), and multi (ME). subjectOf()
+   routes on the ACS prefix, and subjectOrders/subjectOrderFor() give the
+   subject list per bank. Podcast episodes currently exist for the Private
+   season only; other banks return null from episodeForSubject and simply
+   hide the Listen link.
 
    NEWSFEED MAINTENANCE RULE (read before editing ep.news):
    - Each episode carries a news[] list of links to publicly available
@@ -39,12 +40,14 @@ window.PILOT_LOUNGE.subjectMaps = {
     'IV':'Takeoffs & Landings', 'V':'Performance & Maneuvers', 'VI':'Navigation', 'VII':'Slow Flight & Stalls',
     'VIII':'High Altitude Ops', 'IX':'Emergencies', 'X':'Multiengine', 'XI':'Postflight' },
   ATP: { 'I':'Preflight Preparation', 'II':'Preflight Procedures', 'III':'Takeoffs & Landings',
-    'IV':'In-flight Maneuvers', 'V':'Stall Prevention', 'VI':'Instrument Procedures', 'VII':'Emergencies', 'VIII':'Postflight' }
+    'IV':'In-flight Maneuvers', 'V':'Stall Prevention', 'VI':'Instrument Procedures', 'VII':'Emergencies', 'VIII':'Postflight' },
+  ME: { 'I':'Multiengine Aerodynamics', 'II':'Vmc & Critical Engine', 'III':'Performance & Systems',
+    'IV':'Normal Operations', 'V':'Engine-Out Procedures', 'VI':'Regulations' }
 };
 
 window.PILOT_LOUNGE.subjectOf = function(acs){
   var p = String(acs || '').split('.'); var cert = p[0] || ''; var area = p[1] || ''; var task = p[2] || '';
-  if (cert === 'SP' || cert === 'IR' || cert === 'CA' || cert === 'ATP'){
+  if (cert === 'SP' || cert === 'IR' || cert === 'CA' || cert === 'ATP' || cert === 'ME'){
     var m = window.PILOT_LOUNGE.subjectMaps[cert] || {};
     return m[area] || 'Other';
   }
@@ -73,7 +76,8 @@ window.PILOT_LOUNGE.subjectOrders = {
   CA: ['Preflight Preparation','Preflight Procedures','Airport Operations','Takeoffs & Landings',
     'Performance & Maneuvers','Navigation','Slow Flight & Stalls','High Altitude Ops','Emergencies','Multiengine','Postflight'],
   ATP: ['Preflight Preparation','Preflight Procedures','Takeoffs & Landings','In-flight Maneuvers',
-    'Stall Prevention','Instrument Procedures','Emergencies','Postflight']
+    'Stall Prevention','Instrument Procedures','Emergencies','Postflight'],
+  ME: ['Multiengine Aerodynamics','Vmc & Critical Engine','Performance & Systems','Normal Operations','Engine-Out Procedures','Regulations']
 };
 /* Back-compat: existing Private pages read subjectOrder directly. */
 window.PILOT_LOUNGE.subjectOrder = window.PILOT_LOUNGE.subjectOrders.PA;
@@ -84,6 +88,7 @@ window.PILOT_LOUNGE.certs = [
   {key:'private', label:'Private', prefix:'PA'},
   {key:'instrument', label:'Instrument', prefix:'IR'},
   {key:'commercial', label:'Commercial', prefix:'CA'},
+  {key:'multi', label:'Multi-Engine', prefix:'ME'},
   {key:'atp', label:'ATP', prefix:'ATP'}
 ];
 window.PILOT_LOUNGE.bankKey = function(k){
