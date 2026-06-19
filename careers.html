@@ -48,8 +48,7 @@
   .bp ul{margin:0; padding-left:18px} .bp li{margin:5px 0; font-size:13.5px; line-height:1.45}
   .oplist{margin:4px 0 0; padding-left:18px}
   .oplist li{margin:6px 0; font-size:13.5px; line-height:1.45}
-  .oplist b{color:var(--ink)}
-  .oplist a{color:var(--breeze)}
+  .oplist b{color:var(--ink)} .oplist a{color:var(--breeze)}
   .payrow{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px}
   .payrow:last-child{border-bottom:0}
   .payrow .lvl{color:var(--ink)} .payrow .amt{font-family:var(--mono); color:var(--green); white-space:nowrap}
@@ -62,6 +61,9 @@
   .fairs .d{color:#c9d6e2}
   .tips{margin:6px 0 0; padding-left:18px}
   .tips li{margin:7px 0; line-height:1.5; font-size:14px}
+  .cta{display:block; text-align:center; background:var(--amber); color:#01172b; font-weight:800; text-decoration:none;
+    padding:14px 16px; border-radius:10px; margin:8px 0 0}
+  .cta:hover{background:#f4b573}
 </style>
 </head>
 <body>
@@ -74,46 +76,44 @@
   </div>
 
   <p class="lead">There is a seat out there with your name on it. This is the map: the ratings you stack,
-  the hours that gate each step, the ways pilots build those hours, and how the hiring actually works.
-  Six airline captains built this lounge to pay it back. Here is the part where we hand you the ladder.</p>
+  the hours that gate each step, the ways pilots build those hours, the lifestyle and the money, and how the
+  hiring actually works. Six airline captains built this lounge to pay it back.</p>
 
   <h2 class="sec">The ratings ladder</h2>
   <div class="card">
     <ul class="ladder">
       <li><span class="rung">STUDENT</span><span class="what"><b>Student pilot.</b> Where everyone starts. Solo with your instructor's endorsement, learn the airplane and the airspace, work toward first solo and the written.</span></li>
       <li><span class="rung">PRIVATE (PPL)</span><span class="what"><b>Carry passengers, not for hire.</b> The foundation certificate. Fly friends and family, rent airplanes, travel. The whole private ACS is what the podcast season covers.</span></li>
-      <li><span class="rung">INSTRUMENT (IR)</span><span class="what"><b>Fly in the clouds.</b> An add-on rating, not a certificate. Lets you fly in instrument meteorological conditions under IFR. The single biggest jump in capability and safety you will make.</span></li>
+      <li><span class="rung">INSTRUMENT (IR)</span><span class="what"><b>Fly in the clouds.</b> An add-on rating. Lets you fly in instrument meteorological conditions under IFR. The single biggest jump in capability and safety you will make.</span></li>
       <li><span class="rung">COMMERCIAL (CPL)</span><span class="what"><b>Get paid to fly.</b> Higher precision standards and the door to working as a pilot. Most career flying starts here.</span></li>
       <li><span class="rung">CFI / CFII / MEI</span><span class="what"><b>Teach what you know.</b> The flight instructor certificates. The classic way to build hours while earning, and the fastest way to truly master the material, because you have to explain it.</span></li>
-      <li><span class="rung">MULTI (AMEL)</span><span class="what"><b>Two engines.</b> The multi-engine class rating, required for almost every airline and most turbine jobs. Often added right before or during time building.</span></li>
-      <li><span class="rung">ATP</span><span class="what"><b>The top certificate.</b> Required to act as pilot in command (and, since 2013, as a first officer) of an airliner. The destination rung of the ladder.</span></li>
+      <li><span class="rung">MULTI (AMEL)</span><span class="what"><b>Two engines.</b> The multi-engine class rating, required for almost every airline and most turbine jobs.</span></li>
+      <li><span class="rung">ATP</span><span class="what"><b>The top certificate.</b> Required to act as PIC (and, since 2013, as a first officer) of an airliner. The destination rung of the ladder.</span></li>
     </ul>
   </div>
 
   <h2 class="sec">The hours that gate each step</h2>
   <div class="card">
-    <p style="margin-top:0">These are the headline FAR Part 61 minimums. They are floors, not targets, and the totals
-    you actually need to be competitive are usually higher. Always confirm against current
+    <p style="margin-top:0">These are the headline FAR Part 61 minimums. They are floors, not targets. Always confirm against current
     <a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61" target="_blank" rel="noopener">14 CFR Part 61</a>.</p>
     <table class="hours">
       <tr><th>Step</th><th>Minimum</th><th>Notes</th></tr>
-      <tr><td>Private (PPL)</td><td class="n">40 hr</td><td>Part 61 minimum total time. National average is higher; 60 to 70 is common.</td></tr>
+      <tr><td>Private (PPL)</td><td class="n">40 hr</td><td>Part 61 minimum. National average is higher; 60 to 70 is common.</td></tr>
       <tr><td>Instrument</td><td class="n">50 hr XC PIC</td><td>Plus 40 hours of actual or simulated instrument time.</td></tr>
-      <tr><td>Commercial</td><td class="n">250 hr</td><td>Total time under Part 61 (190 under an approved Part 141 course), with specific requirements.</td></tr>
+      <tr><td>Commercial</td><td class="n">250 hr</td><td>Part 61 (190 under an approved Part 141 course).</td></tr>
       <tr><td>ATP (standard)</td><td class="n">1,500 hr</td><td>Total time, plus the 61.159 experience requirements.</td></tr>
-      <tr><td>R-ATP, bachelor's aviation</td><td class="n">1,000 hr</td><td>Qualifying bachelor's degree with 60+ aviation credit hours from an authorized institution.</td></tr>
-      <tr><td>R-ATP, associate's aviation</td><td class="n">1,250 hr</td><td>Qualifying associate's degree with 30+ aviation credit hours (also the 30 to 59 credit bachelor's path).</td></tr>
+      <tr><td>R-ATP, bachelor's aviation</td><td class="n">1,000 hr</td><td>Qualifying bachelor's with 60+ aviation credits from an authorized institution.</td></tr>
+      <tr><td>R-ATP, associate's aviation</td><td class="n">1,250 hr</td><td>Qualifying associate's with 30+ aviation credits.</td></tr>
       <tr><td>R-ATP, military</td><td class="n">750 hr</td><td>For qualifying military-trained pilots.</td></tr>
     </table>
     <p style="font-size:12px; color:var(--muted); margin-bottom:0">R-ATP minimums are set by
-    <a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61/subpart-G/section-61.160" target="_blank" rel="noopener">14 CFR 61.160</a>.
-    The first officer of a Part 121 airliner has needed an ATP or restricted ATP since 2013.</p>
+    <a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61/subpart-G/section-61.160" target="_blank" rel="noopener">14 CFR 61.160</a>.</p>
   </div>
 
   <h2 class="sec">How pilots build the time</h2>
   <div class="card">
     <h3>From 250 to 1,500</h3>
-    <p>The gap between your commercial certificate and the airlines is the time-building years. The trick is to get paid, or at least not go broke, while the hours add up. Tap a road to see what that path is really like:</p>
+    <p>The gap between your commercial certificate and the airlines is the time-building years. Tap a road to see what that path is really like:</p>
     <div class="roads" id="roads"></div>
     <div class="roaddesc" id="roaddesc"></div>
   </div>
@@ -121,165 +121,183 @@
   <h2 class="sec">The career path</h2>
   <div class="card">
     <h3>Where the seats are</h3>
-    <p>The traditional ladder runs <b>regional first, then a major or legacy carrier</b>, building turbine and multi-crew time along the way. But it is not the only route, and not even always the highest paid one. <b>Cargo (freight)</b> and <b>corporate and fractional</b> flying are full careers in their own right, and plenty of pilots never fly a passenger airline at all.</p>
-    <p><b>Part 121</b> is the scheduled airlines and major cargo. <b>Part 135</b> is on-demand charter and commuter. <b>Part 91</b> is general operating rules, including most corporate and private flying. Good careers live in all of them.</p>
-
-    <h4>Legacy carriers</h4>
-    <p>The big three full-service network airlines: <b>American</b>, <b>Delta</b>, and <b>United</b>. Largest fleets, global networks, widebody flying, and the top of most pay scales.</p>
-
-    <h4>Other majors and low-cost carriers</h4>
-    <ul class="oplist">
-      <li><b>Southwest</b>, <b>Alaska</b> (now including Hawaiian), and <b>JetBlue</b> are large established mainline carriers.</li>
-      <li><b>Spirit</b>, <b>Frontier</b>, <b>Allegiant</b>, <b>Sun Country</b>, <b>Breeze</b>, and <b>Avelo</b> are the low-cost and ultra-low-cost carriers.</li>
-    </ul>
-
-    <h4>Cargo and freight</h4>
-    <ul class="oplist">
-      <li><b>FedEx Express</b> and <b>UPS Airlines</b> are the cargo majors, with pay and benefits that rival or beat the passenger legacies.</li>
-      <li><b>Atlas Air</b>, <b>Kalitta Air</b>, <b>Western Global</b>, <b>ABX Air</b>, and <b>Amerijet</b> are ACMI and supplemental freight operators, a common turbine and widebody way in.</li>
-    </ul>
-
-    <h4>Regional airlines</h4>
-    <p>Where most airline careers begin. They fly as American Eagle, Delta Connection, and United Express:</p>
-    <ul class="oplist">
-      <li><b>SkyWest</b> is the largest US regional, 500+ aircraft, flying for all three legacies.</li>
-      <li><b>Republic Airways</b> flies about 200 aircraft for American, Delta, and United (merged with Mesa in 2025).</li>
-      <li><b>Envoy Air</b>, <b>PSA Airlines</b>, and <b>Piedmont Airlines</b> are American's wholly-owned American Eagle carriers, with a flow to American mainline.</li>
-      <li><b>Endeavor Air</b> is Delta's wholly-owned Delta Connection carrier, with a flow to Delta.</li>
-      <li><b>Horizon Air</b> is Alaska's regional and the Ascend Pilot Academy destination.</li>
-      <li><b>GoJet</b>, <b>Air Wisconsin</b>, and <b>CommutAir</b> round out the United Express and independent regionals.</li>
-    </ul>
-
-    <h4>Corporate and fractional</h4>
-    <p><b>NetJets</b> and <b>Flexjet</b> are the big fractional operators, and thousands of company flight departments fly <b>Part 91</b> and <b>Part 135</b> in everything from turboprops to large-cabin jets. Excellent equipment, mentorship, and increasingly competitive pay, with widely varying schedules.</p>
-
-    <h4>What it pays</h4>
-    <p class="note">Pay jumped dramatically with the 2022 to 2024 contracts and keeps moving. These are rough <b>potential</b> total-annual ranges, not promises. For current, exact, contract-by-contract rates, check the pay scales at
-    <a href="https://www.airlinepilotcentral.com/" target="_blank" rel="noopener">AirlinePilotCentral.com</a> (per-airline pages, updated continuously).</p>
-    <div style="margin-top:8px">
-      <div class="payrow"><span class="lvl">Regional first officer (year 1)</span><span class="amt">~$90k+</span></div>
-      <div class="payrow"><span class="lvl">Regional captain (senior)</span><span class="amt">~$150k&ndash;230k</span></div>
-      <div class="payrow"><span class="lvl">Major / legacy first officer</span><span class="amt">~$110k&ndash;250k</span></div>
-      <div class="payrow"><span class="lvl">Major narrowbody captain</span><span class="amt">~$300k&ndash;400k</span></div>
-      <div class="payrow"><span class="lvl">Major widebody captain (senior)</span><span class="amt">~$400k&ndash;500k+</span></div>
-      <div class="payrow"><span class="lvl">Cargo (FedEx / UPS) senior captain</span><span class="amt">~$400k&ndash;500k+</span></div>
-      <div class="payrow"><span class="lvl">Corporate / fractional</span><span class="amt">~$90k&ndash;250k+</span></div>
-    </div>
-    <p class="note" style="margin-top:8px">Numbers swing with aircraft, seat, seniority, and how much you fly. Always verify against the live pay scales linked above.</p>
+    <p>The traditional ladder runs <b>regional first, then a major or legacy carrier</b>, building turbine and multi-crew time along the way. But <b>cargo (freight)</b> and <b>corporate and fractional</b> flying are full careers in their own right.</p>
+    <p><b>Part 121</b> is the scheduled airlines and major cargo. <b>Part 135</b> is on-demand charter and commuter. <b>Part 91</b> is general operating rules, including most corporate and private flying.</p>
+    <a class="cta" href="airlines.html">Airline directory, crew-base map &amp; pay calculator &#9654;</a>
+    <p class="note" style="margin-top:8px">The Airlines page lists every legacy, major, cargo, regional, and fractional operator with a direct link to its pilot hiring page, approximate pilot counts, crew bases on an interactive map, and a pay calculator.</p>
 
     <h4>Australia and New Zealand</h4>
-    <p>The ladder rhymes, under different regulators. In <b>Australia</b> the regulator is <b>CASA</b>: you build from a CPL through ATPL theory, a multi-engine command instrument rating, and an MCC course. The <b>Qantas Group Pilot Academy</b> (Toowoomba) is an ab-initio school whose strong graduates are invited to a Qantas Group assessment for <b>QantasLink</b>, <b>Jetstar</b>, or <b>Network Aviation</b>. Mainline carriers are <b>Qantas</b>, <b>Jetstar</b>, and <b>Virgin Australia</b>, with regionals like <b>QantasLink</b>, <b>Rex (Regional Express)</b>, and <b>Alliance</b>.</p>
-    <p>In <b>New Zealand</b> the regulator is the <b>CAA NZ</b>, and the licence path is similar (CPL, then ATPL). <b>Air New Zealand</b> is the flag carrier and runs partner-school and preferred-pathway schemes into its turboprop fleet and on to jets. Other operators include <b>Sounds Air</b>, <b>Originair</b>, <b>Barrier Air</b>, and <b>Air Chathams</b>. A New Zealand licence must be converted to an Australian one before applying to Qantas Group, and vice versa.</p>
+    <p>The ladder rhymes under different regulators. In <b>Australia</b> (regulator <b>CASA</b>) you build from a CPL through ATPL theory, a multi-engine command instrument rating, and an MCC course; the <b>Qantas Group Pilot Academy</b> feeds <b>QantasLink</b>, <b>Jetstar</b>, and <b>Network Aviation</b>, and the mainline carriers are <b>Qantas</b>, <b>Jetstar</b>, and <b>Virgin Australia</b>. In <b>New Zealand</b> (regulator <b>CAA NZ</b>) the path is similar; <b>Air New Zealand</b> runs partner-school pathways, and a NZ licence must be converted to an Australian one before applying to Qantas Group.</p>
 
     <h4>US territories: Puerto Rico, USVI, Guam, American Samoa, CNMI</h4>
-    <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>: same certificates, same Part 61 hour gates, same ATP. Local island flying (inter-island hops, Part 135 commuter and cargo) is excellent early experience and time building, and pilots there move into the same regionals, majors, and cargo carriers as the mainland.</p>
+    <p style="margin-bottom:0">These are US jurisdictions, so the <b>FAA rules and the exact ladder above apply</b>. Island flying (inter-island hops, Part 135 commuter and cargo) is excellent early time. You can even fly <b>powered paragliding (PPG)</b> as a US citizen under FAR Part 103, which needs no certificate at all. Local carriers include <b>Star Marianas Air</b> (Guam/Saipan/Tinian/Rota), <b>Vieques Air Link</b> and <b>Cape Air</b> (Puerto Rico), and <b>Seaborne</b> and <b>Cape Air</b> (US Virgin Islands).</p>
+  </div>
+
+  <h2 class="sec">Retirement: the part nobody tells you</h2>
+  <div class="card">
+    <h3>The 401k that builds millions</h3>
+    <p>Here is something genuinely different about this career. In most industries an employer <b>matches</b> part of what you put into your 401k, usually a few percent. The airlines instead make a large <b>direct (non-elective) contribution</b>: they put a percentage of your pay into your retirement account whether or not you contribute a dime of your own.</p>
+    <p>These are recent figures and they move with each contract, so verify, but the scale is the point:</p>
+    <div style="margin-top:6px">
+      <div class="payrow"><span class="lvl">Delta</span><span class="amt">18% direct (no match needed)</span></div>
+      <div class="payrow"><span class="lvl">United</span><span class="amt">18% direct</span></div>
+      <div class="payrow"><span class="lvl">Southwest</span><span class="amt">18% + ~2% cash balance</span></div>
+      <div class="payrow"><span class="lvl">American</span><span class="amt">up to 16% direct</span></div>
+      <div class="payrow"><span class="lvl">FedEx</span><span class="amt">9% direct + a defined-benefit pension</span></div>
+      <div class="payrow"><span class="lvl">UPS</span><span class="amt">company-funded pension contribution</span></div>
+    </div>
+    <p style="margin-top:10px">Now do the math on a captain earning $300k to $400k. Eighteen percent is $54,000 to $72,000 a year going into retirement <b>on top of salary</b>, with no requirement to match it from your own pocket. Compounded over a 25 to 30 year career, that is why so many airline pilots retire with seven-figure, often multi-million-dollar retirement accounts. Few careers fund retirement like this one.</p>
+    <p class="note" style="margin-bottom:0">Contribution percentages change with each contract; confirm the current numbers and the IRS annual limits with a financial advisor and your union contract.</p>
+  </div>
+
+  <h2 class="sec">The travel benefits</h2>
+  <div class="card">
+    <h3>The whole world becomes your back yard</h3>
+    <p>This is one of the most joyful parts of the job, and it is easy to undersell. As an airline employee you and your registered family fly on space-available <b>non-rev</b> (non-revenue) passes, often for the cost of taxes or free. Whole airline families grow up criss-crossing the planet on their own airline, jumping to Tokyo for a weekend or Europe for spring break on a standby seat.</p>
+
+    <h4>Jumpseating</h4>
+    <p>The <b>jumpseat</b> is the extra cockpit (or cabin) seat that pilots can ride in, on their own airline and, through reciprocal agreements, on almost every other US airline. It is how commuting pilots get to work and how you can island-hop across the country nearly for free. It is also a privilege built entirely on professionalism and trust.</p>
+    <div class="bp"><h5>Jumpseat etiquette</h5><ul>
+      <li>Ask the captain politely for the jumpseat; the captain has final authority and you respect a no without a flicker of attitude.</li>
+      <li>Dress and behave professionally. You represent every jumpseater who comes after you.</li>
+      <li>Know and follow the gate and cockpit procedures, introduce yourself to the crew and the gate agent, and have your credentials ready.</li>
+      <li>Defer to revenue passengers and to commuting crew who need to get to work. Be gracious, be quiet, say thank you.</li>
+      <li>Never jumpseat impaired, late, or sloppy. The privilege is reciprocal across the industry and easy to lose.</li>
+    </ul></div>
+
+    <h4>Non-rev, ID90, and the apps</h4>
+    <p><b>ID90</b> refers to deeply discounted interline tickets (historically ~90% off) that airline employees can buy to travel on <b>other</b> airlines, booked through services like <a href="https://www.id90travel.com/" target="_blank" rel="noopener">ID90 Travel</a>. Combined with your own airline's non-rev passes, it means the entire global route network is open to you and your family at a fraction of retail.</p>
+    <p>Two tools make non-rev life easy: <a href="https://www.stafftraveler.com/" target="_blank" rel="noopener">StaffTraveler</a> (iOS and Android), where the worldwide airline-crew community shares real-time standby loads so you know if a flight will have open seats before you commit, and <a href="https://www.id90travel.com/" target="_blank" rel="noopener">ID90 Travel</a> for booking interline fares and discounted hotels and cruises. Learn these early; they turn a day off into a trip anywhere.</p>
   </div>
 
   <h2 class="sec">Getting hired</h2>
   <div class="card">
     <h3>Paths to your certificates</h3>
-    <p>Three common ways to get the ratings. None is "best" for everyone; it comes down to budget, timeline, and how you learn. Costs and timelines vary widely by region and how often you fly, so treat these as ballparks.</p>
-
+    <p>Three common ways to get the ratings. Costs and timelines vary widely, so treat these as ballparks.</p>
     <h4>Part 61 &mdash; local flight school</h4>
-    <p>Train at your own pace with an independent school or freelance CFI. The most flexible route and often the lowest out-of-pocket, but the pace and discipline are on you. <span class="money">Roughly $15k for the PPL, ~$60k to $90k from zero to commercial multi plus instructor ratings. About 1.5 to 3 years, part time.</span></p>
-
+    <p>Train at your own pace with an independent school or freelance CFI. Most flexible, often lowest out-of-pocket. <span class="money">~$15k PPL, ~$60k to $90k zero to commercial multi plus instructor ratings. About 1.5 to 3 years part time.</span></p>
     <h4>Part 141 &mdash; approved academy</h4>
-    <p>An FAA-approved, structured syllabus at an academy or college. More regimented, eligible for some reduced minimums (for example a 190-hour commercial), and usually faster if you attend full time. <span class="money">Roughly $80k to $110k accelerated. About 12 to 20 months full time.</span></p>
-
+    <p>An FAA-approved structured syllabus. More regimented, eligible for reduced minimums, usually faster full time. <span class="money">~$80k to $110k accelerated. About 12 to 20 months.</span></p>
     <h4>College degree program</h4>
-    <p>A four-year aviation university (Embry-Riddle, UND, Purdue and others) bundles the ratings into a bachelor's degree and can grant the R-ATP reduction (1,000 or 1,250 hours). <span class="money">Roughly $150k to $300k+ all in. Four years.</span></p>
-
+    <p>A four-year aviation university bundles the ratings into a bachelor's and can grant the R-ATP reduction. <span class="money">~$150k to $300k+ all in. Four years.</span></p>
     <div class="bp"><h5>Pro tip on the degree</h5><ul>
-      <li>A bachelor's degree is effectively required to be competitive at the majors, the legacy carriers, and the cargo majors (FedEx and UPS). The field of study does not matter.</li>
-      <li>For most people it is smartest <b>not</b> to major in aviation. If you lose your medical early in your career, a non-aviation degree is your fallback. The airlines do not care whether your degree is in aviation or anything else.</li>
-      <li>A second, marketable skill also lets you earn a side income while you build hours and ride out the lean early years.</li>
+      <li>A bachelor's is effectively required to be competitive at the majors, legacy carriers, and cargo majors (FedEx, UPS). The field of study does not matter.</li>
+      <li>For most people it is smartest <b>not</b> to major in aviation. If you lose your medical early, a non-aviation degree is your fallback. Airlines do not care what your degree is in.</li>
+      <li>A second, marketable skill lets you earn a side income while you build hours through the lean early years.</li>
     </ul></div>
 
-    <h3 style="margin-top:20px">Interview prep</h3>
-    <p>Airline interviews test technical knowledge (a technical evaluation), situational and behavioral judgment (the SBI), line-oriented scenarios (the LOI), and CRM. Dedicated prep services run mock interviews and coach all of it.
-    <a href="https://www.cageconsulting.com/" target="_blank" rel="noopener">Cage Marshall Consulting</a> is the long-standing name, founded in 1988 by Cheryl Cage (author of "Checklist for Success"); their consultants are former airline interviewers who prep both the technical and situational rounds. Pair any service with this portal's Hot Seat and Quiz to keep your fundamentals sharp.</p>
+    <h4>Letters of recommendation</h4>
+    <p>Start collecting them <b>now</b>, and collect the right kind. A letter from a <b>pilot you have actually flown with</b>, who can speak to your airmanship, judgment, and crew behavior, is worth far more than a generic character reference from a family friend. Hiring boards weight a peer pilot's word heavily because that person is staking their own reputation on you. After a good trip or a check, ask. Keep them on file, keep them current, and keep the relationships warm.</p>
 
-    <h3 style="margin-top:20px">Job fairs and industry expos</h3>
-    <p>Where recruiters and pilots meet face to face. Going early, even before you are hireable, builds the network that gets you hired later. The recurring US events (always confirm the exact dates each year):</p>
+    <h4>Electronic logbooks</h4>
+    <p>Start an <b>electronic logbook early</b> and keep it meticulous. It makes currency, totals, and airline applications effortless years later, and recreating a paper logbook is miserable. The two standards:</p>
+    <ul class="oplist">
+      <li><b><a href="https://logten.com/" target="_blank" rel="noopener">LogTen</a></b> (Coradine): polished, Apple-first (Mac, iPhone, iPad) with strong syncing and automation. Pro: beautiful and fast on Apple devices. Con: subscription pricing, and weaker if you live outside the Apple ecosystem.</li>
+      <li><b><a href="https://www.nc-software.com/" target="_blank" rel="noopener">Logbook Pro</a></b> (NC Software): long-established, deep reporting and analysis, Windows and mobile. Pro: powerful reports and a long track record. Con: interface feels more dated and the add-on pieces can get pricey.</li>
+    </ul>
+    <p class="note">Either is fine. The win is starting electronic from your first lesson and backing it up.</p>
+
+    <h4>Where to apply</h4>
+    <p>Most regional and many major applications run through <a href="https://www.airlineapps.com/" target="_blank" rel="noopener">AirlineApps.com</a>. Build a complete, accurate profile there early; many carriers pull candidates straight from it. Apply directly on each airline's pilot hiring page too (linked on the <a href="airlines.html">Airlines page</a>).</p>
+
+    <h4>Interview prep</h4>
+    <p>Airline interviews test technical knowledge, situational and behavioral judgment (SBI), line-oriented scenarios (LOI), and CRM. <a href="https://www.cageconsulting.com/" target="_blank" rel="noopener">Cage Marshall Consulting</a> is the long-standing prep name (founded 1988 by Cheryl Cage, author of "Checklist for Success"), staffed by former airline interviewers. Pair it with this portal's Hot Seat and Quiz to keep your fundamentals sharp.</p>
+
+    <h4>Job fairs and industry expos</h4>
+    <p>Where recruiters and pilots meet face to face. Going early builds the network that gets you hired. Confirm exact dates each year:</p>
     <ul class="fairs">
-      <li><span class="mo">FEB</span><span class="d"><a href="https://www.ngpa.org/ngpa_industry_expo" target="_blank" rel="noopener">NGPA Industry Expo</a> &mdash; National Gay Pilots Association (Palm Springs).</span></li>
-      <li><span class="mo">MAR</span><span class="d"><a href="https://www.wai.org/" target="_blank" rel="noopener">Women in Aviation International (WAI)</a> &mdash; the big annual WAI conference.</span></li>
-      <li><span class="mo">MAY</span><span class="d"><a href="https://thepilotnetwork.com/pages/tpnx" target="_blank" rel="noopener">TPNx</a> &mdash; The Pilot Network, part job fair and part networking.</span></li>
-      <li><span class="mo">JUN</span><span class="d"><a href="https://www.fapa.aero/events" target="_blank" rel="noopener">FAPA Pilot Job Fair, Las Vegas</a> &mdash; the one that just wrapped (June 1&ndash;3); FAPA runs these monthly in rotating cities.</span></li>
-      <li><span class="mo">AUG</span><span class="d"><a href="https://obap.org/obap-events/" target="_blank" rel="noopener">OBAP Annual Conference</a> &mdash; Organization of Black Aerospace Professionals.</span></li>
-      <li><span class="mo">OCT</span><span class="d"><a href="https://nbaa.org/events/" target="_blank" rel="noopener">NBAA-BACE</a> &mdash; the big business-aviation convention (Las Vegas).</span></li>
+      <li><span class="mo">FEB</span><span class="d"><a href="https://www.ngpa.org/" target="_blank" rel="noopener">NGPA Industry Expo</a> &mdash; National Gay Pilots Association.</span></li>
+      <li><span class="mo">MAR</span><span class="d"><a href="https://www.wai.org/" target="_blank" rel="noopener">Women in Aviation International (WAI)</a>.</span></li>
+      <li><span class="mo">MAY</span><span class="d"><a href="https://thepilotnetwork.com/pages/tpnx" target="_blank" rel="noopener">TPNx</a> &mdash; The Pilot Network.</span></li>
+      <li><span class="mo">JUN</span><span class="d"><a href="https://www.fapa.aero/events" target="_blank" rel="noopener">FAPA Pilot Job Fairs</a> &mdash; monthly, rotating cities (Las Vegas hosts in June).</span></li>
+      <li><span class="mo">AUG</span><span class="d"><a href="https://obap.org/" target="_blank" rel="noopener">OBAP Annual Conference</a> &mdash; Organization of Black Aerospace Professionals.</span></li>
+      <li><span class="mo">OCT</span><span class="d"><a href="https://nbaa.org/events/" target="_blank" rel="noopener">NBAA-BACE</a> &mdash; business aviation (Las Vegas).</span></li>
       <li><span class="mo">NOV</span><span class="d"><a href="https://www.aopa.org/" target="_blank" rel="noopener">AOPA Aviation Career Expo</a>.</span></li>
     </ul>
-    <p class="note"><a href="https://www.fapa.aero/events" target="_blank" rel="noopener">FAPA (fapa.aero)</a> hosts pilot job fairs across the country most months; check their events page for the next city and date.</p>
 
-    <h3 style="margin-top:20px">On the ramp</h3>
+    <h4>Affinity and professional organizations</h4>
+    <p>Join early. These groups run scholarships, mentoring, and the job fairs above, and the relationships pay off for a whole career:</p>
+    <ul class="oplist">
+      <li><a href="https://obap.org/" target="_blank" rel="noopener">OBAP</a> &mdash; Organization of Black Aerospace Professionals.</li>
+      <li><a href="https://www.wai.org/" target="_blank" rel="noopener">Women in Aviation International (WAI)</a>.</li>
+      <li><a href="https://www.ngpa.org/" target="_blank" rel="noopener">NGPA</a> &mdash; National Gay Pilots Association.</li>
+      <li><a href="https://www.latinopilots.org/" target="_blank" rel="noopener">Latino Pilots Association (LPA)</a>.</li>
+      <li><a href="https://www.sistersoftheskies.org/" target="_blank" rel="noopener">Sisters of the Skies</a> &mdash; Black women pilots.</li>
+      <li><a href="https://www.papahq.org/" target="_blank" rel="noopener">Professional Asian Pilots Association (PAPA)</a>.</li>
+    </ul>
+
+    <h4>On the ramp</h4>
     <ul class="tips">
-      <li><b>Keep your records clean and current.</b> A tidy, accurate logbook and a clean certificate file save you at every interview. John would have it laminated.</li>
-      <li><b>Network early and pay it forward.</b> Most pilots get somewhere because someone took the time on them. Say yes to the hangar conversation. Find a mentor, then become one.</li>
-      <li><b>Get the ratings in a smart order.</b> Instrument and commercial first, then your instructor certificates if you are building time by teaching. Add multi when the job market wants it.</li>
-      <li><b>Treat every flight as your reputation.</b> Aviation is small. The way you fly, brief, and behave on the ramp follows you. Stay humble, stay current, pick the safe option every time.</li>
-      <li><b>Know your numbers cold.</b> Interviews test the same fundamentals this portal drills. Weak on a subject, drill it on the quiz and the games until it sticks.</li>
-      <li><b>Decide before you need to.</b> Personal minimums, an out, never push it. The pilots who build long careers are the ones who keep showing up, flight after flight, safely.</li>
+      <li><b>Keep your records clean and current.</b> A tidy electronic logbook and a clean certificate file save you at every interview.</li>
+      <li><b>Network early and pay it forward.</b> Most pilots get somewhere because someone took the time on them. Find a mentor, then become one.</li>
+      <li><b>Get the ratings in a smart order.</b> Instrument and commercial first, then instructor certificates if you teach to build time. Add multi when the market wants it.</li>
+      <li><b>Treat every flight as your reputation.</b> Aviation is small. How you fly, brief, and behave on the ramp follows you.</li>
+      <li><b>Know your numbers cold.</b> Interviews test the same fundamentals this portal drills. Weak on a subject, drill it on the quiz and games.</li>
+      <li><b>Decide before you need to.</b> Personal minimums, an out, never push it. The pilots who build long careers keep showing up, safely.</li>
     </ul>
   </div>
 
   <footer>
-    Free study tool for student and new pilots. Career figures trace to FAA public-domain sources and 14 CFR Part 61; pay ranges and program costs are illustrative, verify at the sources linked.<br>
-    Requirements and pay change. Verify against current FAA publications, airline sources, and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
+    Free study tool for student and new pilots. Career, pay, and retirement figures are illustrative and trace to public sources, 14 CFR, and AirlinePilotCentral.<br>
+    Requirements and numbers change. Verify against current FAA publications, airline sources, your union contract, and a CFI or mentor before making decisions. Aloha and keep the shiny side up.
   </footer>
 </div>
 
 <script>
   var ROADS = [
-    {k:'Flight instructing', t:'Flight instructing (CFI)', d:'The classic path, for a reason. You earn while you learn, you log pilot-in-command time, and teaching the material is the fastest way to truly master it, because you have to explain it out loud. Most of the crew in this lounge built their first thousand hours in the right seat as a CFI.'},
+    {k:'Flight instructing', t:'Flight instructing (CFI)', d:'The classic path. You earn while you learn, you log pilot-in-command time, and teaching is the fastest way to truly master the material. Most of the crew in this lounge built their first thousand hours in the right seat as a CFI.'},
     {k:'Cadet programs', t:'Airline cadet and pathway programs', html:
-      '<p>Airline-sponsored pipelines that take you from little or no experience toward a regional or mainline first officer seat, with a defined path, mentorship, and often some financial support. They are competitive (top programs accept roughly 1 to 5 percent), so preparation is not optional. The major US programs:</p>'
+      '<p>Airline-sponsored pipelines from little or no experience toward a regional or mainline first officer seat, with a defined path, mentorship, and often financial support. Competitive (roughly 1 to 5 percent accepted), so preparation is not optional.</p>'
       + '<ul class="cadet">'
-      + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/career-opportunities/pilots/pilot-training/" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">Ab-initio to a Horizon Air first officer seat, trained at Hillsboro Aero Academy. <span class="money">Money:</span> you self-fund the PPL; Horizon Air contributes about $27,000 toward the commercial single-engine and Hillsboro funds the CFII, with secured loan options for the rest. First Class Medical required to apply; about a three-year commitment to Horizon.</span></li>'
+      + '<li><span class="nm">Alaska Ascend Pilot Academy</span> &nbsp;<a class="apply" href="https://careers.alaskaair.com/pilots" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">Ab-initio to a Horizon Air seat via Hillsboro Aero Academy. <span class="money">Money:</span> you fund the PPL; Horizon adds about $27,000 toward the commercial single-engine and Hillsboro funds the CFII. First Class Medical required; about a three-year commitment.</span></li>'
       + '<li><span class="nm">United Aviate Academy</span> &nbsp;<a class="apply" href="https://www.aviateacademy.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">United&rsquo;s own ab-initio academy (Goodyear, AZ) feeding the United pilot pipeline. <span class="money">Money:</span> about $71,250 all-in with financing available; United covers the PPL portion (around $17,750). Must be 18+, a US citizen or legal resident, pass the PPL written at 80%+, and hold a first-class medical. United has signaled a very large hiring wave for 2026.</span></li>'
+        + '<span class="det">United&rsquo;s own ab-initio academy (Goodyear, AZ). <span class="money">Money:</span> about $71,250 all-in with financing; United covers the PPL portion. Must be 18+, US citizen or legal resident, pass the PPL written at 80%+, hold a first-class medical.</span></li>'
       + '<li><span class="nm">American Airlines Cadet Academy</span> &nbsp;<a class="apply" href="https://academy.aa.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">Integrated training (about 9 to 12 months to Commercial + CFI) through partner schools, then a guaranteed-interview flow through Envoy and PSA to American mainline. <span class="money">Money:</span> training is self-funded or financed; the payoff is the structured, guaranteed-interview flow. Needs HS/GED, US work eligibility, first-class medical, passport, and an admissions flight.</span></li>'
+        + '<span class="det">Integrated training (~9 to 12 months to Commercial + CFI) then a guaranteed-interview flow through Envoy and PSA to American mainline.</span></li>'
       + '<li><span class="nm">Delta Propel</span> &nbsp;<a class="apply" href="https://www.delta.com/us/en/careers/pilots/propel" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">Delta&rsquo;s career-path program with a defined route to a Delta interview and a conditional job offer. <span class="money">Money:</span> up to $20,000 in support from Delta, and Delta covers the interest on training loans from select lenders. Delta has also stood up its own Propel Flight Academy.</span></li>'
-      + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/skywest-airline-jobs/career-guides/pilot-pathway-program" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">For students at SkyWest partner schools: enhanced seniority, a guaranteed SkyWest interview, and assigned pilot mentors while you train. <span class="money">Money:</span> no big tuition subsidy, but it secures your place in line at a major regional, which is the scarce thing.</span></li>'
+        + '<span class="det">A defined route to a Delta interview. <span class="money">Money:</span> up to $20,000 in support and Delta covers loan interest from select lenders.</span></li>'
+      + '<li><span class="nm">SkyWest Pilot Pathway</span> &nbsp;<a class="apply" href="https://www.skywest.com/skywest-airline-jobs/pilots/" target="_blank" rel="noopener">Apply &#8599;</a>'
+        + '<span class="det">Enhanced seniority, a guaranteed SkyWest interview, and mentors while you train at partner schools.</span></li>'
       + '<li><span class="nm">JetBlue Gateway (Gateway Select)</span> &nbsp;<a class="apply" href="https://www.jetbluegateways.com/" target="_blank" rel="noopener">Apply &#8599;</a>'
-        + '<span class="det">A CAE-run ab-initio program to a JetBlue seat. <span class="money">Money:</span> about $122,000 with lender options, roughly 3.5 years. Start at age 20 so you reach the ATP age of 23 right on schedule.</span></li>'
+        + '<span class="det">CAE-run ab-initio to a JetBlue seat. <span class="money">Money:</span> about $122,000 with lender options, roughly 3.5 years. Start at 20 to reach ATP age 23 on schedule.</span></li>'
       + '</ul>'
       + '<div class="bp"><h5>Best practices to get accepted</h5><ul>'
-      + '<li>Get your FAA First Class Medical first. Several programs will not even accept the application without it, and it confirms you are medically clear before you spend a dollar.</li>'
-      + '<li>Pass the PPL knowledge test early and well (80%+ where required). It proves you can study to a standard.</li>'
-      + '<li>Drill the assessments: aptitude and reaction tests, plus the technical (METARs and TAFs, charts, regs, required equipment, fuel and alternates) and CRM scenarios.</li>'
-      + '<li>Have your motivation and behavioral answers ready: why this airline, decision-making, leadership, teamwork. With 1 to 5 percent acceptance, rehearse them out loud.</li>'
-      + '<li>Show demonstrated commitment: a discovery flight or a few lessons, a clean background and driving record, and real knowledge of the specific program. Network with current pilots.</li>'
-      + '</ul></div>'
-      + '<p style="font-size:12px; color:var(--muted); margin-top:10px; margin-bottom:0">Costs, sizes, and terms change often. Confirm the current details on each program&rsquo;s official page before applying.</p>'},
+      + '<li>Get your FAA First Class Medical first; several programs will not take the application without it.</li>'
+      + '<li>Pass the PPL knowledge test early and well (80%+ where required).</li>'
+      + '<li>Drill the aptitude and technical assessments (METARs, charts, regs, CRM scenarios).</li>'
+      + '<li>Rehearse motivation and behavioral answers; acceptance runs 1 to 5 percent.</li>'
+      + '<li>Show demonstrated commitment and a clean record. Network with current pilots.</li>'
+      + '</ul></div>'},
     {k:'Military', t:'The military path', html:
-      '<p>Military aviation is a separate, fully-funded route to wings, and a huge share of airline pilots came up this way. Someone else pays for world-class training and you build heavy, turbine, and command time fast. Two broad ways in:</p>'
+      '<p>Military aviation is a separate, fully-funded route to wings, and a huge share of airline pilots came up this way. Two broad ways in:</p>'
       + '<h5>Active duty (Air Force, Navy, Marines, Coast Guard, Army)</h5>'
-      + '<p>Commission through a service academy, ROTC, or Officer Training School, then go through fully-funded military flight training. <span class="money">Pros:</span> no training debt, advanced aircraft, leadership and PIC time the civilian world cannot match, and a resume airlines love. <span class="money">Cons:</span> a long service commitment (Air Force pilots owe roughly 10 years after training), you do not choose your aircraft or base, and deployments are part of the deal.</p>'
+      + '<p>Commission via a service academy, ROTC, or Officer Training School, then fully-funded military flight training. <span class="money">Pros:</span> no training debt, advanced aircraft, leadership and PIC time the civilian world cannot match. <span class="money">Cons:</span> a long commitment (Air Force pilots owe roughly 10 years after training), you do not choose your aircraft or base, and deployments are part of the deal.</p>'
       + '<h5>Air National Guard and Reserve</h5>'
-      + '<p>You apply directly to a specific squadron and aircraft, train, then serve part-time. As an example, the <b>Hawaii Air National Guard&rsquo;s 154th Wing</b> at Joint Base Pearl Harbor-Hickam, the largest wing in the Air National Guard, flies the <b>F-22 Raptor</b> (199th Fighter Squadron), the <b>KC-135 Stratotanker</b> (203rd Air Refueling Squadron), and the <b>C-17 Globemaster III</b> (204th Airlift Squadron). <span class="money">Pros:</span> you pick the unit, aircraft, and location, and Guard or Reserve service fits alongside an airline job. <span class="money">Cons:</span> you have to win a slot, training is still a big commitment, and deployments still happen.</p>'
+      + '<p>Apply directly to a specific squadron and aircraft, train, then serve part-time. The <b>Hawaii Air National Guard&rsquo;s 154th Wing</b> at Joint Base Pearl Harbor-Hickam, the largest wing in the Air National Guard, flies the <b>F-22 Raptor</b>, the <b>KC-135 Stratotanker</b>, and the <b>C-17 Globemaster III</b>. <span class="money">Pros:</span> you pick the unit, aircraft, and location, and it fits alongside an airline job. <span class="money">Cons:</span> you have to win a slot, and deployments still happen.</p>'
+      + '<div class="bp"><h5>The GI Bill</h5><ul>'
+      + '<li>Military service earns the <a href="https://www.va.gov/education/about-gi-bill-benefits/" target="_blank" rel="noopener">GI Bill</a>, which can pay for a college degree and, through approved Part 141 programs, much of your flight training beyond the private certificate.</li>'
+      + '<li>That can mean reaching commercial and instructor ratings, and a bachelor&rsquo;s, with little or no debt, a massive financial head start on a flying career.</li>'
+      + '<li>Confirm current eligibility and which schools and ratings qualify directly with the VA and the flight school.</li>'
+      + '</ul></div>'
       + '<div class="bp"><h5>The job-insurance play</h5><ul>'
-      + '<li>A common, durable strategy: come up through the military (Air Force, Navy, Coast Guard, or a Guard/Reserve unit), get hired by an airline as early as you can, and then keep one foot in the military with the Guard or Reserve.</li>'
-      + '<li>When the airline industry takes a dip and furloughs hit, as it did after 9/11, in 2008, and during COVID, the Guard or Reserve job keeps you employed, current, and earning until the airline recalls you.</li>'
-      + '<li>It is one of the most reliable forms of career insurance in aviation, and it keeps you flying through the down cycles instead of starting over.</li>'
+      + '<li>A durable strategy: come up through the military (active or a Guard/Reserve unit), get hired by an airline as early as you can, and keep one foot in the military.</li>'
+      + '<li>When the airline industry dips and furloughs hit, as after 9/11, in 2008, and during COVID, the Guard or Reserve job keeps you employed, current, and earning until the airline recalls you.</li>'
+      + '<li>It is one of the most reliable forms of career insurance in aviation.</li>'
       + '</ul></div>'},
     {k:'Scenic & commuter', t:'Scenic tours and small commuter first jobs', html:
-      '<p>Small Part 135 commuter and air-tour operators are classic first jobs. You fly real revenue passengers in turbine singles, build pilot-in-command and turbine time, and often sleep in your own bed every night. The pay is modest early on, but the turbine PIC time and operational resume are exactly what regionals and beyond want to see.</p>'
+      '<p>Small Part 135 commuter and air-tour operators are classic first jobs: real revenue passengers in turbine singles, pilot-in-command and turbine time, and home most nights.</p>'
       + '<ul class="oplist">'
-      + '<li><b><a href="https://www.mokuleleairlines.com/" target="_blank" rel="noopener">Mokulele Airlines</a></b> (Hawaii) flies the Cessna 208 Caravan on more than 100 daily inter-island flights. First officers can start around 500 hours total time, building turbine time hopping between the islands.</li>'
-      + '<li><b><a href="https://www.grandcanyonairlines.com/about/employment" target="_blank" rel="noopener">Grand Canyon Scenic Airlines</a></b> (Las Vegas and Boulder City) flies Caravans and de Havilland Twin Otters on Grand Canyon sightseeing tours, hiring around the commercial certificate and roughly 500 hours, with full days of flying and home each night.</li>'
-      + '<li>Look also at <b>Cape Air</b>, regional seaplane and tour operators, and other island and canyon carriers. The pattern is the same: turbine time, real passengers, a foot in the door.</li>'
+      + '<li><b><a href="https://www.mokuleleairlines.com/" target="_blank" rel="noopener">Mokulele Airlines</a></b> (Hawaii) flies the Cessna 208 Caravan on 100+ daily inter-island flights; first officers start around 500 hours total time.</li>'
+      + '<li><b><a href="https://www.grandcanyonairlines.com/about/employment" target="_blank" rel="noopener">Grand Canyon Scenic Airlines</a></b> (Las Vegas and Boulder City) flies Caravans and Twin Otters on Grand Canyon tours, hiring around the commercial certificate and ~500 hours.</li>'
+      + '<li>Look also at <b>Cape Air</b> and other island and canyon operators. Same pattern: turbine time, real passengers, a foot in the door.</li>'
       + '</ul>'},
-    {k:'Banner towing', t:'Banner towing', d:'Low and slow over beaches, stadiums, and events, towing advertising banners. Demanding stick-and-rudder flying with a hook-and-release pickup, usually seasonal and weather-dependent, and a genuinely fun way to log tailwheel and low-level hours.'},
-    {k:'Traffic watch', t:'Traffic watch', d:'Flying orbits over a city during rush hour while a reporter calls in the traffic and weather. Steady, repetitive hours, almost always early mornings and late afternoons, with a lot of time maneuvering over congested terrain.'},
-    {k:'Aerial survey / pipeline', t:'Aerial survey and pipeline patrol', d:'Long, methodical lines flown for mapping, photography, or pipeline and powerline inspection. Big cross-country and often instrument-building potential, frequently in higher-performance singles, and a lot of solo time to sharpen your airmanship.'},
-    {k:'Skydive ops', t:'Skydive operations', d:'Hauling jumpers to altitude and diving back down, turn after turn after turn. Fast-paced flying with lots of takeoffs, climbs, and descents, often in larger piston or turbine singles, and a quick way to stack hours on busy weekends.'},
-    {k:'Part 135 charter / cargo', t:'Part 135 charter and cargo', d:'On-demand charter and cargo flying under stricter operating rules than Part 91. Real-world IFR in the system, turbine and multi-engine time, and the bridge a lot of pilots take straight into the regionals.'},
-    {k:'Part 91 corporate', t:'Part 91 corporate', d:'Flying for a company or an owner under general operating rules, often in turboprops and jets. Excellent equipment and mentorship and frequently strong pay, with schedules that vary widely from job to job.'}
+    {k:'Banner towing', t:'Banner towing', d:'Low and slow over beaches and stadiums towing advertising banners. Demanding stick-and-rudder flying with a hook-and-release pickup, usually seasonal, and a fun way to log tailwheel and low-level hours.'},
+    {k:'Traffic watch', t:'Traffic watch', d:'Orbits over a city during rush hour while a reporter calls in traffic. Steady, repetitive hours, early mornings and late afternoons, lots of maneuvering over congested terrain.'},
+    {k:'Aerial survey / pipeline', t:'Aerial survey and pipeline patrol', d:'Long methodical lines for mapping, photography, or pipeline and powerline inspection. Big cross-country and instrument-building potential, often in higher-performance singles.'},
+    {k:'Skydive ops', t:'Skydive operations', d:'Hauling jumpers to altitude and diving back down, turn after turn. Fast-paced, lots of takeoffs, climbs, and descents, often in larger piston or turbine singles.'},
+    {k:'Part 135 charter / cargo', t:'Part 135 charter and cargo', d:'On-demand charter and cargo under stricter operating rules than Part 91. Real-world IFR, turbine and multi-engine time, and the bridge a lot of pilots take into the regionals.'},
+    {k:'Part 91 corporate', t:'Part 91 corporate', d:'Flying for a company or owner under general operating rules, often turboprops and jets. Excellent equipment and mentorship and frequently strong pay, with widely varying schedules.'}
   ];
   var active = 0;
   function renderRoads(){
