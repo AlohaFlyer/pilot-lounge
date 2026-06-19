@@ -22,6 +22,10 @@
   .calcout{margin-top:16px; text-align:center; background:#02101f; border:1px solid var(--line); border-radius:10px; padding:16px}
   .calcout .big{font-size:38px; font-weight:800; font-family:var(--mono); color:var(--green)}
   .calcout .sub{font-size:12px; color:var(--muted); font-family:var(--mono)}
+  .filt{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px}
+  .filt button{font-family:var(--mono); font-size:11px; padding:6px 10px; border-radius:14px; border:1px solid var(--line);
+    background:transparent; color:var(--muted); cursor:pointer}
+  .filt button.on{color:#01172b; font-weight:700}
   .grp{margin:14px 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--amber); font-family:var(--mono)}
   .grp:first-child{margin-top:0}
   .al{border-bottom:1px solid var(--line)}
@@ -37,7 +41,6 @@
   .aldet .k{color:var(--breeze); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em}
   .aldet a{color:var(--breeze)}
   .maps{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px}
-  .mapwrap{}
   .mapwrap .cap{font-family:var(--mono); font-size:11px; color:var(--muted); margin:0 0 4px}
   .lmap{height:200px; border-radius:8px; border:1px solid var(--line)}
   #mapMain{height:380px; border-radius:10px; border:1px solid var(--line)}
@@ -80,8 +83,9 @@
 
   <h2 class="sec">Crew base map</h2>
   <div class="card">
+    <div class="filt" id="filt"></div>
     <div id="mapMain"></div>
-    <p class="note" style="margin-top:8px">Continental US bases. Tap a marker for the carriers based there. Hawaii, Alaska, and the territories have their own maps below.</p>
+    <p class="note" style="margin-top:8px">Toggle categories with the buttons. Tap a marker for the carriers based there. Hawaii, Alaska, and the territories have their own maps below.</p>
     <div class="maps">
       <div class="mapwrap"><div class="cap">Alaska</div><div id="mapAK" class="lmap"></div></div>
       <div class="mapwrap"><div class="cap">Hawaii</div><div id="mapHI" class="lmap"></div></div>
@@ -104,22 +108,19 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
   function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  var rate_=document.getElementById('rate'), credit_=document.getElementById('credit'),
+      bid_=document.getElementById('bid'), pct_=document.getElementById('pct');
   function calc(){
     var rate=+rate_.value, credit=+credit_.value, bid=+bid_.value, pct=+pct_.value;
-    rOut.textContent='$'+rate; cOut.textContent=credit; bOut.textContent=bid; pOut.textContent=pct;
+    document.getElementById('rOut').textContent='$'+rate; document.getElementById('cOut').textContent=credit;
+    document.getElementById('bOut').textContent=bid; document.getElementById('pOut').textContent=pct;
     var per=rate*credit*(pct/100);
-    total.textContent=money(per*bid);
-    annual.textContent='about '+money(per*13)+' per year at 13 bid periods';
+    document.getElementById('total').textContent=money(per*bid);
+    document.getElementById('annual').textContent='about '+money(per*13)+' per year at 13 bid periods';
   }
-  var rate_=document.getElementById('rate'), credit_=document.getElementById('credit'),
-      bid_=document.getElementById('bid'), pct_=document.getElementById('pct'),
-      rOut=document.getElementById('rOut'), cOut=document.getElementById('cOut'),
-      bOut=document.getElementById('bOut'), pOut=document.getElementById('pOut'),
-      total=document.getElementById('total'), annual=document.getElementById('annual');
   [rate_,credit_,bid_,pct_].forEach(function(el){ el.addEventListener('input', calc); });
   calc();
 
-  /* airport: [lat, lng, region] */
   var AP = {
     ATL:[33.64,-84.43,'c'], DFW:[32.90,-97.04,'c'], ORD:[41.98,-87.90,'c'], DEN:[39.86,-104.67,'c'], LAX:[33.94,-118.41,'c'],
     CLT:[35.21,-80.94,'c'], MIA:[25.79,-80.29,'c'], PHX:[33.43,-112.01,'c'], SEA:[47.45,-122.31,'c'], SFO:[37.62,-122.38,'c'],
@@ -130,6 +131,7 @@
     SAN:[32.73,-117.19,'c'], MEM:[35.04,-89.98,'c'], SDF:[38.17,-85.74,'c'], IND:[39.72,-86.29,'c'],
     CVG:[39.05,-84.67,'c'], BNA:[36.12,-86.68,'c'], FLL:[26.07,-80.15,'c'], DAY:[39.90,-84.22,'c'],
     CMH:[39.998,-82.89,'c'], BOI:[43.56,-116.22,'c'], YIP:[42.24,-83.53,'c'], BVU:[35.95,-114.86,'c'],
+    SFB:[28.78,-81.24,'c'], BUR:[34.20,-118.36,'c'], PVD:[41.73,-71.43,'c'],
     ANC:[61.17,-149.99,'ak'],
     HNL:[21.32,-157.92,'hi'], OGG:[20.90,-156.43,'hi'], KOA:[19.74,-156.05,'hi'], LIH:[21.98,-159.34,'hi'],
     GUM:[13.48,144.80,'gu'], SPN:[15.12,145.73,'gu'], ROP:[14.17,145.24,'gu'], TIQ:[14.999,145.62,'gu'],
@@ -138,30 +140,39 @@
     PPG:[-14.33,-170.71,'as']
   };
 
+  var CATS = {
+    legacy:{label:'Legacy', color:'#0074C8'},
+    major:{label:'Major / LCC', color:'#00C7E6'},
+    cargo:{label:'Cargo', color:'#C0E585'},
+    regional:{label:'Regional', color:'#f2a65a'},
+    fractional:{label:'Fractional', color:'#ff6b6b'},
+    territory:{label:'Territory / commuter', color:'#c9a0e6'}
+  };
+
   var GROUPS = [
-    {g:'Legacy carriers', list:[
+    {g:'Legacy carriers', cat:'legacy', list:[
       {nm:'American Airlines', url:'https://jobs.aa.com/pilots/', pilots:'~16,000', bases:['DFW','CLT','PHX','MIA','ORD','PHL','LAX','DCA','LGA'], ac:'A321/A320/A319, B737, B777, B787'},
       {nm:'Delta Air Lines', url:'https://pilots.delta.com/', pilots:'~18,000', bases:['ATL','MSP','DTW','LAX','SLC','SEA','BOS','JFK','LGA','CVG'], ac:'A220/A320/A330/A350, B737/B757/B767'},
       {nm:'United Airlines', url:'https://unitedpilotcareers.com/', pilots:'~18,000', bases:['ORD','DEN','IAH','EWR','IAD','SFO','LAX','GUM'], ac:'A319/A320/A321, B737/B757/B767/B777/B787'}
     ]},
-    {g:'Other majors and low-cost', list:[
+    {g:'Other majors and low-cost', cat:'major', list:[
       {nm:'Southwest Airlines', url:'https://careers.southwestair.com/pilot', pilots:'~11,000', bases:['ATL','BWI','DAL','DEN','HOU','LAS','MDW','OAK','PHX','MCO','BNA'], ac:'Boeing 737 (700/800/MAX)'},
       {nm:'Alaska Airlines', url:'https://careers.alaskaair.com/pilots', pilots:'~5,500 (incl. Hawaiian)', bases:['SEA','PDX','ANC','LAX','SFO','SAN','HNL'], ac:'B737, A320; Hawaiian A330/A321neo/B787'},
       {nm:'Hawaiian Airlines (Alaska Air Group)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,100', bases:['HNL','OGG','KOA','LIH'], ac:'A330, A321neo, B787, B717 inter-island'},
       {nm:'JetBlue Airways', url:'https://careers.jetblue.com/pilots', pilots:'~5,000', bases:['JFK','BOS','FLL','MCO'], ac:'A320/A321, A220, E190'},
-      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL'], ac:'Airbus A320 family'},
-      {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO'], ac:'Airbus A319/A320'},
+      {nm:'Frontier Airlines', url:'https://www.flyfrontier.com/about-us/careers/', pilots:'~2,300', bases:['DEN','MCO','LAS','ATL','PHL'], ac:'Airbus A320 family'},
+      {nm:'Allegiant Air', url:'https://allegiantair.jobs/pilots/', pilots:'~1,400', bases:['LAS','MCO','SFB'], ac:'Airbus A319/A320'},
       {nm:'Sun Country Airlines', url:'https://suncountry.com/careers', pilots:'~700', bases:['MSP'], ac:'Boeing 737-800'},
-      {nm:'Breeze Airways', url:'https://www.flybreeze.com/careers', pilots:'~700', bases:['BNA','MCO'], ac:'A220, E190/E195'},
+      {nm:'Breeze Airways', url:'https://www.flybreeze.com/careers', pilots:'~700', bases:['BNA','MCO','PVD'], ac:'A220, E190/E195'},
       {nm:'Avelo Airlines', url:'https://www.aveloair.com/careers', pilots:'~400', bases:['BUR'], ac:'Boeing 737'}
     ]},
-    {g:'Cargo and freight', acmi:true, list:[
-      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC'], ac:'B767F, B777F, MD-11F, A300, ATR, Cessna 208'},
+    {g:'Cargo and freight', cat:'cargo', acmi:true, list:[
+      {nm:'FedEx Express', url:'https://pilotcareers.fedex.com/', pilots:'~6,000', bases:['MEM','IND','OAK','ANC','LAX'], ac:'B767F, B777F, MD-11F, A300, ATR, Cessna 208'},
       {nm:'UPS Airlines', url:'https://www.jobs-ups.com/flight-operations', pilots:'~3,000', bases:['SDF'], ac:'B767F, B757F, B747-8F, MD-11F, A300'},
       {nm:'Atlas Air', url:'https://www.atlasair.com/atlas-air-careers/pilots/', pilots:'~2,300', bases:['CVG','MIA'], ac:'B747, B767, B777 (ACMI)'},
       {nm:'Kalitta Air', url:'https://www.kalittaair.com/careers/', pilots:'~900', bases:['YIP'], ac:'B747, B767, A321/A330 (ACMI)'}
     ]},
-    {g:'Regional airlines', list:[
+    {g:'Regional airlines', cat:'regional', list:[
       {nm:'SkyWest Airlines', url:'https://www.skywest.com/skywest-airline-jobs/pilots/', pilots:'~5,000', bases:['SLC','DEN','PHX','LAX','SFO','MSP','ORD','DTW'], ac:'CRJ-700/900, Embraer E175'},
       {nm:'Envoy Air (American Eagle)', url:'https://www.envoyair.com/pilots/', pilots:'~2,300', bases:['DFW','ORD','MIA'], ac:'Embraer E175'},
       {nm:'Endeavor Air (Delta Connection)', url:'https://endeavorair.com/pilots', pilots:'~2,000', bases:['MSP','DTW','JFK','ATL'], ac:'CRJ-900'},
@@ -170,11 +181,11 @@
       {nm:'Piedmont Airlines (American Eagle)', url:'https://piedmont-airlines.com/careers/pilots/', pilots:'~1,400', bases:['CLT','PHL'], ac:'Embraer E145 (to E175)'},
       {nm:'Horizon Air (Alaska)', url:'https://careers.alaskaair.com/pilots', pilots:'~1,000', bases:['SEA','PDX','BOI'], ac:'Embraer E175'}
     ]},
-    {g:'Fractional and corporate', list:[
+    {g:'Fractional and corporate', cat:'fractional', list:[
       {nm:'NetJets', url:'https://netjetspilots.com/', pilots:'~3,300', bases:['Domicile flexible'], ac:'Citation, Phenom, Challenger, Global'},
       {nm:'Flexjet', url:'https://careers.flexjet.com/pilots/', pilots:'~1,500', bases:['Domicile flexible'], ac:'Phenom, Praetor, Challenger, Gulfstream, Global'}
     ]},
-    {g:'Territory and commuter carriers', list:[
+    {g:'Territory and commuter carriers', cat:'territory', list:[
       {nm:'Cape Air', url:'https://www.capeairpilots.com/', pilots:'~400', bases:['SJU','STT','VQS','CPX','BOS'], ac:'Cessna 402, Tecnam P2012'},
       {nm:'Vieques Air Link', url:'https://www.viequesairlink.com/', pilots:'~30', bases:['SIG','VQS','CPX','SJU'], ac:'Britten-Norman Islander, Cessna'},
       {nm:'Seaborne Airlines', url:'https://www.seaborneairlines.com/', pilots:'~40', bases:['STX','STT','SJU'], ac:'DHC-6 Twin Otter'},
@@ -207,29 +218,51 @@
     });
   })();
 
-  /* airport -> airlines index */
-  var byAirport = {};
-  GROUPS.forEach(function(grp){ grp.list.forEach(function(a){ a.bases.forEach(function(code){
-    if(!AP[code]) return; (byAirport[code]=byAirport[code]||[]).push(a.nm);
-  }); }); });
+  /* per-category, per-airport airline index */
+  var catAir = {}; /* cat -> region -> airport -> [names] */
+  GROUPS.forEach(function(grp){
+    catAir[grp.cat] = catAir[grp.cat] || {};
+    grp.list.forEach(function(a){ a.bases.forEach(function(code){
+      if(!AP[code]) return; var r=AP[code][2];
+      catAir[grp.cat][r]=catAir[grp.cat][r]||{};
+      (catAir[grp.cat][r][code]=catAir[grp.cat][r][code]||[]).push(a.nm);
+    }); });
+  });
 
-  function makeMap(id, center, zoom, region){
-    var el=document.getElementById(id); if(!el) return;
-    var map=L.map(id,{scrollWheelZoom:false, zoomControl:(region==='c')}).setView(center, zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:11, attribution:'&copy; OSM'}).addTo(map);
-    Object.keys(byAirport).forEach(function(code){
-      if(AP[code][2]!==region) return;
-      L.circleMarker([AP[code][0],AP[code][1]],{radius:6,color:'#f2a65a',fillColor:'#f2a65a',fillOpacity:0.85,weight:1})
-        .addTo(map).bindPopup('<b>'+code+'</b><br>'+byAirport[code].join('<br>'));
+  function layerFor(cat, region){
+    var lg=L.layerGroup(); var byA=(catAir[cat]||{})[region]||{};
+    Object.keys(byA).forEach(function(code){
+      L.circleMarker([AP[code][0],AP[code][1]],{radius:6,color:CATS[cat].color,fillColor:CATS[cat].color,fillOpacity:0.85,weight:1})
+        .bindPopup('<b>'+code+'</b><br>'+byA[code].join('<br>')).addTo(lg);
     });
+    return lg;
   }
-  makeMap('mapMain',[39.5,-98.35],4,'c');
-  makeMap('mapAK',[63,-152],3,'ak');
-  makeMap('mapHI',[20.6,-157.3],6,'hi');
-  makeMap('mapGU',[14.4,145.2],7,'gu');
-  makeMap('mapPR',[18.2,-66.1],8,'pr');
-  makeMap('mapVI',[18.05,-64.85],9,'vi');
-  makeMap('mapAS',[-14.31,-170.71],9,'as');
+
+  function makeMap(id, center, zoom, region, withFilter){
+    var map=L.map(id,{scrollWheelZoom:false}).setView(center, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:11, attribution:'&copy; OSM'}).addTo(map);
+    var layers={};
+    Object.keys(CATS).forEach(function(cat){ layers[cat]=layerFor(cat, region); layers[cat].addTo(map); });
+    if(withFilter){
+      var bar=document.getElementById('filt');
+      var allBtn=document.createElement('button'); allBtn.textContent='All'; allBtn.className='on'; allBtn.style.background=allBtn.classList.contains('on')?'#fff':'transparent';
+      var state={}; Object.keys(CATS).forEach(function(c){ state[c]=true; });
+      function paint(btn,cat,on){ btn.className=on?'on':''; btn.style.background=on?CATS[cat].color:'transparent'; btn.style.borderColor=CATS[cat].color; btn.style.color=on?'#01172b':CATS[cat].color; }
+      Object.keys(CATS).forEach(function(cat){
+        var b=document.createElement('button'); b.textContent=CATS[cat].label; paint(b,cat,true);
+        b.onclick=function(){ state[cat]=!state[cat]; if(state[cat]){ layers[cat].addTo(map); } else { map.removeLayer(layers[cat]); } paint(b,cat,state[cat]); };
+        bar.appendChild(b);
+      });
+    }
+    return map;
+  }
+  makeMap('mapMain',[39.5,-98.35],4,'c',true);
+  makeMap('mapAK',[63,-152],3,'ak',false);
+  makeMap('mapHI',[20.6,-157.3],6,'hi',false);
+  makeMap('mapGU',[14.4,145.2],7,'gu',false);
+  makeMap('mapPR',[18.2,-66.1],8,'pr',false);
+  makeMap('mapVI',[18.05,-64.85],9,'vi',false);
+  makeMap('mapAS',[-14.31,-170.71],9,'as',false);
 </script>
 </body>
 </html>
