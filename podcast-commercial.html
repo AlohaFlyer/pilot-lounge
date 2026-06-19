@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pilot Lounge - Commercial Pilot Podcast</title>
+<meta name="theme-color" content="#01172b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pilot Lounge">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+.linkbtn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:13px;padding:10px 14px;min-height:44px;border-radius:8px;border:1px solid var(--amber);color:var(--amber);text-decoration:none;background:transparent;cursor:pointer}
+.linkbtn:hover{background:var(--amber);color:#01172b}
+.quizcta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--sans);font-weight:700;font-size:15px;padding:15px 16px;border-radius:10px;border:1px solid var(--amber);background:var(--amber);color:#01172b;text-decoration:none;cursor:pointer}
+.quizcta:hover{background:#f4b573;border-color:#f4b573}
+.reflabel{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);margin:16px 0 6px}
+.newslist{list-style:none;padding:0;margin:4px 0 0}
+.newslist li{margin:0 0 2px;line-height:1.3}
+.newslink{display:inline-block;color:var(--amber);text-decoration:none;background:none;border:none;padding:10px 0;font:inherit;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
+.newslink:hover{text-decoration:underline}
+.newssrc{color:var(--muted);font-family:var(--mono),monospace;font-size:11px}
+.soon{font-family:var(--mono),monospace;font-size:12px;color:var(--muted);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:9px 12px;margin:12px 0 0;display:inline-block}
+.modal{position:fixed;inset:0;background:rgba(1,7,18,.8);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
+.modalbox{background:#0c2236;border:1px solid rgba(245,166,35,.4);border-radius:14px;max-width:560px;width:100%;max-height:82vh;max-height:82dvh;overflow:auto;padding:22px;position:relative}
+.modalx{position:absolute;top:4px;right:6px;width:44px;height:44px;background:none;border:none;color:var(--muted);font-size:30px;line-height:1;cursor:pointer}
+.modalhead{font-size:17px;font-weight:700;color:#fff;margin:0 40px 2px 0}
+.modalsrc{font-family:var(--mono),monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.modalbody{font-size:14px;line-height:1.5;color:#c9d6e2;margin-bottom:16px}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&#9664; Lounge</a>
+<div class="wrap">
+  <header class="app">
+    <h1>The Pilot Lounge <span class="sub">Commercial Pilot Podcast</span></h1>
+    <span class="src">Crew of six</span>
+  </header>
+
+  <div class="card">
+    <p class="q" style="margin-top:0">A full Commercial Pilot season, by subject</p>
+    <p style="color:var(--muted)">The crew of six works the commercial certificate from privileges and the big complex machine through the performance maneuvers and the power-off 180. Every fact traces to FAA public-domain sources.</p>
+  </div>
+
+  <div id="episodes"></div>
+
+  <footer>Audio for this season is in production with the locked six-host cast. Every fact traces to FAA public-domain sources.</footer>
+</div>
+
+<div class="modal" id="modal" style="display:none">
+  <div class="modalbox">
+    <button class="modalx" id="modalx" aria-label="Close">&times;</button>
+    <div class="modalhead" id="modalTitle"></div>
+    <div class="modalsrc" id="modalSrc"></div>
+    <div class="modalbody" id="modalBody"></div>
+    <a class="linkbtn" id="modalLink" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
+<script>
+var EPISODES = [{"n": 1, "title": "Now You Can Get Paid", "subject": "Commercial privileges", "topics": "Commercial Preflight Preparation, privileges and limitations, holding out, careless or reckless, required documents and currency", "news": [{"t": "Commercial Pilot Certificate", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/active-pilots/safety-and-technique/operations/commercial-pilot-certificate", "b": "Overview of what the commercial certificate actually lets you do and the for-hire rules that surround it."}, {"t": "6 Things You Need To Know About Common Carriage", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/lists/2025/01/6-things-you-need-to-know-about-common-carriage/", "b": "Explains the common-carriage test that separates a legal commercial flight from one needing a Part 119 air carrier certificate."}, {"t": "14 CFR 61.133 Commercial Pilot Privileges and Limitations", "s": "FAA/eCFR", "u": "https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61/subpart-F/section-61.133", "b": "The regulation itself, including the no-instrument-rating limitation barring passenger carriage over 50 nm or at night."}], "videos": [{"t": "Private Pilot vs Commercial Pilot Privileges and Limitations", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=kITY8yN8eQY", "views": "150K approx", "b": "Walks through what changes when you move from private to commercial privileges and the limits that still apply."}, {"t": "5 Of The Most Confusing FAA Regulations", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/lists/2025/07/five-faa-regulations/", "b": "Covers the murky compensation-or-hire and common-carriage rules that confuse newly minted commercial pilots."}]}, {"n": 2, "title": "The Big Machine", "subject": "Complex & high-performance systems", "topics": "Commercial Preflight Procedures, complex and high-performance and TAA systems, retractable gear, constant-speed props, fuel systems", "news": [{"t": "How A Constant Speed Propeller Works", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/aircraft-systems/how-a-constant-speed-prop-works/", "b": "Walks through how blade pitch and the governor work together to hold a set RPM as power and airspeed change."}, {"t": "How It Works: Constant Speed Propeller", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2016/november/flight-training/how-it-works-constant-speed-propeller", "b": "A concise primer on the prop control, governor oil pressure, and selecting fine pitch for takeoff versus coarse pitch for cruise."}, {"t": "How An Aircraft Turbocharger Works", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/aircraft-systems/how-an-aircraft-turbocharger-works/", "b": "Explains how exhaust gas spins the turbine to compress intake air, restoring sea-level power and raising critical altitude."}], "videos": [{"t": "How a Constant Speed Propeller Works", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=QcxLottMghg", "views": "400K approx", "b": "Clear ground-school breakdown of why the prop changes blade angle and how the governor keeps RPM constant."}, {"t": "How to Fly with a Constant Speed Prop | Transition to Complex Aircraft", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=8_faQNXGpW0", "views": "150K approx", "b": "Practical cockpit guidance on managing throttle and prop levers when stepping up to a complex airplane."}]}, {"n": 3, "title": "Never Cross the Line", "subject": "Airport operations", "topics": "Commercial Airport Operations, communications, runway incursion avoidance, complex airspace, aeronautical decision making", "news": [{"t": "What Am I: Runway and Taxiway Markings", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2018/june/flight-training-magazine/what-am-i-runway-markings", "b": "Decodes the white runway markings and yellow taxiway and hold-short markings pilots must recognize on the ground."}, {"t": "The Essential Guide to Runway Markings", "s": "Pilot Institute", "u": "https://pilotinstitute.com/runway-markings-explained/", "b": "Breaks down runway and sign markings by color and purpose, including mandatory signs that bar entry without clearance."}, {"t": "Runway Stripes And Markings, Explained", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/regulations/runway-markings-and-spacing/", "b": "Visual guide to centerlines, aiming points, threshold bars, and touchdown-zone markings and what each one tells the pilot."}], "videos": [{"t": "Airport Signs, Markings, and Lighting Explained", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=Yacx4jNQlgo", "views": "150K approx", "b": "A clear ground lesson tying together airport signs, runway and taxiway markings, and lighting systems."}, {"t": "Runway Markings Explained: How Pilots Read Airport Runways", "s": "Epic Flight Academy", "u": "https://www.youtube.com/watch?v=d3WSTM7etOY", "views": "200K approx", "b": "Tours every painted marking on a runway and explains what each one signals during takeoff and landing."}]}, {"n": 4, "title": "The Power-Off One-Eighty", "subject": "Commercial takeoffs & landings", "topics": "Commercial Takeoffs and Landings, short field, soft field, and the power-off 180 accuracy approach and landing", "news": [{"t": "Technique: On Target", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2019/july/pilot/technique-on-target", "b": "Explains the downwind power-cut, glide geometry, and use of flaps and slips to hit the touchdown point on a power-off 180."}, {"t": "Why Every Pilot Should Practice Power-Off 180 Landings", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/maneuvers/why-every-pilot-should-practice-power-off-180-landing-technique/", "b": "Argues the maneuver builds energy-management skills that translate directly to surviving a real engine-out approach."}, {"t": "Mastering the 180-Degree Power-Off Accuracy Approach", "s": "The Finer Points", "u": "https://www.learnthefinerpoints.com/articles/mastering-the-180-degree-power-off-accuracy-approach", "b": "Instructor Jason Miller details aim-point selection and glide adjustments for consistently accurate power-off touchdowns."}], "videos": [{"t": "How to Fly: Power Off 180 Accuracy Landing", "s": "Angle of Attack", "u": "https://www.youtube.com/watch?v=fuLuqZCoquA", "views": "300K approx", "b": "In-cockpit demonstration of the full power-off 180 from the abeam point down to a spot-on touchdown."}, {"t": "Power Off 180s", "s": "MzeroA Flight Training", "u": "https://www.youtube.com/watch?v=U842gNcTnVM", "views": "250K approx", "b": "Instructor flies and narrates the maneuver, focusing on judgment of the glide and when to add flaps."}]}, {"n": 5, "title": "Dancing in the Sky", "subject": "Performance maneuvers", "topics": "Commercial Performance Maneuvers, chandelles, lazy eights, steep spirals, steep turns, and eights on pylons with pivotal altitude", "news": [{"t": "Commercial Maneuvers Explained: Chandelles, Lazy 8s, Steep Spirals", "s": "Pilot Institute", "u": "https://pilotinstitute.com/commercial-maneuvers/", "b": "A clear walkthrough of the commercial maneuvers, breaking down the purpose and technique behind each one."}, {"t": "Technique: Eights on Pylons", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2021/december/flight-training-magazine/technique-eight-on-pylons", "b": "Explains pivotal altitude and how to keep the pylon fixed on the wingtip during the most demanding low-altitude maneuver."}, {"t": "How to Fly Perfect Lazy Eights", "s": "Pilot Institute", "u": "https://pilotinstitute.com/how-to-fly-perfect-lazy-eights/", "b": "A step-by-step guide to coordinating pitch, bank and airspeed through the symmetrical figure-eight."}], "videos": [{"t": "How to REALLY Fly a Lazy Eight: Commercial Pilot Maneuver", "s": "The Finer Points", "u": "https://www.youtube.com/watch?v=6oQOUiHhjaY", "views": "150K approx", "b": "Instructor Jason Miller demystifies the lazy eight by showing how minimal control inputs let the airplane fly the maneuver."}, {"t": "Chandelle Maneuver: Commercial Pilot Checkride", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=WW2stqXdQ8I", "views": "200K approx", "b": "A cockpit demonstration of the chandelle from entry through the constant-bank climbing turn to the wings-level finish."}, {"t": "How to Fly Eights on Pylons: A Step-by-Step Guide", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=uFVUHRQ8TAM", "views": "100K approx", "b": "Breaks down pivotal altitude and the visual references needed to hold the pylon steady through the ground track."}]}, {"n": 6, "title": "Finding Your Way, the Professional Way", "subject": "Navigation", "topics": "Commercial Navigation, cross-country planning to commercial standards, lost procedures, diversions, and GPS and VOR", "news": [{"t": "Technique: Pilotage and Dead Reckoning", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2016/march/flight-training-magazine/technique-pilotage-and-dead-reckoning", "b": "Shows how to combine landmark navigation with time-speed-distance math to fly a cross-country and hit checkpoints on schedule."}, {"t": "How A VOR Works", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/navigation/how-a-vor-works/", "b": "A visual explanation of how a VOR transmits radials and how the receiver fixes your position from the station."}, {"t": "7 Things You Should Know About VOR Navigation", "s": "Boldmethod", "u": "https://www.boldmethod.com/blog/lists/2024/09/seven-things-you-should-know-about-vor-navigation/", "b": "A practical list covering CDI sensitivity, station identification, and common errors that trip up pilots."}], "videos": [{"t": "How To Use a VOR (The Right Way)", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=FznkXWAF0-A", "views": "250K approx", "b": "A back-to-basics tutorial on tuning, identifying, and tracking a VOR radial, plus why it still matters when GPS fails."}, {"t": "VOR Navigation is Simple... Right?", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=4lCTk7RCh00", "views": "300K approx", "b": "A ground-school breakdown of reading the CDI and TO-FROM indicator to navigate confidently using VOR radials."}]}, {"n": 7, "title": "The Critical Angle", "subject": "Slow flight & stalls", "topics": "Commercial Slow Flight and Stalls, slow flight, power-on and power-off stalls, accelerated stalls, and the critical angle of attack", "news": [{"t": "Understanding the Aerodynamics of Slow Flight", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/aerodynamics/the-aerodynamics-of-slow-flight/", "b": "Explains the region of reversed command and why flying behind the power curve demands precise pitch and power coordination."}, {"t": "How to Master Slow Flight (Step-By-Step)", "s": "Pilot Institute", "u": "https://pilotinstitute.com/how-to-master-slow-flight-step-by-step/", "b": "A structured guide to setting up and holding slow flight while avoiding common errors like rudder misuse."}, {"t": "Technique: Power-On Stall Recovery", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2021/may/flight-training-magazine/technique-power-on-stall", "b": "Covers how a too-high angle of attack at full power leads to a departure stall and how to recover smoothly to a climb."}], "videos": [{"t": "Flight Maneuver Series: Slow Flight", "s": "MzeroA Flight Training", "u": "https://www.youtube.com/watch?v=jOlpFjsXMo4", "views": "200K approx", "b": "A demonstration of entering and holding slow flight on the edge of a stall while keeping the airplane coordinated."}, {"t": "How Stalls Happen, And How To Recover From Them", "s": "Boldmethod", "u": "https://www.youtube.com/watch?v=oRCaOPRoJnQ", "views": "150K approx", "b": "A live session covering stall aerodynamics and an ACS-standard recovery focused on reducing angle of attack."}]}, {"n": 8, "title": "Thin Air", "subject": "High altitude operations", "topics": "Commercial High Altitude Operations, supplemental oxygen under 91.211, pressurization, hypoxia, and the physiology of altitude", "news": [{"t": "Staying Alive: What Oxygen System You Need Above 12,500", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/aircraft-systems/oxygen-systems/", "b": "Breaks down continuous-flow, diluter-demand, and pressure-demand oxygen systems and which one you need at each altitude band."}, {"t": "Guide to Oxygen Use", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2021/july/flight-training-magazine/guide-to-oxygen-use", "b": "A pilot guide to oxygen physiology, the FAR 91.211 thresholds, and choosing between cannulas and masks for high flying."}, {"t": "Aircraft Pressurization Systems: How They Work and When Required", "s": "Pilot Institute", "u": "https://pilotinstitute.com/aircraft-pressurization-systems/", "b": "Explains cabin altitude, how bleed-air pressurization works, and the regulatory triggers for pressurized operations."}], "videos": [{"t": "Hypoxia: How To Stay Alive Above 12,500", "s": "Boldmethod", "u": "https://www.youtube.com/watch?v=Ork1mjsY810", "views": "100K approx", "b": "Walks through the types of hypoxia, recognizing the insidious symptoms, and the oxygen systems that keep you conscious."}, {"t": "What You NEED to Know About Pressurization Systems", "s": "FlightInsight", "u": "https://www.youtube.com/watch?v=tT7zg20zV_Y", "views": "50K approx", "b": "A rundown of how cabin pressurization controllers, outflow valves, and differential limits actually function."}]}, {"n": 9, "title": "When It Gets Quiet", "subject": "Emergencies", "topics": "Commercial Emergencies, the emergency descent, engine failure and best glide, systems malfunctions, and emergency equipment", "news": [{"t": "Technique: Emergency Approach and Landing", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2012/october/flight-training-magazine/technique--emergency-approach-and-landing", "b": "Steps through pitching for best glide, picking a field, and flying a controlled forced approach after a power loss."}, {"t": "Plane Engine Failure: Why It Happens and What to Do", "s": "Pilot Institute", "u": "https://pilotinstitute.com/plane-engine-failure/", "b": "Covers the leading causes of engine failure and the pitch-for-glide, pick-a-spot, communicate, run-the-checklist response."}, {"t": "Engine Failure After Takeoff: Should You Return To The Runway?", "s": "Boldmethod", "u": "https://www.boldmethod.com/learn-to-fly/maneuvers/engine-failure-should-you-turn-back-to-the-runway-or-land-straight-ahead-decision/", "b": "Examines the impossible-turn decision and why landing straight ahead is usually the safer call at low altitude."}], "videos": [{"t": "Reviewing Emergency Procedures in Flight: Full Training Example", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=EPuoThY0jvw", "views": "200K approx", "b": "A full cockpit demonstration of practicing a simulated engine failure and running the emergency flow in real time."}, {"t": "Taming the Twin: Engine Failure During Takeoff", "s": "AOPA Air Safety Institute", "u": "https://www.youtube.com/watch?v=r2X1gF1HxGQ", "views": "150K approx", "b": "Demonstrates the critical engine-out decision-making and control work needed when power is lost on departure."}]}, {"n": 10, "title": "The Second Engine", "subject": "Multiengine", "topics": "Commercial Multiengine, Vmc and the critical engine, single-engine performance, the feather, and the zero sideslip", "news": [{"t": "Multiengine Training", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/learn-to-fly/flying-for-a-career/multiengine-training", "b": "An overview of what adding a twin rating involves, from systems and aerodynamics to single-engine handling."}, {"t": "V-Speeds Explained (Vmc, Vyse, Vsse and more)", "s": "Pilot Institute", "u": "https://pilotinstitute.com/v-speeds-explained/", "b": "Defines the key twin-engine speeds including Vmc and why minimum control speed governs single-engine controllability."}], "videos": [{"t": "Taming the Twin: Introduction to Multiengine Airplanes", "s": "AOPA Air Safety Institute", "u": "https://www.youtube.com/watch?v=yxX-S3NXytI", "views": "200K approx", "b": "Introduces the unique aerodynamics, asymmetric thrust, and handling that set twins apart from singles."}, {"t": "VMC and Critical Engine Made EASY: Multi-Engine Ground School", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=XFDNE0BsGjo", "views": "150K approx", "b": "Ground-school explanation of what Vmc is and why one engine is critical on a conventional twin."}]}, {"n": 11, "title": "After the Wheels Stop", "subject": "Postflight", "topics": "Commercial Postflight, after-landing, securing the airplane, and professional postflight discipline", "news": [{"t": "Postflight Procedures", "s": "AOPA", "u": "https://www.aopa.org/training-and-safety/students/presolo/skills/postflight-procedures", "b": "Lays out the after-landing flow of parking into the wind, securing, chocking, and a postflight walkaround."}, {"t": "Technique: Postflight Debrief", "s": "AOPA", "u": "https://www.aopa.org/news-and-media/all-news/2025/september/flight-training/technique-postflight-debrief", "b": "Makes the case for a structured postflight debrief to lock in lessons learned before the next flight."}, {"t": "Pilot Safety: Following Postflight Procedures", "s": "Hartzell Propeller", "u": "https://hartzellprop.com/pilot-safety-following-postflight-procedures/", "b": "Argues the postflight inspection deserves the same attention as preflight so problems are caught before the next departure."}], "videos": [{"t": "Reviewing Emergency Procedures in Flight: Full Training Example", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=EPuoThY0jvw", "views": "200K approx", "b": "Includes the after-landing and shutdown flow as part of a complete training-flight walkthrough."}, {"t": "Airport Signs, Markings, and Lighting Explained", "s": "Pilot Institute", "u": "https://www.youtube.com/watch?v=Yacx4jNQlgo", "views": "150K approx", "b": "Covers the taxi-back and ground operations phase that bridges landing into the postflight routine."}]}];
+var QUIZKEY = "commercial";
+</script>
+<script>
+  var modal = document.getElementById('modal');
+  function openModal(title, src, body, url, linkLabel){
+    document.getElementById('modalTitle').textContent = title;
+    var s = document.getElementById('modalSrc'); s.textContent = src || ''; s.style.display = src ? 'block' : 'none';
+    document.getElementById('modalBody').textContent = body;
+    var link = document.getElementById('modalLink');
+    link.setAttribute('href', url); link.textContent = linkLabel;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
+  document.getElementById('modalx').onclick = closeModal;
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  var box = document.getElementById('episodes');
+  EPISODES.forEach(function(ep){
+    var div = document.createElement('div'); div.className = 'card'; div.id = 'ep' + ep.n;
+    div.innerHTML = '<div class="meta"><span>Episode ' + ep.n + '</span><span class="acs">' + ep.subject + '</span></div>'
+      + '<div class="q" style="font-size:17px">' + ep.title + '</div>'
+      + '<p style="font-size:13px; color:var(--muted)"><strong>Covers:</strong> ' + ep.topics + '</p>'
+      + '<div class="soon">&#127911; Audio coming soon</div>';
+
+    var qrow = document.createElement('div'); qrow.className = 'row'; qrow.style.marginTop = '12px';
+    qrow.innerHTML = '<a class="quizcta" href="quiz.html?cert=' + QUIZKEY + '">Lock it in now with the Quiz &#9654;</a>';
+    div.appendChild(qrow);
+
+    if(ep.news && ep.news.length){
+      var nl = document.createElement('p'); nl.className = 'reflabel'; nl.textContent = '📰 Further Reading'; div.appendChild(nl);
+      var ul = document.createElement('ul'); ul.className = 'newslist';
+      ep.news.forEach(function(a){
+        var li = document.createElement('li');
+        if(a.b){
+          var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = a.t;
+          btn.onclick = function(){ openModal(a.t, a.s, a.b, a.u, 'Read the full article at ' + a.s + ' →'); };
+          li.appendChild(btn);
+        } else {
+          var link = document.createElement('a'); link.className = 'newslink'; link.textContent = a.t;
+          link.href = a.u; link.target = '_blank'; link.rel = 'noopener'; li.appendChild(link);
+        }
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = a.s; li.appendChild(src);
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
+
+    if(ep.videos && ep.videos.length){
+      var vl = document.createElement('p'); vl.className = 'reflabel'; vl.textContent = '🎬 Watch'; div.appendChild(vl);
+      var vul = document.createElement('ul'); vul.className = 'newslist';
+      ep.videos.forEach(function(v){
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.className = 'newslink'; btn.textContent = v.t;
+        var sub = v.s + (v.views ? ' · ' + v.views + ' views' : '');
+        btn.onclick = function(){ openModal(v.t, sub, v.b, v.u, 'Watch on YouTube →'); };
+        li.appendChild(btn);
+        li.appendChild(document.createTextNode(' '));
+        var src = document.createElement('span'); src.className = 'newssrc'; src.textContent = v.s + (v.views ? ' · ' + v.views : ''); li.appendChild(src);
+        vul.appendChild(li);
+      });
+      div.appendChild(vul);
+    }
+
+    box.appendChild(div);
+  });
+  if(location.hash){ var t = document.querySelector(location.hash); if(t){ t.scrollIntoView(); } }
+</script>
+</body>
+</html>
